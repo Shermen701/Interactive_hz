@@ -2,27 +2,9 @@
    StatLab Interactive - Complete Application Logic (Bilingual, Chart & Sim)
    ========================================================================== */
 
-// Register Chart.js Custom Watermark Plugin
-if (typeof Chart !== 'undefined') {
-  Chart.register({
-    id: 'customWatermarkPlugin',
-    afterDraw: (chart) => {
-      const ctx = chart.ctx;
-      const width = chart.width;
-      const height = chart.height;
-      ctx.save();
-      ctx.font = '600 12px "Fira Code", monospace, sans-serif';
-      ctx.textAlign = 'right';
-      ctx.textBaseline = 'bottom';
-      ctx.fillStyle = 'rgba(79, 70, 229, 0.35)';
-      ctx.fillText('xiaomeng.lv', width - 14, height - 10);
-      ctx.restore();
-    }
-  });
-}
-
 // Global State
 const appState = {
+  theme: 'light', // 'light' or 'dark'; intentionally not persisted
   lang: 'zh', // 'zh' or 'en'
   showIPA: true,
   activeTab: 'descriptive',
@@ -65,9 +47,12 @@ const i18n = {
     app_subtitle: "概率与统计交互学习中心",
     nav_descriptive: "描述性统计",
     nav_theorems: "极限定理与分布",
+    nav_probability: "概率实验室",
     nav_hypothesis: "假设检验 Workbench",
     nav_quiz: "交互测验",
-    nav_cheatsheet: "公式与面试发音手册",
+    nav_cheatsheet: "公式",
+    theme_light: "浅色",
+    theme_dark: "深色",
 
     hero_title: "通过交互式可视化，轻松掌握概率与统计",
     hero_desc: "深入学习中心极限定理 (CLT)、大数定律 (LLN)、偏度、正态与对数正态分布，以及 Hypothesis Testing (z, t, Chi-Square, F 检验)。自带双语切换、音标标记与英文面试发音辅助！",
@@ -147,7 +132,7 @@ const i18n = {
     title_norm_curve: "正态分布 X ~ N(μ, σ²)",
     title_logn_curve: "对数正态分布 Y = e^X ~ Lognormal(μ, σ²)",
 
-    m3_badge: "模块 3",
+    m3_badge: "模块 4",
     m3_title: "假设检验 (Hypothesis Testing): Z-test, t-test, Chi-Square & F-test",
     m3_subtitle: "可视化虚无假设 $H_0$、显著性水平 $\\alpha$、拒绝域 (Rejection Region) 与 P-value 决策过程。",
     ctrl_tail: "检验方向 (Tail Direction):",
@@ -175,7 +160,7 @@ const i18n = {
     td_f_purpose: "比较两个总体的方差齐性，或用于单因素方差分析 (ANOVA) 检验三组以上均值。",
     td_f_assump: "独立正态总体，样本方差之比。自由度为 (df₁, df₂)。",
 
-    m4_badge: "模块 4",
+    m4_badge: "模块 5",
     m4_title: "概率与统计交互测评",
     m4_subtitle: "检验你对 CLT、LLN、偏度、正态分布与假设检验的掌握情况。",
     btn_prev: "上一题",
@@ -184,9 +169,9 @@ const i18n = {
     lbl_your_score: "你的最终得分:",
     btn_retake_quiz: "重新开始测试",
 
-    m5_badge: "模块 5",
-    m5_title: "概率与统计核心公式与常见陷阱手册",
-    m5_subtitle: "快速查阅必备公式、性质推导与面试常考考点。",
+    m5_badge: "模块 6",
+    m5_title: "概率与统计核心公式手册",
+    m5_subtitle: "快速查阅必备公式、性质推导与关键统计概念。",
     footer_text: "StatLab Interactive — 旨在提供直观、高效的概率与统计交互式学习体验。"
   },
 
@@ -194,9 +179,12 @@ const i18n = {
     app_subtitle: "Probability & Statistics Learning Hub",
     nav_descriptive: "Descriptive Stats",
     nav_theorems: "CLT & Distributions",
+    nav_probability: "Probability Lab",
     nav_hypothesis: "Hypothesis Tests",
     nav_quiz: "Interactive Quiz",
     nav_cheatsheet: "Formula Sheet",
+    theme_light: "Light",
+    theme_dark: "Dark",
 
     hero_title: "Master Probability & Statistics Interactively",
     hero_desc: "Explore Central Limit Theorem (CLT), Law of Large Numbers (LLN), Skewness, Normal vs Lognormal, and Hypothesis Testing (z, t, Chi-Square, F) with real-time visual simulations, bilingual explanations, and IPA interview audio aids.",
@@ -276,7 +264,7 @@ const i18n = {
     title_norm_curve: "Normal Distribution X ~ N(μ, σ²)",
     title_logn_curve: "Lognormal Distribution Y = e^X ~ Lognormal(μ, σ²)",
 
-    m3_badge: "Module 3",
+    m3_badge: "Module 4",
     m3_title: "Hypothesis Testing: Z-test, t-test, Chi-Square & F-test",
     m3_subtitle: "Visualizing Null Hypotheses $H_0$, Significance Levels $\\alpha$, Critical Values, and P-values.",
     ctrl_tail: "Test Tail Direction:",
@@ -304,7 +292,7 @@ const i18n = {
     td_f_purpose: "Compare two population variances or test overall equality of 3+ means (ANOVA).",
     td_f_assump: "Independent normal populations. Ratio of sample variances with df₁ and df₂.",
 
-    m4_badge: "Module 4",
+    m4_badge: "Module 5",
     m4_title: "Interactive Knowledge Check & Quiz",
     m4_subtitle: "Test your understanding of CLT, LLN, Distributions, Descriptive Stats, and Hypothesis Tests.",
     btn_prev: "Previous",
@@ -313,9 +301,9 @@ const i18n = {
     lbl_your_score: "Your Final Score:",
     btn_retake_quiz: "Retake Quiz",
 
-    m5_badge: "Module 5",
-    m5_title: "Probability & Statistics Formula Cheat Sheet",
-    m5_subtitle: "Essential mathematical formulas, properties, and common interview traps.",
+    m5_badge: "Module 6",
+    m5_title: "Probability & Statistics Formula Sheet",
+    m5_subtitle: "Essential mathematical formulas, properties, and key statistical concepts.",
     footer_text: "StatLab Interactive — Built for intuitive learning of Probability & Statistics."
   }
 };
@@ -439,6 +427,7 @@ const quizQuestions = [
 // 4. Application Initialization & Navigation
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
+  initThemeToggle();
   initNavigation();
   initBilingual();
   initPhoneticsToggle();
@@ -448,12 +437,100 @@ document.addEventListener('DOMContentLoaded', () => {
   initLognormalModule();
   initHypothesisModule();
   initQuizModule();
+  if (window.StatLab && StatLab.modules) {
+    StatLab.modules.initAll({ getState: () => appState, getTheme: getVisualizationTheme });
+  }
   renderMath();
   
   if (window.lucide) {
     lucide.createIcons();
   }
 });
+
+// ===========================================================================
+// 4a. Theme and visualization palette
+// ===========================================================================
+function getVisualizationTheme() {
+  return appState.theme === 'dark'
+    ? {
+        text: '#e2e8f0', muted: '#94a3b8', grid: 'rgba(148, 163, 184, 0.22)',
+        tooltipBackground: '#1e293b', tooltipBorder: '#475569', canvasBackground: '#0f172a',
+        canvasAxis: '#94a3b8', canvasCritical: '#fb7185', canvasCriticalText: '#fda4af'
+      }
+    : {
+        text: '#334155', muted: '#64748b', grid: '#e2e8f0',
+        tooltipBackground: '#ffffff', tooltipBorder: '#cbd5e1', canvasBackground: '#f8fafc',
+        canvasAxis: '#94a3b8', canvasCritical: '#e11d48', canvasCriticalText: '#be123c'
+      };
+}
+
+function themedScale(scale = {}) {
+  const theme = getVisualizationTheme();
+  return {
+    ...scale,
+    ticks: { color: theme.muted, ...(scale.ticks || {}) },
+    title: scale.title ? { ...scale.title, color: theme.text } : scale.title,
+    grid: { color: theme.grid, ...(scale.grid || {}) }
+  };
+}
+
+function themedChartOptions(options = {}) {
+  const theme = getVisualizationTheme();
+  const scales = options.scales || {};
+  const plugins = options.plugins || {};
+  return {
+    ...options,
+    plugins: {
+      ...plugins,
+      legend: { labels: { color: theme.text }, ...(plugins.legend || {}) },
+      tooltip: {
+        backgroundColor: theme.tooltipBackground,
+        titleColor: theme.text,
+        bodyColor: theme.text,
+        borderColor: theme.tooltipBorder,
+        borderWidth: 1,
+        ...(plugins.tooltip || {})
+      }
+    },
+    scales: Object.fromEntries(Object.entries(scales).map(([axis, scale]) => [axis, themedScale(scale)]))
+  };
+}
+
+function updateThemeControl() {
+  const isDark = appState.theme === 'dark';
+  const label = document.getElementById('themeLabel');
+  const button = document.getElementById('themeToggleBtn');
+  const icon = document.getElementById('themeIcon');
+  const nextTheme = isDark ? 'light' : 'dark';
+  const nextThemeLabel = i18n[appState.lang][`theme_${nextTheme}`];
+  document.body.classList.toggle('dark-mode', isDark);
+  document.body.classList.toggle('light-mode', !isDark);
+  label.textContent = nextThemeLabel;
+  button.title = appState.lang === 'zh' ? `切换至${nextThemeLabel}主题` : `Switch to ${nextThemeLabel.toLowerCase()} theme`;
+  icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+  if (window.lucide) lucide.createIcons();
+}
+
+function redrawVisualizations() {
+  updateSkewnessPlot();
+  runLlnSimulation();
+  runCltSimulation();
+  updateLognormalPlots();
+  updateHypothesisTestUI();
+  if (window.StatLab && StatLab.modules) {
+    StatLab.modules.refreshAll({ getState: () => appState, getTheme: getVisualizationTheme });
+  }
+}
+
+function initThemeToggle() {
+  const themeBtn = document.getElementById('themeToggleBtn');
+  updateThemeControl();
+  themeBtn.addEventListener('click', () => {
+    appState.theme = appState.theme === 'light' ? 'dark' : 'light';
+    updateThemeControl();
+    redrawVisualizations();
+  });
+}
 
 function initPhoneticsToggle() {
   const phoneticBtn = document.getElementById('phoneticToggleBtn');
@@ -490,6 +567,7 @@ function renderMath() {
 function initNavigation() {
   const navLinks = document.querySelectorAll('.nav-link');
   const tabPanels = document.querySelectorAll('.tab-panel');
+  initNavScroller();
 
   navLinks.forEach(link => {
     link.addEventListener('click', () => {
@@ -502,6 +580,7 @@ function initNavigation() {
       if (targetPanel) targetPanel.classList.add('active');
       
       appState.activeTab = tabId;
+      link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       renderMath();
     });
   });
@@ -536,6 +615,25 @@ function initNavigation() {
   });
 }
 
+function initNavScroller() {
+  const viewport = document.getElementById('navViewport');
+  const previous = document.getElementById('navScrollPrev');
+  const next = document.getElementById('navScrollNext');
+  if (!viewport || !previous || !next) return;
+
+  const updateControls = () => {
+    previous.disabled = viewport.scrollLeft <= 1;
+    next.disabled = viewport.scrollLeft + viewport.clientWidth >= viewport.scrollWidth - 1;
+  };
+  const scrollByCard = direction => viewport.scrollBy({ left: direction * Math.max(180, viewport.clientWidth / 4), behavior: 'smooth' });
+
+  previous.addEventListener('click', () => scrollByCard(-1));
+  next.addEventListener('click', () => scrollByCard(1));
+  viewport.addEventListener('scroll', updateControls, { passive: true });
+  window.addEventListener('resize', updateControls);
+  requestAnimationFrame(updateControls);
+}
+
 // Bilingual Toggle Engine
 function initBilingual() {
   const langBtn = document.getElementById('langToggleBtn');
@@ -556,6 +654,12 @@ function updateLanguageTexts() {
       elem.textContent = currentDict[key];
     }
   });
+
+  updateThemeControl();
+
+  if (window.StatLab && StatLab.modules) {
+    StatLab.modules.refreshAll({ getState: () => appState, getTheme: getVisualizationTheme });
+  }
 
   // Re-render components with localized strings
   updateSkewnessPlot();
@@ -698,7 +802,7 @@ function updateSkewnessPlot() {
         }
       ]
     },
-    options: {
+    options: themedChartOptions({
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
@@ -712,7 +816,7 @@ function updateSkewnessPlot() {
         },
         y: { display: false }
       }
-    }
+    })
   });
 }
 
@@ -794,14 +898,14 @@ function runLlnSimulation() {
         }
       ]
     },
-    options: {
+    options: themedChartOptions({
       responsive: true,
       maintainAspectRatio: false,
       scales: {
         x: { title: { display: true, text: 'Trial Number (n)' } },
         y: { title: { display: true, text: 'Sample Mean' } }
       }
-    }
+    })
   });
 }
 
@@ -896,7 +1000,7 @@ function plotHistogram(canvasId, data, numBins, color, label, instanceRef, setIn
         borderRadius: 4
       }]
     },
-    options: {
+    options: themedChartOptions({
       responsive: true,
       maintainAspectRatio: false,
       resizeDelay: 150,
@@ -905,7 +1009,7 @@ function plotHistogram(canvasId, data, numBins, color, label, instanceRef, setIn
         x: { grid: { display: false } },
         y: { display: false }
       }
-    }
+    })
   });
 
   setInstance(newChart);
@@ -964,7 +1068,7 @@ function updateLognormalPlots() {
       labels: normX,
       datasets: [{ label: 'Normal PDF', data: normY, borderColor: '#4f46e5', fill: true, backgroundColor: 'rgba(79,70,229,0.1)', tension: 0.3, pointRadius: 0 }]
     },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+    options: themedChartOptions({ responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: {}, y: {} } })
   });
 
   const ctxLogn = document.getElementById('lognormalChart').getContext('2d');
@@ -975,7 +1079,7 @@ function updateLognormalPlots() {
       labels: lognX,
       datasets: [{ label: 'Lognormal PDF', data: lognY, borderColor: '#f43f5e', fill: true, backgroundColor: 'rgba(244,63,94,0.1)', tension: 0.3, pointRadius: 0 }]
     },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+    options: themedChartOptions({ responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: {}, y: {} } })
   });
 }
 
@@ -1005,178 +1109,330 @@ function initHypothesisModule() {
   updateHypothesisTestUI();
 }
 
+const hypothesisTests = {
+  ztest: {
+    symbol: 'z', distribution: 'normal', supportsTails: true,
+    title: { en: 'Z-Test: Critical Regions & P-value', zh: 'Z 检验：临界区域与 P 值' },
+    subtitle: { en: 'Compare an observed z statistic with the standard normal distribution.', zh: '将观测到的 z 统计量与标准正态分布进行比较。' },
+    hypothesis: { en: 'H₀: the population mean equals μ₀', zh: 'H₀：总体均值等于 μ₀' }
+  },
+  ttest: {
+    symbol: 't', distribution: 't', supportsTails: true,
+    title: { en: 't-Test: Degrees of Freedom & Evidence', zh: 't 检验：自由度与证据' },
+    subtitle: { en: 'See how sample size changes the t distribution and decision boundary.', zh: '观察样本自由度如何改变 t 分布与决策边界。' },
+    hypothesis: { en: 'H₀: the population mean equals μ₀', zh: 'H₀：总体均值等于 μ₀' }
+  },
+  chitest: {
+    symbol: 'χ²', distribution: 'chi', supportsTails: false,
+    title: { en: 'Chi-Square Test: Right-tail Evidence', zh: '卡方检验：右尾证据' },
+    subtitle: { en: 'Explore a right-skewed χ² distribution that changes with degrees of freedom.', zh: '探索随自由度变化的右偏卡方分布。' },
+    hypothesis: { en: 'H₀: observed counts fit the expected pattern', zh: 'H₀：观测频数符合期望模式' }
+  },
+  ftest: {
+    symbol: 'F', distribution: 'f', supportsTails: false,
+    title: { en: 'F-Test: Variance Ratio & Right-tail Evidence', zh: 'F 检验：方差比与右尾证据' },
+    subtitle: { en: 'Explore how numerator and denominator degrees of freedom shape the F distribution.', zh: '探索分子与分母自由度如何塑造 F 分布。' },
+    hypothesis: { en: 'H₀: variances are equal / group means are equal', zh: 'H₀：方差相等／各组均值相等' }
+  }
+};
+
 function updateHypothesisTestUI() {
   const test = appState.activeTest;
-  const tail = document.getElementById('htTailSelect').value;
+  const config = hypothesisTests[test];
+  const tailSelect = document.getElementById('htTailSelect');
+  let tail = tailSelect.value;
   const alpha = parseFloat(document.getElementById('htAlphaSelect').value);
-  const statVal = parseFloat(document.getElementById('htStatVal').value);
   const df1 = parseInt(document.getElementById('htDf1Val').value);
+  const df2 = parseInt(document.getElementById('htDf2Val').value);
 
   const df1Group = document.getElementById('df1Group');
   const df2Group = document.getElementById('df2Group');
   const statLabel = document.getElementById('htStatValLabel');
+  const lang = appState.lang;
+
+  document.getElementById('currentTestTitle').textContent = config.title[lang];
+  document.getElementById('currentTestSubtitle').textContent = config.subtitle[lang];
+  document.getElementById('htHypothesisStep').textContent = config.hypothesis[lang];
+  tailSelect.disabled = !config.supportsTails;
+  if (!config.supportsTails) {
+    tail = 'right';
+    tailSelect.value = 'right';
+  }
+  document.getElementById('htTailNote').textContent = config.supportsTails
+    ? ''
+    : (lang === 'zh' ? '此教学场景使用右尾检验：较大的统计量提供反对 H₀ 的证据。' : 'This teaching scenario uses a right-tailed test: larger statistics are evidence against H₀.');
 
   if (test === 'ztest') {
     df1Group.style.display = 'none';
     df2Group.style.display = 'none';
-    statLabel.textContent = 'Calculated Z Statistic (z):';
+    statLabel.textContent = lang === 'zh' ? '观测 Z 统计量 (z)：' : 'Observed Z Statistic (z):';
   } else if (test === 'ttest') {
     df1Group.style.display = 'flex';
     df2Group.style.display = 'none';
-    statLabel.textContent = 'Calculated t Statistic (t):';
+    statLabel.textContent = lang === 'zh' ? '观测 t 统计量 (t)：' : 'Observed t Statistic (t):';
   } else if (test === 'chitest') {
     df1Group.style.display = 'flex';
     df2Group.style.display = 'none';
-    statLabel.textContent = 'Calculated Chi-Square (χ²):';
+    statLabel.textContent = lang === 'zh' ? '观测卡方统计量 (χ²)：' : 'Observed Chi-Square (χ²):';
   } else if (test === 'ftest') {
     df1Group.style.display = 'flex';
     df2Group.style.display = 'flex';
-    statLabel.textContent = 'Calculated F Statistic (F):';
+    statLabel.textContent = lang === 'zh' ? '观测 F 统计量 (F)：' : 'Observed F Statistic (F):';
   }
 
-  let criticalValStr = '';
-  let pValue = 0;
-  let isReject = false;
+  const plot = getHypothesisPlot(config.distribution, df1, df2);
+  syncHypothesisStatisticSlider(plot, config.symbol);
+  const statVal = parseFloat(document.getElementById('htStatVal').value);
+  const result = calculateHypothesisResult(config.distribution, tail, alpha, statVal, df1, df2);
 
-  if (test === 'ztest' || test === 'ttest') {
-    let critZ = 1.96;
-    if (alpha === 0.01) critZ = tail === 'two' ? 2.576 : 2.326;
-    if (alpha === 0.05) critZ = tail === 'two' ? 1.960 : 1.645;
-    if (alpha === 0.10) critZ = tail === 'two' ? 1.645 : 1.282;
-
-    if (tail === 'two') {
-      criticalValStr = `±${critZ.toFixed(3)}`;
-      pValue = 2 * (1 - standardNormalCdf(Math.abs(statVal)));
-      isReject = Math.abs(statVal) >= critZ;
-    } else if (tail === 'right') {
-      criticalValStr = `+${critZ.toFixed(3)}`;
-      pValue = 1 - standardNormalCdf(statVal);
-      isReject = statVal >= critZ;
-    } else {
-      criticalValStr = `-${critZ.toFixed(3)}`;
-      pValue = standardNormalCdf(statVal);
-      isReject = statVal <= -critZ;
-    }
-  } else {
-    let critVal = test === 'chitest' ? (df1 * 1.5 + alpha * 10) : (1.5 + 2 * alpha);
-    criticalValStr = `+${critVal.toFixed(3)}`;
-    pValue = Math.exp(-Math.abs(statVal) / (test === 'chitest' ? df1 : 2));
-    if (pValue > 1) pValue = 1;
-    isReject = statVal >= critVal;
-  }
-
-  document.getElementById('htCriticalValDisplay').textContent = criticalValStr;
-  document.getElementById('htPValueDisplay').textContent = `p = ${pValue.toFixed(4)}`;
+  document.getElementById('htStatValDisplay').textContent = `${config.symbol} = ${statVal.toFixed(2)}`;
+  document.getElementById('htStatisticLabel').textContent = lang === 'zh' ? '观测统计量' : 'Observed statistic';
+  document.getElementById('htStatisticDisplay').textContent = `${config.symbol} = ${statVal.toFixed(3)}`;
+  document.getElementById('htCriticalValDisplay').textContent = result.criticalText;
+  document.getElementById('htPValueDisplay').textContent = `p = ${result.pValue.toFixed(4)}`;
 
   const decisionBadge = document.getElementById('hypothesisDecisionBadge');
   const conclusionText = document.getElementById('htConclusionText');
 
-  if (isReject) {
+  if (result.isReject) {
     decisionBadge.textContent = appState.lang === 'zh' ? '拒绝 H₀ (Reject H₀)' : 'Reject H₀';
     decisionBadge.className = 'decision-badge reject';
-    conclusionText.textContent = appState.lang === 'zh' 
-      ? `拒绝虚无假设 H₀ (p = ${pValue.toFixed(4)} < α = ${alpha})，存在显著差异。`
-      : `Reject H₀ (p = ${pValue.toFixed(4)} < α = ${alpha}). Statistically significant.`;
+    conclusionText.textContent = appState.lang === 'zh'
+      ? `p = ${result.pValue.toFixed(4)} < α = ${alpha}：拒绝 H₀。当前结果在 H₀ 为真时不太可能出现。`
+      : `p = ${result.pValue.toFixed(4)} < α = ${alpha}: reject H₀. The observed result is unlikely if H₀ is true.`;
   } else {
     decisionBadge.textContent = appState.lang === 'zh' ? '未能拒绝 H₀ (Fail to Reject H₀)' : 'Fail to Reject H₀';
     decisionBadge.className = 'decision-badge accept';
     conclusionText.textContent = appState.lang === 'zh'
-      ? `未能拒绝虚无假设 H₀ (p = ${pValue.toFixed(4)} ≥ α = ${alpha})，无显著差异。`
-      : `Fail to Reject H₀ (p = ${pValue.toFixed(4)} ≥ α = ${alpha}). Not statistically significant.`;
+      ? `p = ${result.pValue.toFixed(4)} ≥ α = ${alpha}：未能拒绝 H₀。证据不足以支持显著差异。`
+      : `p = ${result.pValue.toFixed(4)} ≥ α = ${alpha}: fail to reject H₀. Evidence is insufficient for a significant difference.`;
   }
 
-  drawHypothesisCanvas(test, tail, alpha, statVal, isReject);
+  document.getElementById('htRuleStep').textContent = `${tailLabel(tail, lang)}, α = ${alpha}`;
+  document.getElementById('htEvidenceStep').textContent = `${config.symbol} = ${statVal.toFixed(3)} · p = ${result.pValue.toFixed(4)}`;
+  const decisionStep = document.getElementById('htDecisionStep');
+  decisionStep.className = `decision-step final ${result.isReject ? 'reject' : 'accept'}`;
+  decisionStep.querySelector('strong').textContent = result.isReject
+    ? (lang === 'zh' ? '拒绝 H₀' : 'Reject H₀')
+    : (lang === 'zh' ? '未能拒绝 H₀' : 'Fail to reject H₀');
+  document.querySelectorAll('[data-test-row]').forEach(row => row.classList.toggle('active-test-row', row.dataset.testRow === test));
+
+  drawHypothesisCanvas(config, tail, alpha, statVal, result, plot, df1, df2);
 }
 
-function standardNormalCdf(x) {
-  const t = 1 / (1 + 0.2316419 * Math.abs(x));
-  const d = 0.3989423 * Math.exp(-x * x / 2);
-  const prob = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
-  return x >= 0 ? 1 - prob : prob;
+function standardNormalCdf(x) { return StatLab.statistics.normalCdf(x); }
+
+function tailLabel(tail, lang) {
+  const labels = lang === 'zh' ? { two: '双尾检验', left: '左尾检验', right: '右尾检验' } : { two: 'Two-tailed test', left: 'Left-tailed test', right: 'Right-tailed test' };
+  return labels[tail];
 }
 
-function drawHypothesisCanvas(test, tail, alpha, statVal, isReject) {
+function calculateHypothesisResult(distribution, tail, alpha, stat, df1, df2) {
+  const cdf = x => distribution === 'normal' ? standardNormalCdf(x) : distribution === 't' ? studentTCdf(x, df1) : distribution === 'chi' ? chiSquareCdf(x, df1) : fCdf(x, df1, df2);
+  const quantile = p => inverseCdf(cdf, distribution === 'normal' || distribution === 't' ? -12 : 0, distribution === 'f' ? 1000 : 200, p);
+  let criticals;
+  let pValue;
+  if (tail === 'two') {
+    const crit = quantile(1 - alpha / 2);
+    criticals = [-crit, crit];
+    pValue = Math.min(1, 2 * Math.min(cdf(stat), 1 - cdf(stat)));
+  } else if (tail === 'left') {
+    criticals = [quantile(alpha)];
+    pValue = cdf(stat);
+  } else {
+    criticals = [quantile(1 - alpha)];
+    pValue = 1 - cdf(stat);
+  }
+  const isReject = tail === 'two' ? stat <= criticals[0] || stat >= criticals[1] : tail === 'left' ? stat <= criticals[0] : stat >= criticals[0];
+  return { criticals, pValue: Math.max(0, Math.min(1, pValue)), isReject, criticalText: criticals.length === 2 ? `±${criticals[1].toFixed(3)}` : `${tail === 'left' ? '' : '+'}${criticals[0].toFixed(3)}` };
+}
+
+function getHypothesisPlot(distribution, df1, df2) {
+  const cdf = x => distribution === 'normal' ? standardNormalCdf(x) : distribution === 't' ? studentTCdf(x, df1) : distribution === 'chi' ? chiSquareCdf(x, df1) : fCdf(x, df1, df2);
+  const min = distribution === 'normal' || distribution === 't' ? -Math.max(4.5, inverseCdf(cdf, -15, 15, 0.9995)) : 0;
+  const max = distribution === 'normal' || distribution === 't' ? Math.abs(min) : inverseCdf(cdf, 0, distribution === 'f' ? 1000 : 200, 0.999);
+  return { min, max, cdf };
+}
+
+function syncHypothesisStatisticSlider(plot, symbol) {
+  const slider = document.getElementById('htStatVal');
+  const min = plot.min.toFixed(2);
+  const max = plot.max.toFixed(2);
+  if (slider.min !== min || slider.max !== max) {
+    const old = parseFloat(slider.value);
+    slider.min = min;
+    slider.max = max;
+    slider.value = Math.max(plot.min, Math.min(plot.max, old)).toFixed(2);
+  }
+  document.getElementById('htStatValDisplay').textContent = `${symbol} = ${parseFloat(slider.value).toFixed(2)}`;
+}
+
+function inverseCdf(cdf, low, high, probability) { return StatLab.statistics.inverseCdf(cdf, low, high, probability); }
+
+function logGamma(z) { return StatLab.statistics.logGamma(z); }
+
+function betaContinuedFraction(a, b, x) {
+  const maxIterations = 200;
+  const epsilon = 3e-14;
+  const tiny = 1e-30;
+  let c = 1;
+  let d = 1 - (a + b) * x / (a + 1);
+  d = Math.abs(d) < tiny ? tiny : 1 / d;
+  let h = d;
+  for (let m = 1; m <= maxIterations; m++) {
+    const m2 = 2 * m;
+    let aa = m * (b - m) * x / ((a + m2 - 1) * (a + m2));
+    d = 1 + aa * d; d = Math.abs(d) < tiny ? tiny : d;
+    c = 1 + aa / c; c = Math.abs(c) < tiny ? tiny : c;
+    d = 1 / d; h *= d * c;
+    aa = -(a + m) * (a + b + m) * x / ((a + m2) * (a + m2 + 1));
+    d = 1 + aa * d; d = Math.abs(d) < tiny ? tiny : d;
+    c = 1 + aa / c; c = Math.abs(c) < tiny ? tiny : c;
+    d = 1 / d;
+    const delta = d * c;
+    h *= delta;
+    if (Math.abs(delta - 1) < epsilon) break;
+  }
+  return h;
+}
+
+function regularizedBeta(x, a, b) {
+  if (x <= 0) return 0;
+  if (x >= 1) return 1;
+  const front = Math.exp(a * Math.log(x) + b * Math.log(1 - x) - logGamma(a) - logGamma(b) + logGamma(a + b));
+  return x < (a + 1) / (a + b + 2) ? front * betaContinuedFraction(a, b, x) / a : 1 - front * betaContinuedFraction(b, a, 1 - x) / b;
+}
+
+function regularizedGammaP(a, x) {
+  if (x <= 0) return 0;
+  if (x < a + 1) {
+    let term = 1 / a;
+    let sum = term;
+    for (let n = 1; n < 200; n++) { term *= x / (a + n); sum += term; if (Math.abs(term) < Math.abs(sum) * 1e-14) break; }
+    return sum * Math.exp(-x + a * Math.log(x) - logGamma(a));
+  }
+  let b = x + 1 - a;
+  let c = 1e30;
+  let d = 1 / b;
+  let h = d;
+  for (let i = 1; i < 200; i++) {
+    const an = -i * (i - a);
+    b += 2;
+    d = an * d + b; if (Math.abs(d) < 1e-30) d = 1e-30;
+    c = b + an / c; if (Math.abs(c) < 1e-30) c = 1e-30;
+    d = 1 / d;
+    const delta = d * c; h *= delta;
+    if (Math.abs(delta - 1) < 1e-14) break;
+  }
+  return 1 - Math.exp(-x + a * Math.log(x) - logGamma(a)) * h;
+}
+
+function studentTCdf(x, df) {
+  const beta = regularizedBeta(df / (df + x * x), df / 2, 0.5);
+  return x >= 0 ? 1 - beta / 2 : beta / 2;
+}
+
+function chiSquareCdf(x, df) { return x <= 0 ? 0 : regularizedGammaP(df / 2, x / 2); }
+function fCdf(x, df1, df2) { return x <= 0 ? 0 : regularizedBeta((df1 * x) / (df1 * x + df2), df1 / 2, df2 / 2); }
+
+function distributionPdf(distribution, x, df1, df2) {
+  if (distribution === 'normal') return Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+  if (distribution === 't') return Math.exp(logGamma((df1 + 1) / 2) - logGamma(df1 / 2)) / Math.sqrt(df1 * Math.PI) * Math.pow(1 + x * x / df1, -(df1 + 1) / 2);
+  if (distribution === 'chi') return x <= 0 ? 0 : Math.exp((df1 / 2 - 1) * Math.log(x) - x / 2 - (df1 / 2) * Math.log(2) - logGamma(df1 / 2));
+  return x <= 0 ? 0 : Math.exp((df1 / 2) * Math.log(df1 / df2) + (df1 / 2 - 1) * Math.log(x) - logGamma(df1 / 2) - logGamma(df2 / 2) + logGamma((df1 + df2) / 2) - ((df1 + df2) / 2) * Math.log(1 + df1 * x / df2));
+}
+
+function drawHypothesisCanvas(config, tail, alpha, statVal, result, plot, df1, df2) {
+  const theme = getVisualizationTheme();
   const canvas = document.getElementById('hypothesisCanvas');
   const ctx = canvas.getContext('2d');
-  const width = canvas.width;
-  const height = canvas.height;
+  const ratio = window.devicePixelRatio || 1;
+  const cssWidth = canvas.clientWidth || 700;
+  const cssHeight = canvas.clientHeight || 340;
+  if (canvas.width !== Math.round(cssWidth * ratio) || canvas.height !== Math.round(cssHeight * ratio)) { canvas.width = Math.round(cssWidth * ratio); canvas.height = Math.round(cssHeight * ratio); }
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  const width = cssWidth;
+  const height = cssHeight;
 
   ctx.clearRect(0, 0, width, height);
-
-  const margin = 40;
-  const plotWidth = width - 2 * margin;
-  const plotHeight = height - 2 * margin;
-  const groundY = height - margin;
+  const margin = { top: 38, right: 24, bottom: 42, left: 48 };
+  const plotWidth = width - margin.left - margin.right;
+  const plotHeight = height - margin.top - margin.bottom;
+  const groundY = height - margin.bottom;
 
   const points = [];
-  const minX = test === 'chitest' || test === 'ftest' ? 0 : -4;
-  const maxX = test === 'chitest' || test === 'ftest' ? 25 : 4;
-
   let maxPdf = 0;
   for (let i = 0; i <= plotWidth; i++) {
-    const xVal = minX + (i / plotWidth) * (maxX - minX);
-    let pdf = 0;
-    if (test === 'ztest' || test === 'ttest') {
-      pdf = (1 / Math.sqrt(2 * Math.PI)) * Math.exp(-0.5 * xVal * xVal);
-    } else if (test === 'chitest') {
-      const k = 10;
-      pdf = (Math.pow(xVal, k/2 - 1) * Math.exp(-xVal/2)) / 100;
-    } else {
-      pdf = (Math.pow(xVal, 2) * Math.exp(-xVal)) / 2;
-    }
+    const xVal = plot.min + (i / plotWidth) * (plot.max - plot.min);
+    const pdf = distributionPdf(config.distribution, xVal, df1, df2);
     if (pdf > maxPdf) maxPdf = pdf;
-    points.push({ xPixel: margin + i, xVal: xVal, pdf: pdf });
+    points.push({ xPixel: margin.left + i, xVal, pdf });
   }
 
-  ctx.beginPath();
-  ctx.moveTo(margin, groundY);
-  points.forEach(pt => {
-    const yPixel = groundY - (pt.pdf / maxPdf) * (plotHeight - 20);
-    ctx.lineTo(pt.xPixel, yPixel);
-  });
-  ctx.lineTo(width - margin, groundY);
-  ctx.closePath();
+  const yFor = pdf => groundY - (pdf / maxPdf) * (plotHeight - 20);
+  const xFor = x => margin.left + ((x - plot.min) / (plot.max - plot.min)) * plotWidth;
+  ctx.fillStyle = theme.canvasBackground;
+  ctx.fillRect(margin.left, margin.top, plotWidth, plotHeight);
+  for (let i = 0; i <= 4; i++) {
+    const x = margin.left + (plotWidth * i / 4);
+    const value = plot.min + (plot.max - plot.min) * i / 4;
+    ctx.strokeStyle = theme.grid; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x, margin.top); ctx.lineTo(x, groundY); ctx.stroke();
+    ctx.fillStyle = theme.muted; ctx.font = '11px Inter, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(value.toFixed(Math.abs(value) < 10 ? 1 : 0), x, groundY + 18);
+  }
+  const inReject = x => tail === 'two' ? x <= result.criticals[0] || x >= result.criticals[1] : tail === 'left' ? x <= result.criticals[0] : x >= result.criticals[0];
+  const inPValue = x => tail === 'two' ? Math.abs(x) >= Math.abs(statVal) : tail === 'left' ? x <= statVal : x >= statVal;
+  const fillArea = (predicate, color) => {
+    let active = false;
+    points.forEach((pt, index) => {
+      const matches = predicate(pt.xVal);
+      if (matches && !active) { ctx.beginPath(); ctx.moveTo(pt.xPixel, groundY); ctx.lineTo(pt.xPixel, yFor(pt.pdf)); active = true; }
+      if (matches) ctx.lineTo(pt.xPixel, yFor(pt.pdf));
+      if (active && (!matches || index === points.length - 1)) { const end = matches ? pt.xPixel : points[index - 1].xPixel; ctx.lineTo(end, groundY); ctx.closePath(); ctx.fillStyle = color; ctx.fill(); active = false; }
+    });
+  };
+  fillArea(inReject, 'rgba(244, 63, 94, 0.30)');
+  fillArea(inPValue, 'rgba(16, 185, 129, 0.30)');
 
-  ctx.fillStyle = 'rgba(99, 102, 241, 0.15)';
-  ctx.fill();
-  ctx.strokeStyle = '#4f46e5';
+  ctx.beginPath();
+  ctx.moveTo(margin.left, groundY);
+  points.forEach(pt => {
+    ctx.lineTo(pt.xPixel, yFor(pt.pdf));
+  });
+  ctx.strokeStyle = '#6366f1';
   ctx.lineWidth = 3;
   ctx.stroke();
 
   ctx.beginPath();
-  ctx.moveTo(margin, groundY);
-  ctx.lineTo(width - margin, groundY);
-  ctx.strokeStyle = '#94a3b8';
+  ctx.moveTo(margin.left, groundY);
+  ctx.lineTo(width - margin.right, groundY);
+  ctx.strokeStyle = theme.canvasAxis;
   ctx.lineWidth = 2;
   ctx.stroke();
 
-  const statXPixel = margin + ((statVal - minX) / (maxX - minX)) * plotWidth;
-  if (statXPixel >= margin && statXPixel <= width - margin) {
+  result.criticals.forEach(critical => {
+    const x = xFor(critical);
+    ctx.beginPath(); ctx.setLineDash([4, 5]); ctx.moveTo(x, margin.top); ctx.lineTo(x, groundY); ctx.strokeStyle = theme.canvasCritical; ctx.lineWidth = 2; ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = theme.canvasCriticalText; ctx.font = '600 11px Inter, sans-serif'; ctx.textAlign = 'center'; ctx.fillText(`crit ${critical.toFixed(2)}`, x, margin.top - 9);
+  });
+  const statXPixel = xFor(statVal);
+  if (statXPixel >= margin.left && statXPixel <= width - margin.right) {
     ctx.beginPath();
     ctx.setLineDash([5, 5]);
-    ctx.moveTo(statXPixel, margin);
+    ctx.moveTo(statXPixel, margin.top);
     ctx.lineTo(statXPixel, groundY);
-    ctx.strokeStyle = isReject ? '#f43f5e' : '#10b981';
+    ctx.strokeStyle = result.isReject ? '#f43f5e' : '#10b981';
     ctx.lineWidth = 3;
     ctx.stroke();
     ctx.setLineDash([]);
 
-    ctx.fillStyle = isReject ? '#f43f5e' : '#10b981';
+    ctx.fillStyle = result.isReject ? '#f43f5e' : '#10b981';
     ctx.font = 'bold 13px Inter, sans-serif';
-    ctx.fillText(`Stat = ${statVal.toFixed(2)}`, statXPixel - 30, margin - 10);
+    ctx.fillText(`${config.symbol} = ${statVal.toFixed(2)}`, statXPixel, 18);
   }
-
-  drawWatermark(ctx, width, height);
-}
-
-function drawWatermark(ctx, width, height) {
-  ctx.save();
-  ctx.font = '600 13px "Fira Code", monospace, sans-serif';
-  ctx.textAlign = 'right';
-  ctx.textBaseline = 'bottom';
-  ctx.fillStyle = 'rgba(79, 70, 229, 0.35)';
-  ctx.fillText('xiaomeng.lv', width - 12, height - 10);
-  ctx.restore();
+  ctx.fillStyle = theme.muted; ctx.font = '600 11px Inter, sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText(config.distribution === 'f' ? 'F statistic' : `${config.symbol} statistic`, margin.left, height - 10);
 }
 
 

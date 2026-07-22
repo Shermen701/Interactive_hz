@@ -87,22 +87,23 @@ body:not(.show-ipa) .ipa-wrapper {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-color);
-  padding: 0.75rem 1.5rem;
+  padding: 0.5rem 1.25rem;
 }
 
 .nav-container {
-  max-width: 1320px;
+  max-width: 1600px;
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex: 0 0 auto;
+  min-width: 0;
 }
 
 .brand-icon {
@@ -128,6 +129,7 @@ body:not(.show-ipa) .ipa-wrapper {
   background: linear-gradient(90deg, #fff, var(--text-muted));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  white-space: nowrap;
 }
 
 body.light-mode .brand-title {
@@ -139,23 +141,47 @@ body.light-mode .brand-title {
 .brand-subtitle {
   font-size: 0.75rem;
   color: var(--text-muted);
+  display: none;
+  white-space: nowrap;
 }
 
-.nav-menu {
-  display: flex;
+.nav-track {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) 32px;
   align-items: center;
+  gap: 0.35rem;
+}
+
+.nav-viewport {
+  min-width: 0;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.nav-viewport::-webkit-scrollbar { display: none; }
+
+.nav-menu {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 1.5rem) / 4);
   gap: 0.5rem;
   background: var(--bg-secondary);
   padding: 0.3rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
+  width: 100%;
 }
 
 .nav-link {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.55rem 0.9rem;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0.5rem 0.55rem;
   border: none;
   background: transparent;
   color: var(--text-muted);
@@ -165,6 +191,24 @@ body.light-mode .brand-title {
   cursor: pointer;
   transition: all 0.2s ease;
 }
+
+.nav-scroll-btn {
+  width: 32px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-scroll-btn:hover:not(:disabled) { color: var(--accent-cyan); border-color: var(--accent-cyan); }
+.nav-scroll-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.nav-scroll-btn i { width: 17px; height: 17px; }
 
 .nav-link:hover {
   color: var(--text-main);
@@ -182,6 +226,7 @@ body.light-mode .brand-title {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex: 0 0 auto;
 }
 
 .theme-btn, .phonetic-btn, .lang-btn {
@@ -1172,19 +1217,19 @@ body.light-mode .canvas-hint {
 /* 10. Responsive Breakpoints */
 @media (max-width: 768px) {
   .nav-container {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    gap: 0.35rem;
   }
 
-  .nav-menu {
-    order: 3;
-    width: 100%;
-    overflow-x: auto;
-    justify-content: flex-start;
-  }
-
-  .nav-link span {
-    font-size: 0.8rem;
-  }
+  .brand-text { display: none; }
+  .nav-track { grid-template-columns: 28px minmax(0, 1fr) 28px; gap: 0.2rem; }
+  .nav-menu { grid-auto-columns: calc((100% - 0.5rem) / 2); gap: 0.5rem; }
+  .nav-link { min-height: 48px; padding: 0.35rem; font-size: 0.75rem; gap: 0.3rem; }
+  .nav-link span { font-size: 0.75rem; }
+  .nav-scroll-btn { width: 28px; height: 34px; }
+  .nav-controls { gap: 0.25rem; }
+  .nav-controls span { display: none; }
+  .theme-btn, .phonetic-btn, .lang-btn { width: 34px; height: 34px; padding: 0; justify-content: center; }
 
   .hero-banner {
     padding: 2rem 1rem;
@@ -1209,14 +1254,15 @@ body.light-mode .canvas-hint {
 }
 
 @media (max-width: 480px) {
-  .brand-subtitle {
-    display: none;
-  }
+  .navbar { padding: 0.45rem 0.5rem; }
+  .brand-icon { width: 36px; height: 36px; }
+  .nav-link span { display: none; }
+  .nav-menu { grid-auto-columns: calc((100% - 0.5rem) / 2); }
 
-  .nav-link {
-    padding: 0.4rem 0.6rem;
-  }
+}
 
+@media (min-width: 1500px) {
+  .brand-subtitle { display: block; }
 }
 
 /* ==========================================================================
@@ -1273,4 +1319,3 @@ body.light-mode .floating-watermark-badge {
   0%, 100% { transform: scale(1); opacity: 0.8; }
   50% { transform: scale(1.35); opacity: 1; box-shadow: 0 0 12px var(--accent-cyan); }
 }
-

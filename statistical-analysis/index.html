@@ -38,30 +38,48 @@
         </div>
       </div>
 
-      <nav class="nav-menu">
-        <button class="nav-link active" data-tab="descriptive">
-          <i data-lucide="calculator"></i>
-          <span data-i18n="nav_descriptive">Descriptive Stats</span>
+      <div class="nav-track">
+        <button id="navScrollPrev" class="nav-scroll-btn" type="button" aria-label="Show previous modules" title="Show previous modules" disabled>
+          <i data-lucide="chevron-left"></i>
         </button>
-        <button class="nav-link" data-tab="theorems">
-          <i data-lucide="trending-up"></i>
-          <span data-i18n="nav_theorems">CLT & Distributions</span>
+        <div id="navViewport" class="nav-viewport" aria-label="Learning modules">
+          <nav class="nav-menu">
+            <button class="nav-link active" data-tab="descriptive">
+              <i data-lucide="calculator"></i>
+              <span data-i18n="nav_descriptive">Descriptive Stats</span>
+            </button>
+            <button class="nav-link" data-tab="theorems">
+              <i data-lucide="trending-up"></i>
+              <span data-i18n="nav_theorems">CLT & Distributions</span>
+            </button>
+            <button class="nav-link" data-tab="probability">
+              <i data-lucide="waypoints"></i>
+              <span data-i18n="nav_probability">Probability Lab</span>
+            </button>
+            <button class="nav-link" data-tab="hypothesis">
+              <i data-lucide="flask-conical"></i>
+              <span data-i18n="nav_hypothesis">Hypothesis Tests</span>
+            </button>
+            <button class="nav-link" data-tab="quiz">
+              <i data-lucide="check-circle-2"></i>
+              <span data-i18n="nav_quiz">Interactive Quiz</span>
+            </button>
+            <button class="nav-link" data-tab="cheatsheet">
+              <i data-lucide="book-open"></i>
+              <span data-i18n="nav_cheatsheet">Formula Sheet</span>
+            </button>
+          </nav>
+        </div>
+        <button id="navScrollNext" class="nav-scroll-btn" type="button" aria-label="Show next modules" title="Show next modules">
+          <i data-lucide="chevron-right"></i>
         </button>
-        <button class="nav-link" data-tab="hypothesis">
-          <i data-lucide="flask-conical"></i>
-          <span data-i18n="nav_hypothesis">Hypothesis Tests</span>
-        </button>
-        <button class="nav-link" data-tab="quiz">
-          <i data-lucide="check-circle-2"></i>
-          <span data-i18n="nav_quiz">Interactive Quiz</span>
-        </button>
-        <button class="nav-link" data-tab="cheatsheet">
-          <i data-lucide="book-open"></i>
-          <span data-i18n="nav_cheatsheet">Formula Sheet</span>
-        </button>
-      </nav>
+      </div>
 
       <div class="nav-controls">
+        <button id="themeToggleBtn" class="theme-btn" title="Switch to dark theme">
+          <i data-lucide="moon" id="themeIcon"></i>
+          <span id="themeLabel">Dark</span>
+        </button>
         <button id="phoneticToggleBtn" class="phonetic-btn active" title="Toggle English Phonetic IPA & Audio">
           <i data-lucide="volume-2"></i>
           <span id="phoneticLabel">IPA 音标: ON</span>
@@ -83,11 +101,11 @@
       </div>
       <div class="hero-stats">
         <div class="stat-card">
-          <span class="stat-num">5</span>
+          <span class="stat-num">6</span>
           <span class="stat-label" data-i18n="stat_modules">Core Modules</span>
         </div>
         <div class="stat-card">
-          <span class="stat-num">4</span>
+          <span class="stat-num">6</span>
           <span class="stat-label" data-i18n="stat_simulators">Live Simulators</span>
         </div>
         <div class="stat-card">
@@ -456,6 +474,10 @@
     </section>
 
 
+    <!-- MODULE 3: PROBABILITY & DISTRIBUTIONS (rendered by probability-lab.js) -->
+    <section id="probability" class="tab-panel" aria-live="polite"></section>
+
+
     <!-- MODULE 3: HYPOTHESIS TESTING (Z, T, CHI-SQUARE, F) -->
     <section id="hypothesis" class="tab-panel">
       <div class="section-header">
@@ -499,6 +521,7 @@
                 <option value="right" data-i18n="opt_right_tailed">Right-Tailed (右侧单尾)</option>
                 <option value="left" data-i18n="opt_left_tailed">Left-Tailed (左侧单尾)</option>
               </select>
+              <p class="control-note" id="htTailNote" aria-live="polite"></p>
             </div>
 
             <div class="control-group">
@@ -514,7 +537,7 @@
             <div id="dynamicTestInputs">
               <div class="control-group">
                 <label for="htStatVal" id="htStatValLabel">Calculated Z Statistic ($z$):</label>
-                <input type="range" id="htStatVal" min="-4" max="4" step="0.05" value="1.96">
+                <input type="range" id="htStatVal" min="-4" max="4" step="0.01" value="1.96">
                 <span class="value-display" id="htStatValDisplay">z = 1.96</span>
               </div>
 
@@ -531,20 +554,21 @@
               </div>
             </div>
 
-            <div class="stats-card">
-              <div class="stat-row">
+            <div class="result-summary" aria-live="polite">
+              <div class="result-metric">
+                <span id="htStatisticLabel">Observed statistic</span>
+                <strong id="htStatisticDisplay">z = 1.96</strong>
+              </div>
+              <div class="result-metric">
                 <span data-i18n="lbl_critical_val">Critical Value(s):</span>
                 <strong id="htCriticalValDisplay">±1.960</strong>
               </div>
-              <div class="stat-row">
-                <span data-i18n="lbl_pvalue">Calculated P-value:</span>
+              <div class="result-metric">
+                <span id="htPValueLabel" data-i18n="lbl_pvalue">Calculated P-value:</span>
                 <strong id="htPValueDisplay" class="highlight-p">p = 0.0500</strong>
               </div>
-              <div class="stat-row">
-                <span data-i18n="lbl_conclusion">Statistical Decision:</span>
-                <strong id="htConclusionText">Fail to Reject H₀</strong>
-              </div>
             </div>
+            <p class="decision-explanation" id="htConclusionText">Fail to Reject H₀</p>
           </div>
 
           <div class="chart-panel canvas-panel">
@@ -556,6 +580,20 @@
             </div>
           </div>
         </div>
+        <section class="decision-path" aria-label="Hypothesis test decision path">
+          <div class="decision-step">
+            <span class="step-number">1</span><div><small>Hypotheses</small><strong id="htHypothesisStep">H₀: no effect</strong></div>
+          </div>
+          <div class="decision-step">
+            <span class="step-number">2</span><div><small>Test rule</small><strong id="htRuleStep">Two-tailed, α = 0.05</strong></div>
+          </div>
+          <div class="decision-step">
+            <span class="step-number">3</span><div><small>Evidence</small><strong id="htEvidenceStep">z = 1.96 · p = 0.0500</strong></div>
+          </div>
+          <div class="decision-step final" id="htDecisionStep">
+            <span class="step-number">4</span><div><small>Decision</small><strong>Fail to reject H₀</strong></div>
+          </div>
+        </section>
       </div>
 
       <!-- Test Comparison Table Card -->
@@ -572,7 +610,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr data-test-row="ztest">
                 <td>
                   <strong>Z-Test</strong>
                   <span class="ipa-wrapper"><span class="ipa-tag">/ziː test/</span><button class="audio-btn" onclick="speakTerm('Z-Test')"><i data-lucide="volume-2"></i></button></span>
@@ -581,7 +619,7 @@
                 <td data-i18n="td_z_assump">Known $\sigma$, Normal distribution or large sample size ($n \ge 30$).</td>
                 <td>$$Z = \frac{\bar{X} - \mu_0}{\sigma / \sqrt{n}}$$</td>
               </tr>
-              <tr>
+              <tr data-test-row="ttest">
                 <td>
                   <strong>t-Test</strong>
                   <span class="ipa-wrapper"><span class="ipa-tag">/tiː test/</span><button class="audio-btn" onclick="speakTerm('Student t-Test')"><i data-lucide="volume-2"></i></button></span>
@@ -590,7 +628,7 @@
                 <td data-i18n="td_t_assump">Unknown $\sigma$, normally distributed population, small sample ($n < 30$).</td>
                 <td>$$t = \frac{\bar{X} - \mu_0}{s / \sqrt{n}}, \quad df = n-1$$</td>
               </tr>
-              <tr>
+              <tr data-test-row="chitest">
                 <td>
                   <strong>Chi-Square ($\chi^2$)</strong>
                   <span class="ipa-wrapper"><span class="ipa-tag">/ˈkaɪ skwer/</span><button class="audio-btn" onclick="speakTerm('Chi-Square')"><i data-lucide="volume-2"></i></button></span>
@@ -599,7 +637,7 @@
                 <td data-i18n="td_chi_assump">Categorical data, expected frequency per cell $\ge 5$. Right-skewed.</td>
                 <td>$$\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}, \quad df = k-1$$</td>
               </tr>
-              <tr>
+              <tr data-test-row="ftest">
                 <td>
                   <strong>F-Test (ANOVA)</strong>
                   <span class="ipa-wrapper"><span class="ipa-tag">/əˈnoʊvə/</span><button class="audio-btn" onclick="speakTerm('ANOVA')"><i data-lucide="volume-2"></i></button></span>
@@ -685,49 +723,8 @@
     <section id="cheatsheet" class="tab-panel">
       <div class="section-header">
         <div class="badge" data-i18n="m5_badge">Module 5</div>
-        <h2 data-i18n="m5_title">Probability & Statistics Formula Cheat Sheet</h2>
-        <p data-i18n="m5_subtitle">Essential mathematical formulas, properties, and common interview traps.</p>
-      </div>
-
-      <!-- Interview Pronunciation Guide Card -->
-      <div class="card card-wide mb-4 interview-pronun-card">
-        <div class="card-header">
-          <i data-lucide="mic" class="card-icon"></i>
-          <h3>🎙️ Technical English Interview Pronunciation Traps (面试高频发音陷阱特训)</h3>
-        </div>
-        <p class="mb-3 text-secondary">Click the 🔊 icon to listen to native pronunciation before your interviews!</p>
-        <div class="pronun-grid">
-          <div class="pronun-item">
-            <div class="pronun-term">Chi-Square Test <button class="audio-btn" onclick="speakTerm('Chi Square')"><i data-lucide="volume-2"></i></button></div>
-            <div class="pronun-ipa">/ˈkaɪ skwer/</div>
-            <div class="pronun-tip">⚠️ <strong>Chi</strong> is pronounced like <em>"kite"</em> (/kaɪ/), NOT "chee" or "chai"!</div>
-          </div>
-          <div class="pronun-item">
-            <div class="pronun-term">Null Hypothesis <button class="audio-btn" onclick="speakTerm('Null Hypothesis')"><i data-lucide="volume-2"></i></button></div>
-            <div class="pronun-ipa">/nʌl haɪˈpɑːθəsɪs/</div>
-            <div class="pronun-tip">Stress on 2nd syllable of <em>hy-PO-the-sis</em>. Plural is <em>hypotheses</em> (/haɪˈpɑːθəsiːz/).</div>
-          </div>
-          <div class="pronun-item">
-            <div class="pronun-term">Asymptotic Normality <button class="audio-btn" onclick="speakTerm('Asymptotic Normality')"><i data-lucide="volume-2"></i></button></div>
-            <div class="pronun-ipa">/ˌæsɪmˈptɑːtɪk/</div>
-            <div class="pronun-tip">Stress on 3rd syllable <em>as-ymp-TO-tic</em>.</div>
-          </div>
-          <div class="pronun-item">
-            <div class="pronun-term">Bernoulli Trial <button class="audio-btn" onclick="speakTerm('Bernoulli')"><i data-lucide="volume-2"></i></button></div>
-            <div class="pronun-ipa">/bərˈnuːli/</div>
-            <div class="pronun-tip">French origin surname. Stress on <em>ber-NOU-lli</em> (/nuː/).</div>
-          </div>
-          <div class="pronun-item">
-            <div class="pronun-term">Poisson Distribution <button class="audio-btn" onclick="speakTerm('Poisson')"><i data-lucide="volume-2"></i></button></div>
-            <div class="pronun-ipa">/pwɑːˈsɔːn/</div>
-            <div class="pronun-tip">French origin surname. Pronounced <em>Pwa-SON</em>.</div>
-          </div>
-          <div class="pronun-item">
-            <div class="pronun-term">Heteroskedasticity <button class="audio-btn" onclick="speakTerm('Heteroskedasticity')"><i data-lucide="volume-2"></i></button></div>
-            <div class="pronun-ipa">/ˌhɛtəroʊskəˌdæstɪˈsɪti/</div>
-            <div class="pronun-tip">Advanced econometrics term. Break down: <em>Hetero-ske-das-TI-city</em>.</div>
-          </div>
-        </div>
+        <h2 data-i18n="m5_title">Probability & Statistics Formula Sheet</h2>
+        <p data-i18n="m5_subtitle">Essential mathematical formulas, properties, and key statistical concepts.</p>
       </div>
 
       <div class="cheatsheet-grid">
@@ -780,7 +777,7 @@
         </div>
 
         <div class="cheat-card highlight-card">
-          <h3>⚡ Key Rules & Common Traps</h3>
+          <h3>⚡ Key Rules & Concepts</h3>
           <ul class="trap-list">
             <li><strong>P-value Definition:</strong> P-value is the probability of obtaining test results at least as extreme as observed, assuming $H_0$ is TRUE. It is NOT the probability that $H_0$ is true!</li>
             <li><strong>Type I vs Type II Error:</strong> 
@@ -811,6 +808,11 @@
     <span class="badge-text">xiaomeng.lv</span>
   </div>
 
+  <!-- Shared foundation and feature modules -->
+  <script src="core/statistics.js"></script>
+  <script src="core/module-registry.js"></script>
+  <script src="content/distributions.js"></script>
+  <script src="modules/probability-lab.js"></script>
   <!-- App JavaScript -->
   <script src="app.js"></script>
 </body>

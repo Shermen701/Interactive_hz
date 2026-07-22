@@ -672,6 +672,7 @@ function redrawAllCanvases() {
 
 function initNavigation() {
   const navLinks = document.querySelectorAll('.nav-link');
+  initNavScroller();
   navLinks.forEach(link => {
     link.addEventListener('click', () => {
       const tabId = link.getAttribute('data-tab');
@@ -688,6 +689,25 @@ function initNavigation() {
   });
 }
 
+function initNavScroller() {
+  const viewport = document.getElementById('navViewport');
+  const previous = document.getElementById('navScrollPrev');
+  const next = document.getElementById('navScrollNext');
+  if (!viewport || !previous || !next) return;
+
+  const updateControls = () => {
+    previous.disabled = viewport.scrollLeft <= 1;
+    next.disabled = viewport.scrollLeft + viewport.clientWidth >= viewport.scrollWidth - 1;
+  };
+  const scrollByCard = direction => viewport.scrollBy({ left: direction * Math.max(180, viewport.clientWidth / 4), behavior: 'smooth' });
+
+  previous.addEventListener('click', () => scrollByCard(-1));
+  next.addEventListener('click', () => scrollByCard(1));
+  viewport.addEventListener('scroll', updateControls, { passive: true });
+  window.addEventListener('resize', updateControls);
+  requestAnimationFrame(updateControls);
+}
+
 function switchTab(tabId) {
   appState.activeTab = tabId;
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -698,6 +718,7 @@ function switchTab(tabId) {
 
   if (activeBtn) activeBtn.classList.add('active');
   if (activePanel) activePanel.classList.add('active');
+  if (activeBtn) activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 
   setTimeout(() => {
     if (tabId === 'vectors') drawSpanCanvas();

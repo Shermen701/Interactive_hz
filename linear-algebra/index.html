@@ -35,28 +35,38 @@
         </div>
       </div>
 
-      <nav class="nav-menu">
-        <button class="nav-link active" data-tab="vectors">
-          <i data-lucide="arrow-up-right"></i>
-          <span data-i18n="nav_vectors">Vectors & Span</span>
+      <div class="nav-track">
+        <button id="navScrollPrev" class="nav-scroll-btn" type="button" aria-label="Show previous modules" title="Show previous modules" disabled>
+          <i data-lucide="chevron-left"></i>
         </button>
-        <button class="nav-link" data-tab="matrices">
-          <i data-lucide="box"></i>
-          <span data-i18n="nav_matrices">Matrix Transforms</span>
+        <div id="navViewport" class="nav-viewport" aria-label="Learning modules">
+          <nav class="nav-menu">
+            <button class="nav-link active" data-tab="vectors">
+              <i data-lucide="arrow-up-right"></i>
+              <span data-i18n="nav_vectors">Vectors & Span</span>
+            </button>
+            <button class="nav-link" data-tab="matrices">
+              <i data-lucide="box"></i>
+              <span data-i18n="nav_matrices">Matrix Transforms</span>
+            </button>
+            <button class="nav-link" data-tab="eigen">
+              <i data-lucide="compass"></i>
+              <span data-i18n="nav_eigen">Eigenvalues & Eigenvectors</span>
+            </button>
+            <button class="nav-link" data-tab="orthogonality">
+              <i data-lucide="divide"></i>
+              <span data-i18n="nav_ortho">Orthogonality & SVD</span>
+            </button>
+            <button class="nav-link" data-tab="quiz">
+              <i data-lucide="check-square"></i>
+              <span data-i18n="nav_quiz">Quiz & Cheatsheet</span>
+            </button>
+          </nav>
+        </div>
+        <button id="navScrollNext" class="nav-scroll-btn" type="button" aria-label="Show next modules" title="Show next modules">
+          <i data-lucide="chevron-right"></i>
         </button>
-        <button class="nav-link" data-tab="eigen">
-          <i data-lucide="compass"></i>
-          <span data-i18n="nav_eigen">Eigenvalues & Eigenvectors</span>
-        </button>
-        <button class="nav-link" data-tab="orthogonality">
-          <i data-lucide="divide"></i>
-          <span data-i18n="nav_ortho">Orthogonality & SVD</span>
-        </button>
-        <button class="nav-link" data-tab="quiz">
-          <i data-lucide="check-square"></i>
-          <span data-i18n="nav_quiz">Quiz & Cheatsheet</span>
-        </button>
-      </nav>
+      </div>
 
       <div class="nav-controls">
         <button id="themeToggleBtn" class="theme-btn" title="Toggle Light/Dark Theme">
