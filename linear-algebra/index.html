@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linear Algebra Interactive Learning & Interview Hub | 线性代数交互学习与面试中心</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- KaTeX for math formulas -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-mode show-ipa">
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand">
+        <div class="brand-icon">
+          <i data-lucide="grid"></i>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">LinAlgLab Interactive</span>
+          <span class="brand-subtitle" data-i18n="app_subtitle">Linear Algebra Learning & Interview Hub</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-link active" data-tab="vectors">
+          <i data-lucide="arrow-up-right"></i>
+          <span data-i18n="nav_vectors">Vectors & Span</span>
+        </button>
+        <button class="nav-link" data-tab="matrices">
+          <i data-lucide="box"></i>
+          <span data-i18n="nav_matrices">Matrix Transforms</span>
+        </button>
+        <button class="nav-link" data-tab="eigen">
+          <i data-lucide="compass"></i>
+          <span data-i18n="nav_eigen">Eigenvalues & Eigenvectors</span>
+        </button>
+        <button class="nav-link" data-tab="orthogonality">
+          <i data-lucide="divide"></i>
+          <span data-i18n="nav_ortho">Orthogonality & SVD</span>
+        </button>
+        <button class="nav-link" data-tab="quiz">
+          <i data-lucide="check-square"></i>
+          <span data-i18n="nav_quiz">Quiz & Cheatsheet</span>
+        </button>
+      </nav>
+
+      <div class="nav-controls">
+        <button id="themeToggleBtn" class="theme-btn" title="Toggle Light/Dark Theme">
+          <i data-lucide="sun" id="themeIcon"></i>
+          <span id="themeLabel">Light</span>
+        </button>
+        <button id="phoneticToggleBtn" class="phonetic-btn active" title="Toggle Phonetic IPA & Audio">
+          <i data-lucide="volume-2"></i>
+          <span id="phoneticLabel">IPA 音标: ON</span>
+        </button>
+        <button id="langToggleBtn" class="lang-btn">
+          <i data-lucide="globe"></i>
+          <span id="langLabel">中 / EN</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero & Progress Banner -->
+  <section class="hero-banner">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-content">
+      <div class="hero-text-block">
+        <h1 data-i18n="hero_title">Master Linear Algebra Geometrically & Interactively</h1>
+        <p data-i18n="hero_desc">Explore vector spaces, linear combinations, 2D matrix transformations, determinants, eigenvectors, Gram-Schmidt orthogonalization, and Singular Value Decomposition (SVD) with real-time interactive canvases, bilingual explanations, and IPA interview audio aids.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-num">5</span>
+          <span class="stat-label" data-i18n="stat_modules">Core Modules</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">5</span>
+          <span class="stat-label" data-i18n="stat_simulators">2D Live Canvases</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">15</span>
+          <span class="stat-label" data-i18n="stat_quiz">Interview Quiz</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Container -->
+  <main class="main-container">
+
+    <!-- MODULE 1: VECTORS, SPAN & LINEAR INDEPENDENCE -->
+    <section id="vectors" class="tab-panel active">
+      <div class="section-header">
+        <div class="badge" data-i18n="m1_badge">Module 1</div>
+        <h2 data-i18n="m1_title">Vectors, Linear Combinations, Span & Independence</h2>
+        <p data-i18n="m1_subtitle">Understand how vectors add, scale, and span 2D space, and visualize when vectors become linearly dependent.</p>
+      </div>
+
+      <!-- Theory Cards Grid -->
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-header">
+            <i data-lucide="arrow-up-right" class="card-icon"></i>
+            <h3 data-i18n="t_vec_title">Vectors & Linear Combinations</h3>
+          </div>
+          <ul class="concept-list">
+            <li>
+              <strong data-i18n="t_vec_name">Vector (向量):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ˈvektər/</span><button class="audio-btn" onclick="speakTerm('Vector')"><i data-lucide="volume-2"></i></button></span>
+              <span data-i18n="t_vec_desc">An object with magnitude and direction, represented as an arrow in space.</span>
+              <div class="math-expr">$$\mathbf{v} = \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} = c_1 \mathbf{v}_1 + c_2 \mathbf{v}_2$$</div>
+            </li>
+            <li>
+              <strong data-i18n="t_lincomb_name">Linear Combination (线性组合):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ˈlɪniər ˌkɒmbɪˈneɪʃn/</span><button class="audio-btn" onclick="speakTerm('Linear Combination')"><i data-lucide="volume-2"></i></button></span>
+              <span data-i18n="t_lincomb_desc">Sum of scalar multiples of vectors: $c_1 \mathbf{u} + c_2 \mathbf{v}$.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <i data-lucide="maximize-2" class="card-icon"></i>
+            <h3 data-i18n="t_span_title">Span & Linear Independence</h3>
+          </div>
+          <ul class="concept-list">
+            <li>
+              <strong data-i18n="t_span_name">Span (张成空间):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/spæn/</span><button class="audio-btn" onclick="speakTerm('Span')"><i data-lucide="volume-2"></i></button></span>
+              <span data-i18n="t_span_desc">The set of all possible linear combinations formed by a set of vectors.</span>
+              <div class="math-expr">$$\text{Span}(\mathbf{u}, \mathbf{v}) = \{ c_1 \mathbf{u} + c_2 \mathbf{v} \mid c_1, c_2 \in \mathbb{R} \}$$</div>
+            </li>
+            <li>
+              <strong data-i18n="t_indep_name">Linear Independence (线性无关):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ˈlɪniər ˌɪndɪˈpendəns/</span><button class="audio-btn" onclick="speakTerm('Linear Independence')"><i data-lucide="volume-2"></i></button></span>
+              <span data-i18n="t_indep_desc">No vector in the set can be written as a linear combination of the others ($c_1 \mathbf{u} + c_2 \mathbf{v} = \mathbf{0} \implies c_1 = c_2 = 0$).</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <i data-lucide="layers" class="card-icon"></i>
+            <h3 data-i18n="t_subspace_title">Subspace, Basis & Dimension</h3>
+          </div>
+          <ul class="concept-list">
+            <li>
+              <strong data-i18n="t_subspace_name">Subspace (子空间):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ˈsʌbˌspeɪs/</span><button class="audio-btn" onclick="speakTerm('Subspace')"><i data-lucide="volume-2"></i></button></span>
+              <span data-i18n="t_subspace_desc">A subset $W \subseteq V$ containing $\mathbf{0}$, closed under vector addition and scalar multiplication.</span>
+            </li>
+            <li>
+              <strong data-i18n="t_basis_dim_name">Basis & Dimension (基与维度):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ˈbeɪsɪs/</span> <span class="ipa-tag">/daɪˈmenʃn/</span><button class="audio-btn" onclick="speakTerm('Basis and Dimension')"><i data-lucide="volume-2"></i></button></span>
+              <span data-i18n="t_basis_dim_desc">A basis is a linearly independent set that spans the space. Dimension is the number of basis vectors.</span>
+              <div class="math-expr">$$\dim(\mathbb{R}^2) = 2, \quad \mathbf{e}_1 = \begin{bmatrix}1\\0\end{bmatrix}, \mathbf{e}_2 = \begin{bmatrix}0\\1\end{bmatrix}$$</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Interactive Span Canvas Simulator Widget -->
+      <div class="interactive-widget">
+        <div class="widget-header">
+          <div>
+            <h3 data-i18n="sim_span_title">2D Vector Span & Linear Independence Simulator</h3>
+            <p data-i18n="sim_span_desc">Drag vector arrowheads directly on the canvas or adjust sliders to see if their Span covers $\mathbb{R}^2$ or collapses into a line!</p>
+          </div>
+          <div class="widget-badge" id="spanStatusBadge">Span = 2D Plane (Linearly Independent)</div>
+        </div>
+
+        <div class="widget-body">
+          <div class="controls-panel">
+            <div class="control-group vec-u-group">
+              <label class="control-label"><span class="color-dot cyan"></span><strong data-i18n="lbl_vec_u">Vector u:</strong> ($u_x$, $u_y$)</label>
+              <div class="slider-pair">
+                <span>$u_x$:</span>
+                <input type="range" id="uxSlider" min="-4" max="4" step="0.1" value="2">
+                <span id="uxVal" class="value-badge cyan">2.0</span>
+              </div>
+              <div class="slider-pair">
+                <span>$u_y$:</span>
+                <input type="range" id="uySlider" min="-4" max="4" step="0.1" value="1">
+                <span id="uyVal" class="value-badge cyan">1.0</span>
+              </div>
+            </div>
+
+            <div class="control-group vec-v-group">
+              <label class="control-label"><span class="color-dot purple"></span><strong data-i18n="lbl_vec_v">Vector v:</strong> ($v_x$, $v_y$)</label>
+              <div class="slider-pair">
+                <span>$v_x$:</span>
+                <input type="range" id="vxSlider" min="-4" max="4" step="0.1" value="-1">
+                <span id="vxVal" class="value-badge purple">-1.0</span>
+              </div>
+              <div class="slider-pair">
+                <span>$v_y$:</span>
+                <input type="range" id="vySlider" min="-4" max="4" step="0.1" value="2">
+                <span id="vyVal" class="value-badge purple">2.0</span>
+              </div>
+            </div>
+
+            <div class="control-group lincomb-group">
+              <label class="control-label"><strong data-i18n="lbl_lincomb_weights">Multipliers ($c_1, c_2$):</strong></label>
+              <div class="slider-pair">
+                <span>$c_1$:</span>
+                <input type="range" id="c1Slider" min="-2" max="2" step="0.1" value="1">
+                <span id="c1Val" class="value-badge emerald">1.0</span>
+              </div>
+              <div class="slider-pair">
+                <span>$c_2$:</span>
+                <input type="range" id="c2Slider" min="-2" max="2" step="0.1" value="1">
+                <span id="c2Val" class="value-badge emerald">1.0</span>
+              </div>
+            </div>
+
+            <div class="stats-summary-box">
+              <div class="stat-indicator mean-ind">
+                <span class="ind-dot" style="background:#06b6d4;"></span>
+                <span>$c_1 \mathbf{u} + c_2 \mathbf{v} =$:</span>
+                <strong id="resultVectorVal">[1.00, 3.00]</strong>
+              </div>
+              <div class="stat-indicator median-ind">
+                <span class="ind-dot" style="background:#8b5cf6;"></span>
+                <span>$\det([\mathbf{u}\ \mathbf{v}]) =$:</span>
+                <strong id="spanDetVal">5.00</strong>
+              </div>
+            </div>
+
+            <div class="rule-callout" id="spanRuleCallout">
+              <i data-lucide="info"></i>
+              <span id="spanRuleText">Vectors are Linearly Independent: $\det \neq 0$, Span is the full 2D plane ($\mathbb{R}^2$).</span>
+            </div>
+
+            <button id="makeCollinearBtn" class="btn btn-secondary">
+              <i data-lucide="zap"></i>
+              <span data-i18n="btn_make_collinear">Set Vectors Collinear (Force Dependent)</span>
+            </button>
+          </div>
+
+          <div class="chart-panel">
+            <div class="canvas-wrapper">
+              <canvas id="spanCanvas" width="550" height="420" class="interactive-canvas"></canvas>
+              <div class="canvas-hint" data-i18n="canvas_drag_hint">💡 Drag vector tips on canvas</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 2: MATRIX TRANSFORMATIONS & DETERMINANTS -->
+    <section id="matrices" class="tab-panel">
+      <div class="section-header">
+        <div class="badge" data-i18n="m2_badge">Module 2</div>
+        <h2 data-i18n="m2_title">Matrices as Linear Transformations & Determinants</h2>
+        <p data-i18n="m2_subtitle">Visualize how a 2x2 matrix moves, skews, and rotates space, and discover why Determinant equals area scaling factor.</p>
+      </div>
+
+      <!-- Theory Cards Grid -->
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-header">
+            <i data-lucide="box" class="card-icon"></i>
+            <h3 data-i18n="t_matrix_title">Linear Transformations</h3>
+          </div>
+          <ul class="concept-list">
+            <li>
+              <strong data-i18n="t_transform_name">Linear Transformation (线性变换):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ˈlɪniər ˌtrænsfərˈmeɪʃn/</span><button class="audio-btn" onclick="speakTerm('Linear Transformation')"><i data-lucide="volume-2"></i></button></span>
+              <span data-i18n="t_transform_desc">A mapping that preserves grid lines (lines remain lines, origin remains fixed).</span>
+              <div class="math-expr">$$T(\mathbf{x}) = A\mathbf{x} = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix}$$</div>
+            </li>
+            <li>
+              <strong data-i18n="t_basis_transform_desc">Columns of Matrix = Transformed Basis Vectors:</strong>
+              <span>Column 1 is $T(\hat{i})$, Column 2 is $T(\hat{j})$.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <i data-lucide="grid" class="card-icon"></i>
+            <h3 data-i18n="t_det_rank_title">Determinant, Rank & Nullspace</h3>
+          </div>
+          <ul class="concept-list">
+            <li>
+              <strong data-i18n="t_det_name">Determinant (行列式):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/dɪˈtɜːrmɪnənt/</span><button class="audio-btn" onclick="speakTerm('Determinant')"><i data-lucide="volume-2"></i></button></span>
+              <span data-i18n="t_det_desc">The factor by which a transformation scales areas ($\det(A) = ad - bc$).</span>
+              <div class="math-expr">$$\det(A) = ad - bc$$</div>
+            </li>
+            <li>
+              <strong data-i18n="t_rank_null_name">Rank & Nullspace (秩与零空间):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ræŋk/</span> <span class="ipa-tag">/ˈnʌlspeɪs/</span><button class="audio-btn" onclick="speakTerm('Rank and Nullspace')"><i data-lucide="volume-2"></i></button></span>
+              <span data-i18n="t_rank_null_desc">Rank is the dimension of output space; Nullspace is all vectors that land on origin ($\mathbf{0}$).</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <i data-lucide="refresh-cw" class="card-icon"></i>
+            <h3 data-i18n="t_inverse_title">Composition & Inverse Matrix</h3>
+          </div>
+          <ul class="concept-list">
+            <li>
+              <strong data-i18n="t_comp_name">Matrix Composition (矩阵乘法与复合变换):</strong>
+              <span data-i18n="t_comp_desc">Multiplying $BA$ applies transformation $A$ first, then $B$. Note $BA \neq AB$ (non-commutative).</span>
+            </li>
+            <li>
+              <strong data-i18n="t_inv_name">Inverse Matrix (逆矩阵):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ˈɪnvɜːrs/</span><button class="audio-btn" onclick="speakTerm('Inverse Matrix')"><i data-lucide="volume-2"></i></button></span>
+              <span data-i18n="t_inv_desc">Undoes the transformation. Exists iff $\det(A) \neq 0$:</span>
+              <div class="math-expr">$$A^{-1} = \frac{1}{ad-bc} \begin{bmatrix} d & -b \\ -c & a \end{bmatrix}$$</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Interactive Transformation Canvas Simulator Widget -->
+      <div class="interactive-widget">
+        <div class="widget-header">
+          <div>
+            <h3 data-i18n="sim_transform_title">2D Matrix Transformation & Determinant Explorer</h3>
+            <p data-i18n="sim_transform_desc">Adjust matrix parameters or click presets to view coordinate grid warping and unit square transformation into a parallelogram.</p>
+          </div>
+          <div class="widget-badge" id="transformBadge">Invertible (Det ≠ 0)</div>
+        </div>
+
+        <div class="widget-body">
+          <div class="controls-panel">
+            <div class="matrix-input-grid">
+              <label class="control-label">Matrix $A = \begin{bmatrix} a & b \\ c & d \end{bmatrix}$:</label>
+              <div class="matrix-box">
+                <input type="number" id="matA" value="1.5" step="0.1">
+                <input type="number" id="matB" value="0.5" step="0.1">
+                <input type="number" id="matC" value="0.0" step="0.1">
+                <input type="number" id="matD" value="1.2" step="0.1">
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label data-i18n="lbl_preset_transforms" class="control-label">Preset Transformations:</label>
+              <div class="btn-grid">
+                <button class="btn btn-preset" onclick="applyMatrixPreset('identity')">Identity</button>
+                <button class="btn btn-preset" onclick="applyMatrixPreset('rotation')">Rotation (45°)</button>
+                <button class="btn btn-preset" onclick="applyMatrixPreset('shear')">Horizontal Shear</button>
+                <button class="btn btn-preset" onclick="applyMatrixPreset('scale')">Scaling (2x, 0.5x)</button>
+                <button class="btn btn-preset" onclick="applyMatrixPreset('singular')">Singular (Rank 1)</button>
+                <button class="btn btn-preset" onclick="applyMatrixPreset('reflection')">Reflection (Y-axis)</button>
+              </div>
+            </div>
+
+            <div class="stats-summary-box">
+              <div class="stat-indicator mean-ind">
+                <span class="ind-dot" style="background:#3b82f6;"></span>
+                <span>$\det(A) = ad - bc =$:</span>
+                <strong id="detCalcVal">1.80</strong>
+              </div>
+              <div class="stat-indicator median-ind">
+                <span class="ind-dot" style="background:#10b981;"></span>
+                <span>$\text{Trace}(A) = a + d =$:</span>
+                <strong id="traceCalcVal">2.70</strong>
+              </div>
+              <div class="stat-indicator mode-ind">
+                <span class="ind-dot" style="background:#f59e0b;"></span>
+                <span>$\text{Rank}(A) =$:</span>
+                <strong id="rankCalcVal">2</strong>
+              </div>
+            </div>
+
+            <div class="rule-callout" id="transformCallout">
+              <i data-lucide="info"></i>
+              <span id="transformCalloutText">Transformation is orientation-preserving: $\det(A) > 0$. Area is scaled by 1.80x.</span>
+            </div>
+          </div>
+
+          <div class="chart-panel">
+            <div class="canvas-wrapper">
+              <canvas id="transformCanvas" width="550" height="420"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 3: EIGENVALUES & EIGENVECTORS -->
+    <section id="eigen" class="tab-panel">
+      <div class="section-header">
+        <div class="badge" data-i18n="m3_badge">Module 3</div>
+        <h2 data-i18n="m3_title">Eigenvalues, Eigenvectors & Diagonalization</h2>
+        <p data-i18n="m3_subtitle">Discover vectors that do not change direction during transformation ($A\mathbf{v} = \lambda \mathbf{v}$) and explore spectral decomposition.</p>
+      </div>
+
+      <!-- Theory Cards Grid -->
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-header">
+            <i data-lucide="compass" class="card-icon"></i>
+            <h3 data-i18n="t_eigen_title">Eigenvalues & Eigenvectors</h3>
+          </div>
+          <ul class="concept-list">
+            <li>
+              <strong data-i18n="t_eigen_name">Eigenvalue & Eigenvector (特征值与特征向量):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ˈaɪɡənˌvæljuː/</span> <span class="ipa-tag">/ˈaɪɡənˌvektər/</span><button class="audio-btn" onclick="speakTerm('Eigenvalue and Eigenvector')"><i data-lucide="volume-2"></i></button></span>
+              <span data-i18n="t_eigen_desc">A non-zero vector $\mathbf{v}$ is an eigenvector if $A\mathbf{v}$ is a scalar multiple of $\mathbf{v}$.</span>
+              <div class="math-expr">$$A\mathbf{v} = \lambda \mathbf{v} \iff (A - \lambda I)\mathbf{v} = \mathbf{0}$$</div>
+            </li>
+            <li>
+              <strong data-i18n="t_char_eq_name">Characteristic Equation (特征方程):</strong>
+              <span>$\det(A - \lambda I) = 0 \implies \lambda^2 - \text{tr}(A)\lambda + \det(A) = 0$.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <i data-lucide="layers" class="card-icon"></i>
+            <h3 data-i18n="t_diag_title">Diagonalization & Spectral Theorem</h3>
+          </div>
+          <ul class="concept-list">
+            <li>
+              <strong data-i18n="t_diag_name">Diagonalization (对角化):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/daɪˈæɡənəlaɪˌzeɪʃn/</span><button class="audio-btn" onclick="speakTerm('Diagonalization')"><i data-lucide="volume-2"></i></button></span>
+              <span data-i18n="t_diag_desc">Factoring matrix $A$ into eigenvector basis $P$ and diagonal matrix $D$: $A = PDP^{-1}$.</span>
+              <div class="math-expr">$$A = P D P^{-1}, \quad A^n = P D^n P^{-1}$$</div>
+            </li>
+            <li>
+              <strong data-i18n="t_spectral_name">Spectral Theorem (谱定理):</strong>
+              <span>Every real symmetric matrix ($A = A^T$) can be orthogonally diagonalized ($A = Q D Q^T$) with real eigenvalues.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <i data-lucide="cpu" class="card-icon"></i>
+            <h3 data-i18n="t_mult_pca_title">Multiplicity & PCA Connection</h3>
+          </div>
+          <ul class="concept-list">
+            <li>
+              <strong data-i18n="t_mult_name">Algebraic vs Geometric Multiplicity:</strong>
+              <span data-i18n="t_mult_desc">Algebraic is root multiplicity in characteristic eq; Geometric is dimension of eigenspace $\text{Null}(A-\lambda I)$.</span>
+            </li>
+            <li>
+              <strong data-i18n="t_pca_name">PCA & Covariance Matrix (主成分分析):</strong>
+              <span data-i18n="t_pca_desc">Principal components are eigenvectors of covariance matrix $C = \frac{1}{n} X^T X$, pointing in directions of max variance.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Interactive Eigen Probe Canvas Simulator Widget -->
+      <div class="interactive-widget">
+        <div class="widget-header">
+          <div>
+            <h3 data-i18n="sim_eigen_title">Eigenvector & Eigenvalue Interactive Probe</h3>
+            <p data-i18n="sim_eigen_desc">Rotate probe vector $\mathbf{x}$ using slider or trigger Auto-Sweep. When $\mathbf{x}$ and $A\mathbf{x}$ align along the exact same line, you found an Eigenvector!</p>
+          </div>
+          <div class="widget-badge" id="eigenStatusBadge">Scanning Probe Angle...</div>
+        </div>
+
+        <div class="widget-body">
+          <div class="controls-panel">
+            <div class="matrix-input-grid">
+              <label class="control-label">Symmetric Matrix $A = \begin{bmatrix} a & b \\ b & c \end{bmatrix}$:</label>
+              <div class="matrix-box symmetric">
+                <input type="number" id="eigA" value="2.0" step="0.1" title="Element a">
+                <input type="number" id="eigB" value="1.0" step="0.1" title="Element b (Symmetric)">
+                <input type="number" id="eigB2" value="1.0" step="0.1" disabled class="symmetric-linked" title="Linked b (Symmetric)">
+                <input type="number" id="eigC" value="3.0" step="0.1" title="Element c">
+              </div>
+            </div>
+
+            <div class="control-group probe-group">
+              <label for="probeAngleSlider" class="control-label"><span class="color-dot pink"></span><strong data-i18n="lbl_probe_angle">Probe Vector Angle ($\theta$):</strong></label>
+              <div class="slider-wrapper">
+                <input type="range" id="probeAngleSlider" min="0" max="360" step="1" value="32">
+                <span class="value-badge pink" id="probeAngleVal">32°</span>
+              </div>
+            </div>
+
+            <div class="stats-summary-box">
+              <div class="stat-indicator mean-ind">
+                <span class="ind-dot" style="background:#ec4899;"></span>
+                <span>Eigenvalue $\lambda_1 =$:</span>
+                <strong id="eigenVal1">3.62</strong>
+              </div>
+              <div class="stat-indicator median-ind">
+                <span class="ind-dot" style="background:#8b5cf6;"></span>
+                <span>Eigenvalue $\lambda_2 =$:</span>
+                <strong id="eigenVal2">1.38</strong>
+              </div>
+              <div class="stat-indicator mode-ind">
+                <span class="ind-dot" style="background:#10b981;"></span>
+                <span>Collinearity Angle Error:</span>
+                <strong id="collinearError">14.2°</strong>
+              </div>
+            </div>
+
+            <div class="rule-callout" id="eigenRuleCallout">
+              <i data-lucide="info"></i>
+              <span id="eigenRuleText">Probe $\mathbf{x}$ is not aligned with $A\mathbf{x}$. Keep rotating to align!</span>
+            </div>
+
+            <div class="btn-grid">
+              <button id="autoFindEigenBtn" class="btn btn-primary">
+                <i data-lucide="target"></i>
+                <span data-i18n="btn_snap_eigen">Snap Eigenvector</span>
+              </button>
+              <button id="autoSweepEigenBtn" class="btn btn-secondary">
+                <i data-lucide="play" id="sweepIcon"></i>
+                <span id="sweepBtnLabel" data-i18n="btn_auto_sweep">Auto 360° Sweep</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="chart-panel">
+            <div class="canvas-wrapper">
+              <canvas id="eigenCanvas" width="550" height="420"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 4: ORTHOGONALITY, PROJECTION & SVD -->
+    <section id="orthogonality" class="tab-panel">
+      <div class="section-header">
+        <div class="badge" data-i18n="m4_badge">Module 4</div>
+        <h2 data-i18n="m4_title">Orthogonality, Projection, Gram-Schmidt & SVD</h2>
+        <p data-i18n="m4_subtitle">Master dot products, orthogonal projections, least squares approximations, and Singular Value Decomposition.</p>
+      </div>
+
+      <!-- Theory Cards Grid -->
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-header">
+            <i data-lucide="divide" class="card-icon"></i>
+            <h3 data-i18n="t_proj_title">Dot Product & Projection</h3>
+          </div>
+          <ul class="concept-list">
+            <li>
+              <strong data-i18n="t_dot_name">Dot Product & Orthogonality (点积与正交性):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ɔːrˌθɒɡəˈnæləti/</span><button class="audio-btn" onclick="speakTerm('Orthogonality')"><i data-lucide="volume-2"></i></button></span>
+              <span data-i18n="t_dot_desc">Vectors $\mathbf{u}, \mathbf{v}$ are orthogonal ($\mathbf{u} \perp \mathbf{v}$) iff $\mathbf{u} \cdot \mathbf{v} = 0$.</span>
+              <div class="math-expr">$$\mathbf{u} \cdot \mathbf{v} = \|\mathbf{u}\| \|\mathbf{v}\| \cos\theta$$</div>
+            </li>
+            <li>
+              <strong data-i18n="t_proj_name">Orthogonal Projection (正交投影):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/prəˈdʒekʃn/</span><button class="audio-btn" onclick="speakTerm('Orthogonal Projection')"><i data-lucide="volume-2"></i></button></span>
+              <span data-i18n="t_proj_desc">The shadow of vector $\mathbf{v}$ onto line spanned by $\mathbf{u}$.</span>
+              <div class="math-expr">$$\text{proj}_{\mathbf{u}}\mathbf{v} = \frac{\mathbf{v} \cdot \mathbf{u}}{\|\mathbf{u}\|^2} \mathbf{u}$$</div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <i data-lucide="sparkles" class="card-icon"></i>
+            <h3 data-i18n="t_svd_title">Gram-Schmidt, QR & SVD</h3>
+          </div>
+          <ul class="concept-list">
+            <li>
+              <strong data-i18n="t_gs_name">Gram-Schmidt & QR (正交化与 QR 分解):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ɡræm ʃmɪt/</span><button class="audio-btn" onclick="speakTerm('Gram-Schmidt')"><i data-lucide="volume-2"></i></button></span>
+              <span data-i18n="t_gs_desc">Converting vectors into orthonormal basis $Q$. Matrix form: $A = QR$.</span>
+            </li>
+            <li>
+              <strong data-i18n="t_svd_name">Singular Value Decomposition (SVD 奇异值分解):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ˈsɪŋɡjələr ˈvæljuː/</span><button class="audio-btn" onclick="speakTerm('Singular Value Decomposition')"><i data-lucide="volume-2"></i></button></span>
+              <span data-i18n="t_svd_desc">Factoring any matrix $A = U \Sigma V^T$ into Rotation ($V^T$) $\to$ Scaling ($\Sigma$) $\to$ Rotation ($U$).</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <i data-lucide="trending-up" class="card-icon"></i>
+            <h3 data-i18n="t_least_squares_title">Least Squares & Pseudo-Inverse</h3>
+          </div>
+          <ul class="concept-list">
+            <li>
+              <strong data-i18n="t_ls_name">Least Squares Approximation (最小二乘法):</strong>
+              <span data-i18n="t_ls_desc">Solving inconsistent $A\mathbf{x} = \mathbf{b}$ by projecting $\mathbf{b}$ onto $\text{Col}(A)$:</span>
+              <div class="math-expr">$$A^T A \hat{\mathbf{x}} = A^T \mathbf{b} \implies \hat{\mathbf{x}} = (A^T A)^{-1} A^T \mathbf{b}$$</div>
+            </li>
+            <li>
+              <strong data-i18n="t_pinv_name">Moore-Penrose Pseudo-Inverse (伪逆):</strong>
+              <span data-i18n="t_pinv_desc">$A^+ = V \Sigma^+ U^T$, generalizes inverse to non-square matrices.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Simulator 1: Interactive Projection & Gram-Schmidt Canvas -->
+      <div class="interactive-widget">
+        <div class="widget-header">
+          <div>
+            <h3 data-i18n="sim_proj_title">1. Vector Projection & Orthogonal Decomposition</h3>
+            <p data-i18n="sim_proj_desc">Drag vector endpoints to observe orthogonal projection $\text{proj}_{\mathbf{u}}\mathbf{v}$ and orthogonal complement component $\mathbf{v}^{\perp}$.</p>
+          </div>
+          <div class="widget-badge" id="projBadge">Decomposition: v = proj + v^⊥</div>
+        </div>
+
+        <div class="widget-body">
+          <div class="controls-panel">
+            <div class="control-group vec-u-group">
+              <label class="control-label"><span class="color-dot blue"></span><strong>Base Vector u:</strong> ($u_x, u_y$)</label>
+              <div class="slider-pair">
+                <span>$u_x$:</span>
+                <input type="range" id="puxSlider" min="-4" max="4" step="0.1" value="3">
+                <span id="puxVal" class="value-badge blue">3.0</span>
+              </div>
+              <div class="slider-pair">
+                <span>$u_y$:</span>
+                <input type="range" id="puySlider" min="-4" max="4" step="0.1" value="0">
+                <span id="puyVal" class="value-badge blue">0.0</span>
+              </div>
+            </div>
+
+            <div class="control-group vec-v-group">
+              <label class="control-label"><span class="color-dot amber"></span><strong>Target Vector v:</strong> ($v_x, v_y$)</label>
+              <div class="slider-pair">
+                <span>$v_x$:</span>
+                <input type="range" id="pvxSlider" min="-4" max="4" step="0.1" value="2">
+                <span id="pvxVal" class="value-badge amber">2.0</span>
+              </div>
+              <div class="slider-pair">
+                <span>$v_y$:</span>
+                <input type="range" id="pvySlider" min="-4" max="4" step="0.1" value="3">
+                <span id="pvyVal" class="value-badge amber">3.0</span>
+              </div>
+            </div>
+
+            <div class="stats-summary-box">
+              <div class="stat-indicator mean-ind">
+                <span class="ind-dot" style="background:#10b981;"></span>
+                <span>$\text{proj}_{\mathbf{u}}\mathbf{v} =$:</span>
+                <strong id="projVecVal">[2.00, 0.00]</strong>
+              </div>
+              <div class="stat-indicator median-ind">
+                <span class="ind-dot" style="background:#f43f5e;"></span>
+                <span>$\mathbf{v}^{\perp} = \mathbf{v} - \text{proj} =$:</span>
+                <strong id="orthoCompVal">[0.00, 3.00]</strong>
+              </div>
+              <div class="stat-indicator mode-ind">
+                <span class="ind-dot" style="background:#3b82f6;"></span>
+                <span>Dot Product $\mathbf{u} \cdot \mathbf{v} =$:</span>
+                <strong id="dotProductVal">6.00</strong>
+              </div>
+            </div>
+
+            <div class="rule-callout" id="projCallout">
+              <i data-lucide="info"></i>
+              <span id="projCalloutText">Orthogonality Check: $(\text{proj}_{\mathbf{u}}\mathbf{v}) \cdot \mathbf{v}^{\perp} = 0.00$ (Perfect Right Angle!).</span>
+            </div>
+          </div>
+
+          <div class="chart-panel">
+            <div class="canvas-wrapper">
+              <canvas id="projCanvas" width="550" height="420" class="interactive-canvas"></canvas>
+              <div class="canvas-hint" data-i18n="canvas_drag_hint">💡 Drag vector tips on canvas</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Simulator 2: 2D SVD Decomposition Explorer (Second Canvas) -->
+      <div class="interactive-widget">
+        <div class="widget-header">
+          <div>
+            <h3 data-i18n="sim_svd_title">2. Singular Value Decomposition (SVD) Geometric Visualizer</h3>
+            <p data-i18n="sim_svd_desc">Observe how matrix $A = U \Sigma V^T$ transforms the unit circle step-by-step: Rotate by $V^T$, Stretch by Singular Values $\sigma_1, \sigma_2$, and Rotate by $U$.</p>
+          </div>
+          <div class="widget-badge" id="svdStatusBadge">SVD: A = U Σ Vᵀ</div>
+        </div>
+
+        <div class="widget-body">
+          <div class="controls-panel">
+            <div class="matrix-input-grid">
+              <label class="control-label">Matrix $A = \begin{bmatrix} a & b \\ c & d \end{bmatrix}$:</label>
+              <div class="matrix-box">
+                <input type="number" id="svdA" value="1.8" step="0.1">
+                <input type="number" id="svdB" value="0.6" step="0.1">
+                <input type="number" id="svdC" value="0.4" step="0.1">
+                <input type="number" id="svdD" value="1.2" step="0.1">
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label data-i18n="lbl_svd_step" class="control-label">Decomposition Step View:</label>
+              <div class="btn-grid">
+                <button class="btn btn-preset active" id="svdStepFull" onclick="setSVDStep('full')">Full $A$</button>
+                <button class="btn btn-preset" id="svdStepV" onclick="setSVDStep('v')">1. $V^T$ (Rotate)</button>
+                <button class="btn btn-preset" id="svdStepSigma" onclick="setSVDStep('sigma')">2. $\Sigma$ (Scale)</button>
+                <button class="btn btn-preset" id="svdStepU" onclick="setSVDStep('u')">3. $U$ (Rotate)</button>
+              </div>
+            </div>
+
+            <div class="stats-summary-box">
+              <div class="stat-indicator mean-ind">
+                <span class="ind-dot" style="background:#06b6d4;"></span>
+                <span>Singular Value $\sigma_1 =$:</span>
+                <strong id="svdSigma1">2.04</strong>
+              </div>
+              <div class="stat-indicator median-ind">
+                <span class="ind-dot" style="background:#ec4899;"></span>
+                <span>Singular Value $\sigma_2 =$:</span>
+                <strong id="svdSigma2">0.94</strong>
+              </div>
+              <div class="stat-indicator mode-ind">
+                <span class="ind-dot" style="background:#10b981;"></span>
+                <span>Condition Num $\kappa(A) = \sigma_1/\sigma_2$:</span>
+                <strong id="svdCondNum">2.17</strong>
+              </div>
+            </div>
+
+            <div class="rule-callout" id="svdCallout">
+              <i data-lucide="info"></i>
+              <span id="svdCalloutText">Right singular vectors $v_1, v_2$ map to orthogonal principal axes of output ellipse $\sigma_1 u_1, \sigma_2 u_2$.</span>
+            </div>
+          </div>
+
+          <div class="chart-panel">
+            <div class="canvas-wrapper">
+              <canvas id="svdCanvas" width="550" height="420"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 5: QUIZ & INTERVIEW CHEATSHEET -->
+    <section id="quiz" class="tab-panel">
+      <div class="section-header">
+        <div class="badge" data-i18n="m5_badge">Module 5</div>
+        <h2 data-i18n="m5_title">Linear Algebra Quiz & Interview Cheatsheet</h2>
+        <p data-i18n="m5_subtitle">Test your linear algebra knowledge with 15 interview-style questions or review key formulas, SVD intuitions, and traps.</p>
+      </div>
+
+      <!-- Sub-tabs for Module 5 -->
+      <div class="sub-tab-bar">
+        <button class="sub-tab-btn active" data-subtab="quiz-sec">
+          <i data-lucide="check-circle-2"></i>
+          <span data-i18n="sub_quiz">15-Question Quiz</span>
+        </button>
+        <button class="sub-tab-btn" data-subtab="cheatsheet-sec">
+          <i data-lucide="book-open"></i>
+          <span data-i18n="sub_cheatsheet">Interview Formula Cheatsheet</span>
+        </button>
+      </div>
+
+      <!-- Quiz Subtab Content -->
+      <div id="quiz-sec" class="subtab-content active">
+        <div class="quiz-container">
+          <div class="quiz-progress-bar">
+            <div class="progress-fill" id="quizProgressBar" style="width: 6.66%;"></div>
+          </div>
+
+          <div class="quiz-card" id="quizCard">
+            <div class="quiz-header">
+              <div>
+                <span class="question-number" id="questionNum">Question 1 of 15</span>
+                <span class="quiz-cat-badge" id="questionCategory">Vectors & Span</span>
+              </div>
+              <span class="quiz-score-badge" id="liveScoreBadge">Score: 0 / 100</span>
+            </div>
+
+            <h3 class="question-text" id="questionText">Loading question...</h3>
+
+            <div class="options-grid" id="optionsGrid">
+              <!-- Options populated dynamically by app.js -->
+            </div>
+
+            <div class="explanation-box hidden" id="explanationBox">
+              <div class="exp-header">
+                <i data-lucide="info"></i>
+                <strong id="expTitle">Interview Explanation</strong>
+              </div>
+              <p id="expText">Detailed explanation text...</p>
+            </div>
+
+            <div class="quiz-footer">
+              <button id="prevQuestionBtn" class="btn btn-secondary" disabled>
+                <i data-lucide="arrow-left"></i>
+                <span data-i18n="btn_prev">Previous</span>
+              </button>
+              <button id="nextQuestionBtn" class="btn btn-primary" disabled>
+                <span data-i18n="btn_next">Next Question</span>
+                <i data-lucide="arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quiz Completion Overlay -->
+          <div class="quiz-results-card hidden" id="quizResultsCard">
+            <i data-lucide="award" class="result-icon"></i>
+            <h2 data-i18n="quiz_complete_title">Quiz Complete!</h2>
+            <p class="final-score-text"><span data-i18n="lbl_your_score">Your Final Score:</span> <strong id="finalScoreVal">90 / 100</strong></p>
+            
+            <div class="score-breakdown-box" id="scoreBreakdownBox">
+              <!-- Module Breakdown rendered dynamically -->
+            </div>
+
+            <button id="retakeQuizBtn" class="btn btn-primary">
+              <i data-lucide="rotate-ccw"></i>
+              <span data-i18n="btn_retake_quiz">Retake Quiz</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cheatsheet Subtab Content -->
+      <div id="cheatsheet-sec" class="subtab-content">
+        <div class="cheatsheet-grid">
+          
+          <div class="cheat-card">
+            <h3><i data-lucide="box"></i> Matrix Operations & Properties</h3>
+            <div class="cheat-item">
+              <strong>Determinant Properties:</strong>
+              <p>$$\det(AB) = \det(A)\det(B), \quad \det(A^T) = \det(A), \quad \det(cA) = c^n \det(A)$$</p>
+            </div>
+            <div class="cheat-item">
+              <strong>Trace Properties:</strong>
+              <p>$$\text{tr}(AB) = \text{tr}(BA), \quad \text{tr}(A) = \sum_{i=1}^n \lambda_i$$</p>
+            </div>
+            <div class="cheat-item">
+              <strong>Rank-Nullity Theorem (秩-零化度定理):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ræŋk ˈnʌləti/</span><button class="audio-btn" onclick="speakTerm('Rank Nullity Theorem')"><i data-lucide="volume-2"></i></button></span>
+              <p>$$\text{Rank}(A) + \text{Nullity}(A) = n \quad (\text{for } m \times n \text{ matrix } A)$$</p>
+            </div>
+          </div>
+
+          <div class="cheat-card">
+            <h3><i data-lucide="layers"></i> Four Fundamental Subspaces</h3>
+            <div class="cheat-item">
+              <strong>Strang's Fundamental Subspaces Theorem:</strong>
+              <ul>
+                <li>1. <strong>Column Space $\text{Col}(A)$:</strong> Dim = $r$, subspace of $\mathbb{R}^m$.</li>
+                <li>2. <strong>Nullspace $\text{Null}(A)$:</strong> Dim = $n-r$, subspace of $\mathbb{R}^n$. $\text{Null}(A) \perp \text{Row}(A)$.</li>
+                <li>3. <strong>Row Space $\text{Row}(A) = \text{Col}(A^T)$:</strong> Dim = $r$, subspace of $\mathbb{R}^n$.</li>
+                <li>4. <strong>Left Nullspace $\text{Null}(A^T)$:</strong> Dim = $m-r$, subspace of $\mathbb{R}^m$. $\text{Null}(A^T) \perp \text{Col}(A)$.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="cheat-card">
+            <h3><i data-lucide="check-circle-2"></i> Positive Definite Matrix (正定矩阵)</h3>
+            <div class="cheat-item">
+              <strong class="ipa-wrapper">Positive Definite <span class="ipa-tag">/ˈpɒzətɪv ˈdefɪnət/</span><button class="audio-btn" onclick="speakTerm('Positive Definite Matrix')"><i data-lucide="volume-2"></i></button></strong>
+              <p>A real symmetric matrix $A$ is Positive Definite ($A \succ 0$) iff any of the equivalent conditions hold:</p>
+              <ul>
+                <li>1. $\mathbf{x}^T A \mathbf{x} > 0$ for all non-zero vectors $\mathbf{x} \neq \mathbf{0}$.</li>
+                <li>2. All eigenvalues $\lambda_i > 0$ are strictly positive.</li>
+                <li>3. All principal leading minors are strictly positive ($\det(A_k) > 0$).</li>
+                <li>4. Cholesky Factorization exists: $A = L L^T$.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="cheat-card">
+            <h3><i data-lucide="sparkles"></i> Singular Value Decomposition (SVD)</h3>
+            <div class="cheat-item">
+              <strong class="ipa-wrapper">SVD Decomposition <span class="ipa-tag">/ˈsɪŋɡjələr ˈvæljuː/</span><button class="audio-btn" onclick="speakTerm('Singular Value Decomposition')"><i data-lucide="volume-2"></i></button></strong>
+              <p>For any $m \times n$ matrix $A$:</p>
+              <p>$$A = U \Sigma V^T$$</p>
+              <ul>
+                <li>$U$: $m \times m$ orthogonal matrix of left singular vectors (eigenvectors of $A A^T$).</li>
+                <li>$\Sigma$: $m \times n$ diagonal matrix of singular values $\sigma_i = \sqrt{\lambda_i(A^T A)}$.</li>
+                <li>$V$: $n \times n$ orthogonal matrix of right singular vectors (eigenvectors of $A^T A$).</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="cheat-card">
+            <h3><i data-lucide="trending-up"></i> Least Squares & PCA Applications</h3>
+            <div class="cheat-item">
+              <strong>Normal Equations (正规方程):</strong>
+              <p>$$A^T A \hat{\mathbf{x}} = A^T \mathbf{b}$$</p>
+              <p>Projection matrix onto $\text{Col}(A)$: $P = A(A^T A)^{-1}A^T$.</p>
+            </div>
+            <div class="cheat-item">
+              <strong>PCA (Principal Component Analysis):</strong>
+              <p>Sample covariance $C = \frac{1}{n} X^T X$. Diagonalized via SVD on centered data matrix $X = U \Sigma V^T$. Right singular vectors $V$ are principal directions!</p>
+            </div>
+          </div>
+
+          <div class="cheat-card">
+            <h3><i data-lucide="alert-triangle"></i> Common Linear Algebra Interview Pitfalls</h3>
+            <div class="cheat-item">
+              <strong>Pitfall 1: Matrix Multiplication is Non-Commutative!</strong>
+              <p>$AB \neq BA$ in general. $(AB)^T = B^T A^T$ and $(AB)^{-1} = B^{-1} A^{-1}$.</p>
+            </div>
+            <div class="cheat-item">
+              <strong>Pitfall 2: Eigenvalue vs. Singular Value difference?</strong>
+              <p>Eigenvalues require square matrices and can be complex numbers or negative. Singular values are always non-negative real numbers $\sigma_i \ge 0$ defined for ANY rectangular matrix!</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <p data-i18n="footer_text">LinAlgLab Interactive — High-performance 2D Canvas Linear Algebra Learning & Interview Hub.</p>
+    </div>
+  </footer>
+
+  <!-- Floating Watermark Badge -->
+  <div class="floating-watermark-badge" title="Created by xiaomeng.lv">
+    <span class="badge-pulse"></span>
+    <span class="badge-text">xiaomeng.lv</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+  <script>
+    // Initialize Lucide icons on load
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>

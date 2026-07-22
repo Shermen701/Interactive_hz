@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Application & Technical Learning Hub</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-primary: #0a0d14;
+      --bg-card: rgba(18, 24, 38, 0.75);
+      --bg-card-hover: rgba(28, 37, 58, 0.85);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent-linear: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      --accent-stat: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+      --shadow-glow: 0 10px 30px -10px rgba(99, 102, 241, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(16, 185, 129, 0.12) 0%, transparent 40%);
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #818cf8;
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 1.25rem;
+    }
+
+    h1 {
+      font-size: 2.75rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 1rem;
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.subtitle {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      border-radius: 1.25rem;
+      padding: 2rem;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .card-linear::before {
+      background: var(--accent-linear);
+    }
+
+    .card-stat::before {
+      background: var(--accent-stat);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+      background: var(--bg-card-hover);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .icon-wrapper {
+      width: 52px;
+      height: 52px;
+      border-radius: 0.875rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .card-linear .icon-wrapper {
+      background: var(--accent-linear);
+      box-shadow: 0 8px 16px -4px rgba(99, 102, 241, 0.4);
+    }
+
+    .card-stat .icon-wrapper {
+      background: var(--accent-stat);
+      box-shadow: 0 8px 16px -4px rgba(16, 185, 129, 0.4);
+    }
+
+    .arrow-icon {
+      color: var(--text-muted);
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .card:hover .arrow-icon {
+      transform: translateX(4px);
+      color: white;
+    }
+
+    .card-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: #ffffff;
+    }
+
+    .card-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      flex-grow: 1;
+      margin-bottom: 1.75rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.25rem 0.65rem;
+      border-radius: 0.375rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #d1d5db;
+    }
+
+    footer {
+      margin-top: 4rem;
+      text-align: center;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: #818cf8;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge">
+        <i data-lucide="sparkles" size="16"></i>
+        <span>Interactive Learning Hub</span>
+      </div>
+      <h1>Master Application & Interview Hub</h1>
+      <p class="subtitle">探索线性代数与概率统计的交互式可视化学习工具、核心公式及面试精要</p>
+    </header>
+
+    <div class="grid">
+      <!-- Card 1: Linear Algebra -->
+      <a href="./linear-algebra/index.html" class="card card-linear">
+        <div class="card-header">
+          <div class="icon-wrapper">
+            <i data-lucide="grid" size="26"></i>
+          </div>
+          <i data-lucide="arrow-right" class="arrow-icon" size="22"></i>
+        </div>
+        <h2 class="card-title">线性代数交互中心</h2>
+        <p class="card-desc">包含矩阵变换、特征值/特征向量可视化、IPA发音指南及高频面试题考点精解。</p>
+        <div class="tags">
+          <span class="tag">Linear Algebra</span>
+          <span class="tag">Matrix</span>
+          <span class="tag">Eigenvalues</span>
+          <span class="tag">Interview</span>
+        </div>
+      </a>
+
+      <!-- Card 2: Statistic Analysis -->
+      <a href="./statistical-analysis/index.html" class="card card-stat">
+        <div class="card-header">
+          <div class="icon-wrapper">
+            <i data-lucide="bar-chart-3" size="26"></i>
+          </div>
+          <i data-lucide="arrow-right" class="arrow-icon" size="22"></i>
+        </div>
+        <h2 class="card-title">概率与统计交互中心</h2>
+        <p class="card-desc">包含概率分布动态模拟、贝叶斯推断、假设检验可视化及核心公式深度剖析。</p>
+        <div class="tags">
+          <span class="tag">Probability</span>
+          <span class="tag">Statistics</span>
+          <span class="tag">Chart.js</span>
+          <span class="tag">Interview</span>
+        </div>
+      </a>
+    </div>
+
+    <footer>
+      <p>&copy; 2026 Interactive Learning Hub. Generated & Deployed with GitHub Pages.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>
