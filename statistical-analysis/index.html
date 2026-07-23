@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Probability & Statistics Interactive Learning Hub | 概率与统计交互学习中心</title>
-  
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
+    rel="stylesheet">
+
   <!-- KaTeX for math formulas -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
-  
+
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -24,6 +27,7 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body class="light-mode show-ipa">
   <!-- Top Navigation Header -->
   <header class="navbar">
@@ -39,10 +43,12 @@
       </div>
 
       <div class="nav-track">
-        <button id="navScrollPrev" class="nav-scroll-btn" type="button" aria-label="Show previous modules" title="Show previous modules" disabled>
+        <button id="navScrollPrev" class="nav-scroll-btn" type="button" aria-label="Show previous modules"
+          title="Show previous modules" data-i18n-title="aria_nav_prev" data-i18n-aria-label="aria_nav_prev" disabled>
           <i data-lucide="chevron-left"></i>
         </button>
-        <div id="navViewport" class="nav-viewport" aria-label="Learning modules">
+        <div id="navViewport" class="nav-viewport" aria-label="Learning modules"
+          data-i18n-aria-label="aria_nav_viewport">
           <nav class="nav-menu">
             <button class="nav-link active" data-tab="descriptive">
               <i data-lucide="calculator"></i>
@@ -70,7 +76,8 @@
             </button>
           </nav>
         </div>
-        <button id="navScrollNext" class="nav-scroll-btn" type="button" aria-label="Show next modules" title="Show next modules">
+        <button id="navScrollNext" class="nav-scroll-btn" type="button" aria-label="Show next modules"
+          title="Show next modules" data-i18n-title="aria_nav_next" data-i18n-aria-label="aria_nav_next">
           <i data-lucide="chevron-right"></i>
         </button>
       </div>
@@ -80,7 +87,8 @@
           <i data-lucide="moon" id="themeIcon"></i>
           <span id="themeLabel">Dark</span>
         </button>
-        <button id="phoneticToggleBtn" class="phonetic-btn active" title="Toggle English Phonetic IPA & Audio">
+        <button id="phoneticToggleBtn" class="phonetic-btn active" title="Toggle English Phonetic IPA & Audio"
+          data-i18n-title="title_ipa">
           <i data-lucide="volume-2"></i>
           <span id="phoneticLabel">IPA 音标: ON</span>
         </button>
@@ -96,8 +104,9 @@
   <section class="hero-banner">
     <div class="hero-content">
       <div class="hero-text-block">
-        <h1 data-i18n="hero_title">Master Probability & Statistics Interactively</h1>
-        <p data-i18n="hero_desc">Explore CLT, Law of Large Numbers, Skewness, Normal vs Lognormal, and Hypothesis Testing (z, t, Chi-Square, F) with real-time visual simulations, bilingual explanations, and IPA interview audio aids.</p>
+        <h1 data-i18n="hero_title">Understand Statistics Through Data, Change, and Inference</h1>
+        <p data-i18n="hero_desc">Explore CLT, Law of Large Numbers, Skewness, Normal vs Lognormal, and Hypothesis
+          Testing (z, t, Chi-Square, F) with real-time visual simulations, bilingual explanations, and IPA.</p>
       </div>
       <div class="hero-stats">
         <div class="stat-card">
@@ -124,7 +133,8 @@
       <div class="section-header">
         <div class="badge" data-i18n="m1_badge">Module 1</div>
         <h2 data-i18n="m1_title">Mean, Median, Mode, Standard Deviation & Skewness</h2>
-        <p data-i18n="m1_subtitle">Understand how measures of central tendency behave under different distribution shapes and extreme outliers.</p>
+        <p data-i18n="m1_subtitle">Understand how measures of central tendency behave under different distribution
+          shapes and extreme outliers.</p>
       </div>
 
       <!-- Theory Cards Grid -->
@@ -137,18 +147,21 @@
           <ul class="concept-list">
             <li>
               <strong data-i18n="t_mean_name">Mean (均值):</strong>
-              <span class="ipa-wrapper"><span class="ipa-tag">/miːn/</span><button class="audio-btn" onclick="speakTerm('Mean')"><i data-lucide="volume-2"></i></button></span>
+              <span class="ipa-wrapper"><span class="ipa-tag">/miːn/</span><button class="audio-btn"
+                  onclick="speakTerm('Mean')"><i data-lucide="volume-2"></i></button></span>
               <span data-i18n="t_mean_desc">The arithmetic average. Highly sensitive to outliers.</span>
               <div class="math-expr">$$\bar{x} = \frac{1}{n}\sum_{i=1}^n x_i$$</div>
             </li>
             <li>
               <strong data-i18n="t_median_name">Median (中位数):</strong>
-              <span class="ipa-wrapper"><span class="ipa-tag">/ˈmiːdiən/</span><button class="audio-btn" onclick="speakTerm('Median')"><i data-lucide="volume-2"></i></button></span>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ˈmiːdiən/</span><button class="audio-btn"
+                  onclick="speakTerm('Median')"><i data-lucide="volume-2"></i></button></span>
               <span data-i18n="t_median_desc">The 50th percentile value. Robust to extreme outliers.</span>
             </li>
             <li>
               <strong data-i18n="t_mode_name">Mode (众数):</strong>
-              <span class="ipa-wrapper"><span class="ipa-tag">/moʊd/</span><button class="audio-btn" onclick="speakTerm('Mode')"><i data-lucide="volume-2"></i></button></span>
+              <span class="ipa-wrapper"><span class="ipa-tag">/moʊd/</span><button class="audio-btn"
+                  onclick="speakTerm('Mode')"><i data-lucide="volume-2"></i></button></span>
               <span data-i18n="t_mode_desc">The most frequently occurring value in the distribution dataset.</span>
             </li>
           </ul>
@@ -162,20 +175,24 @@
           <ul class="concept-list">
             <li>
               <strong data-i18n="t_sd_name">Standard Deviation (标准差):</strong>
-              <span class="ipa-wrapper"><span class="ipa-tag">/ˈstændərd ˌdiːviˈeɪʃn/</span><button class="audio-btn" onclick="speakTerm('Standard Deviation')"><i data-lucide="volume-2"></i></button></span>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ˈstændərd ˌdiːviˈeɪʃn/</span><button class="audio-btn"
+                  onclick="speakTerm('Standard Deviation')"><i data-lucide="volume-2"></i></button></span>
               <span data-i18n="t_sd_desc">Measures average distance of observations from the mean.</span>
               <div class="math-expr">$$s = \sqrt{\frac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})^2}$$</div>
             </li>
             <li>
               <strong data-i18n="t_skew_name">Skewness (偏度):</strong>
-              <span class="ipa-wrapper"><span class="ipa-tag">/ˈskjuːnəs/</span><button class="audio-btn" onclick="speakTerm('Skewness')"><i data-lucide="volume-2"></i></button></span>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ˈskjuːnəs/</span><button class="audio-btn"
+                  onclick="speakTerm('Skewness')"><i data-lucide="volume-2"></i></button></span>
               <span data-i18n="t_skew_desc">Measures asymmetry of probability distribution.</span>
               <div class="math-expr">$$\gamma_1 = \text{E}\left[\left(\frac{X-\mu}{\sigma}\right)^3\right]$$</div>
             </li>
             <li>
-              <strong>Kurtosis (峰度):</strong>
-              <span class="ipa-wrapper"><span class="ipa-tag">/kɜːrˈtoʊsɪs/</span><button class="audio-btn" onclick="speakTerm('Kurtosis')"><i data-lucide="volume-2"></i></button></span>
-              <span>Measures tail-heaviness and peak sharpness relative to normal distribution.</span>
+              <strong data-i18n="t_kurt_name">Kurtosis (峰度):</strong>
+              <span class="ipa-wrapper"><span class="ipa-tag">/kɜːrˈtoʊsɪs/</span><button class="audio-btn"
+                  onclick="speakTerm('Kurtosis')"><i data-lucide="volume-2"></i></button></span>
+              <span data-i18n="t_kurt_desc">Measures tail-heaviness and peak sharpness relative to normal
+                distribution.</span>
             </li>
           </ul>
         </div>
@@ -186,7 +203,8 @@
         <div class="widget-header">
           <div>
             <h3 data-i18n="sim_skew_title">Interactive Skewness & Central Tendency Simulator</h3>
-            <p data-i18n="sim_skew_desc">Drag the skewness slider to see how Mean, Median, and Mode shift relative to each other!</p>
+            <p data-i18n="sim_skew_desc">Drag the skewness slider to see how Mean, Median, and Mode shift relative to
+              each other!</p>
           </div>
           <div class="widget-badge" id="skewStatusBadge">Symmetric (正态/对称)</div>
         </div>
@@ -196,9 +214,9 @@
             <div class="control-group">
               <label for="skewnessSlider" data-i18n="ctrl_skewness">Distribution Skewness ($\gamma_1$):</label>
               <div class="slider-wrapper">
-                <span class="slider-val-tag">Left (-1.5)</span>
+                <span class="slider-val-tag" data-i18n="skew_left">Left (-1.5)</span>
                 <input type="range" id="skewnessSlider" min="-1.5" max="1.5" step="0.1" value="0">
-                <span class="slider-val-tag">Right (+1.5)</span>
+                <span class="slider-val-tag" data-i18n="skew_right">Right (+1.5)</span>
               </div>
               <span class="value-display" id="skewnessVal">0.0</span>
             </div>
@@ -250,7 +268,8 @@
       <div class="section-header">
         <div class="badge" data-i18n="m2_badge">Module 2</div>
         <h2 data-i18n="m2_title">Limit Theorems & Core Distributions</h2>
-        <p data-i18n="m2_subtitle">Explore Law of Large Numbers (LLN), Central Limit Theorem (CLT), and Normal vs. Lognormal transformations.</p>
+        <p data-i18n="m2_subtitle">Explore Law of Large Numbers (LLN), Central Limit Theorem (CLT), and Normal vs.
+          Lognormal transformations.</p>
       </div>
 
       <!-- Sub-tabs within Module 2 -->
@@ -274,202 +293,217 @@
         <div class="info-card">
           <h3>
             <span data-i18n="lln_header">Law of Large Numbers (LLN) 大数定律</span>
-            <span class="ipa-wrapper"><span class="ipa-tag">/lɔː əv lɑːrdʒ ˈnʌmbərz/</span><button class="audio-btn" onclick="speakTerm('Law of Large Numbers')"><i data-lucide="volume-2"></i></button></span>
+            <span class="ipa-wrapper"><span class="ipa-tag">/lɔː əv lɑːrdʒ ˈnʌmbərz/</span><button class="audio-btn"
+                onclick="speakTerm('Law of Large Numbers')"><i data-lucide="volume-2"></i></button></span>
           </h3>
-          <p data-i18n="lln_exp">As the sample size $n$ increases, the sample mean $\bar{X}_n$ converges towards the true population mean $\mu$ with probability 1 (Strong LLN).</p>
-          <div class="math-expr">$$\lim_{n \to \infty} P\left(|\bar{X}_n - \mu| < \epsilon\right) = 1$$</div>
-        </div>
-
-        <div class="interactive-widget">
-          <div class="widget-header">
-            <div>
-              <h3 data-i18n="lln_sim_title">LLN Sample Convergence Simulator</h3>
-              <p data-i18n="lln_sim_desc">Simulate tossing coins / rolling dice to see sample mean converge to theoretical expectation.</p>
-            </div>
-            <div class="controls-row">
-              <select id="llnExperimentType" class="select-input">
-                <option value="coin" data-i18n="opt_coin">Coin Toss (P=0.5)</option>
-                <option value="dice" data-i18n="opt_dice">Fair 6-Sided Die (E=3.5)</option>
-                <option value="skewed_coin" data-i18n="opt_skewed_coin">Biased Coin (P=0.7)</option>
-              </select>
-              <button id="runLlnBtn" class="btn btn-primary">
-                <i data-lucide="play"></i>
-                <span data-i18n="btn_run_sim">Run Simulation</span>
-              </button>
-            </div>
+          <p data-i18n="lln_exp">As the sample size $n$ increases, the sample mean $\bar{X}_n$ converges towards the
+            true population mean $\mu$ with probability 1 (Strong LLN).</p>
+          <div class="math-expr">$$\lim_{n \to \infty} P\left(|\bar{X}_n - \mu| < \epsilon\right)=1$$</div>
           </div>
 
-          <div class="widget-body">
-            <div class="controls-panel">
-              <div class="control-group">
-                <label for="llnTrialsInput" data-i18n="ctrl_trials">Number of Trials ($n$):</label>
-                <input type="range" id="llnTrialsInput" min="50" max="1000" step="50" value="300">
-                <span class="value-display" id="llnTrialsVal">300 Trials</span>
+          <div class="interactive-widget">
+            <div class="widget-header">
+              <div>
+                <h3 data-i18n="lln_sim_title">LLN Sample Convergence Simulator</h3>
+                <p data-i18n="lln_sim_desc">Simulate tossing coins / rolling dice to see sample mean converge to
+                  theoretical expectation.</p>
               </div>
-              <div class="stats-card">
-                <div class="stat-row">
-                  <span data-i18n="lbl_theoretical">Theoretical Mean ($\mu$):</span>
-                  <strong id="llnTheoreticalMean">0.500</strong>
-                </div>
-                <div class="stat-row">
-                  <span data-i18n="lbl_final_sample">Final Sample Mean ($\bar{x}_n$):</span>
-                  <strong id="llnFinalSampleMean">-</strong>
-                </div>
-                <div class="stat-row">
-                  <span data-i18n="lbl_abs_error">Absolute Error ($|\bar{x}_n - \mu|$):</span>
-                  <strong id="llnAbsError">-</strong>
-                </div>
-              </div>
-            </div>
-            <div class="chart-panel">
-              <div class="canvas-wrapper">
-                <canvas id="llnChart"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- CLT Subtab Content -->
-      <div id="clt-sec" class="subtab-content">
-        <div class="info-card">
-          <h3>
-            <span data-i18n="clt_header">Central Limit Theorem (CLT) 中心极限定理</span>
-            <span class="ipa-wrapper"><span class="ipa-tag">/ˈsɛntrəl ˈlɪmɪt ˈθɪərəm/</span><button class="audio-btn" onclick="speakTerm('Central Limit Theorem')"><i data-lucide="volume-2"></i></button></span>
-          </h3>
-          <p data-i18n="clt_exp">Regardless of the underlying population distribution shape (Uniform, Exponential, Bimodal), the distribution of sample means $\bar{X}$ approaches a Normal distribution with <strong>Asymptotic Normality</strong> <span class="ipa-wrapper"><span class="ipa-tag">/ˌæsɪmˈptɑːtɪk/</span><button class="audio-btn" onclick="speakTerm('Asymptotic')"><i data-lucide="volume-2"></i></button></span> as sample size $n \ge 30$.</p>
-          <div class="math-expr">$$\bar{X}_n \xrightarrow{d} \mathcal{N}\left(\mu, \frac{\sigma^2}{n}\right)$$</div>
-        </div>
-
-        <div class="interactive-widget">
-          <div class="widget-header">
-            <div>
-              <h3 data-i18n="clt_sim_title">CLT Interactive Sampling Laboratory</h3>
-              <p data-i18n="clt_sim_desc">Select a non-normal parent population, adjust sample size $n$, and watch the sampling distribution become Gaussian!</p>
-            </div>
-          </div>
-
-          <div class="widget-body">
-            <div class="controls-panel">
-              <div class="control-group">
-                <label data-i18n="ctrl_parent_dist">Parent Population Distribution:</label>
-                <select id="cltParentDist" class="select-input">
-                  <option value="uniform" data-i18n="opt_uniform">Uniform Distribution U(0, 1)</option>
-                  <option value="exponential" data-i18n="opt_exponential">Exponential Distribution Exp(1)</option>
-                  <option value="bimodal" data-i18n="opt_bimodal">Bimodal (Two Peaks)</option>
-                  <option value="skewed" data-i18n="opt_heavyskew">Heavy Right Skewed</option>
+              <div class="controls-row">
+                <select id="llnExperimentType" class="select-input">
+                  <option value="coin" data-i18n="opt_coin">Coin Toss (P=0.5)</option>
+                  <option value="dice" data-i18n="opt_dice">Fair 6-Sided Die (E=3.5)</option>
+                  <option value="skewed_coin" data-i18n="opt_skewed_coin">Biased Coin (P=0.7)</option>
                 </select>
-              </div>
-
-              <div class="control-group">
-                <label for="cltSampleSize" data-i18n="ctrl_sample_n">Sample Size ($n$ per sample):</label>
-                <input type="range" id="cltSampleSize" min="1" max="100" step="1" value="30">
-                <span class="value-display" id="cltSampleSizeVal">n = 30</span>
-              </div>
-
-              <div class="control-group">
-                <label for="cltNumSamples" data-i18n="ctrl_num_samples">Number of Resamples ($K$):</label>
-                <input type="range" id="cltNumSamples" min="100" max="2000" step="100" value="800">
-                <span class="value-display" id="cltNumSamplesVal">K = 800</span>
-              </div>
-
-              <button id="runCltBtn" class="btn btn-primary btn-full">
-                <i data-lucide="refresh-cw"></i>
-                <span data-i18n="btn_resample">Draw Samples & Plot</span>
-              </button>
-
-              <div class="stats-card">
-                <div class="stat-row">
-                  <span data-i18n="lbl_se">Std Error $SE = \frac{\sigma}{\sqrt{n}}$:</span>
-                  <strong id="cltSeVal">0.053</strong>
-                </div>
+                <button id="runLlnBtn" class="btn btn-primary">
+                  <i data-lucide="play"></i>
+                  <span data-i18n="btn_run_sim">Run Simulation</span>
+                </button>
               </div>
             </div>
 
-            <div class="dual-chart-panel">
-              <div class="sub-chart">
-                <h4 data-i18n="title_parent_chart">1. Parent Population Shape</h4>
-                <div class="canvas-wrapper">
-                  <canvas id="cltParentChart"></canvas>
+            <div class="widget-body">
+              <div class="controls-panel">
+                <div class="control-group">
+                  <label for="llnTrialsInput" data-i18n="ctrl_trials">Number of Trials ($n$):</label>
+                  <input type="range" id="llnTrialsInput" min="50" max="1000" step="50" value="300">
+                  <span class="value-display" id="llnTrialsVal">300 Trials</span>
+                </div>
+                <div class="stats-card">
+                  <div class="stat-row">
+                    <span data-i18n="lbl_theoretical">Theoretical Mean ($\mu$):</span>
+                    <strong id="llnTheoreticalMean">0.500</strong>
+                  </div>
+                  <div class="stat-row">
+                    <span data-i18n="lbl_final_sample">Final Sample Mean ($\bar{x}_n$):</span>
+                    <strong id="llnFinalSampleMean">-</strong>
+                  </div>
+                  <div class="stat-row">
+                    <span data-i18n="lbl_abs_error">Absolute Error ($|\bar{x}_n - \mu|$):</span>
+                    <strong id="llnAbsError">-</strong>
+                  </div>
                 </div>
               </div>
-              <div class="sub-chart">
-                <h4 data-i18n="title_sample_means_chart">2. Distribution of Sample Means ($\bar{X}$)</h4>
+              <div class="chart-panel">
                 <div class="canvas-wrapper">
-                  <canvas id="cltMeansChart"></canvas>
+                  <canvas id="llnChart"></canvas>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Normal vs Lognormal Subtab Content -->
-      <div id="lognormal-sec" class="subtab-content">
-        <div class="info-card">
-          <h3>
-            <span data-i18n="logn_header">Normal vs. Lognormal Distributions 正态与对数正态</span>
-            <span class="ipa-wrapper"><span class="ipa-tag">/ˈlɔːɡnɔːrməl/</span><button class="audio-btn" onclick="speakTerm('Lognormal')"><i data-lucide="volume-2"></i></button></span>
-          </h3>
-          <p data-i18n="logn_exp">If random variable $X \sim \mathcal{N}(\mu, \sigma^2)$, then $Y = e^X$ follows a Lognormal distribution. Lognormal variables are non-negative and right-skewed, common in financial stock prices, income distributions, and biological sizes.</p>
-          <div class="math-expr">$$X = \ln(Y) \sim \mathcal{N}(\mu, \sigma^2) \iff Y = e^X \sim \text{Lognormal}(\mu, \sigma^2)$$</div>
-        </div>
-
-        <div class="interactive-widget">
-          <div class="widget-header">
-            <div>
-              <h3 data-i18n="logn_sim_title">Normal & Lognormal Comparative Explorer</h3>
-              <p data-i18n="logn_sim_desc">Adjust $\mu$ and $\sigma$ to observe how exponential transformation stretches the right tail.</p>
-            </div>
+        <!-- CLT Subtab Content -->
+        <div id="clt-sec" class="subtab-content">
+          <div class="info-card">
+            <h3>
+              <span data-i18n="clt_header">Central Limit Theorem (CLT) 中心极限定理</span>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ˈsɛntrəl ˈlɪmɪt ˈθɪərəm/</span><button class="audio-btn"
+                  onclick="speakTerm('Central Limit Theorem')"><i data-lucide="volume-2"></i></button></span>
+            </h3>
+            <p><span data-i18n="clt_exp_lead">Regardless of the underlying population distribution shape (Uniform,
+                Exponential, Bimodal), the distribution of sample means $\bar{X}$ approaches a Normal distribution with
+              </span><strong data-i18n="clt_exp_term">Asymptotic Normality</strong> <span class="ipa-wrapper"><span
+                  class="ipa-tag">/ˌæsɪmˈptɑːtɪk/</span><button class="audio-btn" onclick="speakTerm('Asymptotic')"><i
+                    data-lucide="volume-2"></i></button></span><span data-i18n="clt_exp_tail"> as sample size $n \ge
+                30$.</span></p>
+            <div class="math-expr">$$\bar{X}_n \xrightarrow{d} \mathcal{N}\left(\mu, \frac{\sigma^2}{n}\right)$$</div>
           </div>
 
-          <div class="widget-body">
-            <div class="controls-panel">
-              <div class="control-group">
-                <label for="lognMu" data-i18n="ctrl_mu">Location Parameter $\mu$:</label>
-                <input type="range" id="lognMu" min="-1" max="2" step="0.1" value="0">
-                <span class="value-display" id="lognMuVal">0.0</span>
-              </div>
-
-              <div class="control-group">
-                <label for="lognSigma" data-i18n="ctrl_sigma">Scale Parameter $\sigma$:</label>
-                <input type="range" id="lognSigma" min="0.2" max="1.5" step="0.05" value="0.5">
-                <span class="value-display" id="lognSigmaVal">0.50</span>
-              </div>
-
-              <div class="stats-card">
-                <div class="stat-row">
-                  <span data-i18n="lbl_logn_mean">Lognormal Mean $E[Y] = e^{\mu + \sigma^2/2}$:</span>
-                  <strong id="lognMeanVal">1.13</strong>
-                </div>
-                <div class="stat-row">
-                  <span data-i18n="lbl_logn_median">Lognormal Median $= e^\mu$:</span>
-                  <strong id="lognMedianVal">1.00</strong>
-                </div>
-                <div class="stat-row">
-                  <span data-i18n="lbl_logn_mode">Lognormal Mode $= e^{\mu - \sigma^2}$:</span>
-                  <strong id="lognModeVal">0.78</strong>
-                </div>
+          <div class="interactive-widget">
+            <div class="widget-header">
+              <div>
+                <h3 data-i18n="clt_sim_title">CLT Interactive Sampling Laboratory</h3>
+                <p data-i18n="clt_sim_desc">Select a non-normal parent population, adjust sample size $n$, and watch the
+                  sampling distribution become Gaussian!</p>
               </div>
             </div>
 
-            <div class="dual-chart-panel">
-              <div class="sub-chart">
-                <h4 data-i18n="title_norm_curve">Normal Distribution $X \sim \mathcal{N}(\mu, \sigma^2)$</h4>
-                <div class="canvas-wrapper">
-                  <canvas id="normalChart"></canvas>
+            <div class="widget-body">
+              <div class="controls-panel">
+                <div class="control-group">
+                  <label data-i18n="ctrl_parent_dist">Parent Population Distribution:</label>
+                  <select id="cltParentDist" class="select-input">
+                    <option value="uniform" data-i18n="opt_uniform">Uniform Distribution U(0, 1)</option>
+                    <option value="exponential" data-i18n="opt_exponential">Exponential Distribution Exp(1)</option>
+                    <option value="bimodal" data-i18n="opt_bimodal">Bimodal (Two Peaks)</option>
+                    <option value="skewed" data-i18n="opt_heavyskew">Heavy Right Skewed</option>
+                  </select>
+                </div>
+
+                <div class="control-group">
+                  <label for="cltSampleSize" data-i18n="ctrl_sample_n">Sample Size ($n$ per sample):</label>
+                  <input type="range" id="cltSampleSize" min="1" max="100" step="1" value="30">
+                  <span class="value-display" id="cltSampleSizeVal">n = 30</span>
+                </div>
+
+                <div class="control-group">
+                  <label for="cltNumSamples" data-i18n="ctrl_num_samples">Number of Resamples ($K$):</label>
+                  <input type="range" id="cltNumSamples" min="100" max="2000" step="100" value="800">
+                  <span class="value-display" id="cltNumSamplesVal">K = 800</span>
+                </div>
+
+                <button id="runCltBtn" class="btn btn-primary btn-full">
+                  <i data-lucide="refresh-cw"></i>
+                  <span data-i18n="btn_resample">Draw Samples & Plot</span>
+                </button>
+
+                <div class="stats-card">
+                  <div class="stat-row">
+                    <span data-i18n="lbl_se">Std Error $SE = \frac{\sigma}{\sqrt{n}}$:</span>
+                    <strong id="cltSeVal">0.053</strong>
+                  </div>
                 </div>
               </div>
-              <div class="sub-chart">
-                <h4 data-i18n="title_logn_curve">Lognormal Distribution $Y = e^X$</h4>
-                <div class="canvas-wrapper">
-                  <canvas id="lognormalChart"></canvas>
+
+              <div class="dual-chart-panel">
+                <div class="sub-chart">
+                  <h4 data-i18n="title_parent_chart">1. Parent Population Shape</h4>
+                  <div class="canvas-wrapper">
+                    <canvas id="cltParentChart"></canvas>
+                  </div>
+                </div>
+                <div class="sub-chart">
+                  <h4 data-i18n="title_sample_means_chart">2. Distribution of Sample Means ($\bar{X}$)</h4>
+                  <div class="canvas-wrapper">
+                    <canvas id="cltMeansChart"></canvas>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+
+        <!-- Normal vs Lognormal Subtab Content -->
+        <div id="lognormal-sec" class="subtab-content">
+          <div class="info-card">
+            <h3>
+              <span data-i18n="logn_header">Normal vs. Lognormal Distributions 正态与对数正态</span>
+              <span class="ipa-wrapper"><span class="ipa-tag">/ˈlɔːɡnɔːrməl/</span><button class="audio-btn"
+                  onclick="speakTerm('Lognormal')"><i data-lucide="volume-2"></i></button></span>
+            </h3>
+            <p data-i18n="logn_exp">If random variable $X \sim \mathcal{N}(\mu, \sigma^2)$, then $Y = e^X$ follows a
+              Lognormal distribution. Lognormal variables are non-negative and right-skewed, common in financial stock
+              prices, income distributions, and biological sizes.</p>
+            <div class="math-expr">$$X = \ln(Y) \sim \mathcal{N}(\mu, \sigma^2) \iff Y = e^X \sim \text{Lognormal}(\mu,
+              \sigma^2)$$</div>
+          </div>
+
+          <div class="interactive-widget">
+            <div class="widget-header">
+              <div>
+                <h3 data-i18n="logn_sim_title">Normal & Lognormal Comparative Explorer</h3>
+                <p data-i18n="logn_sim_desc">Adjust $\mu$ and $\sigma$ to observe how exponential transformation
+                  stretches the right tail.</p>
+              </div>
+            </div>
+
+            <div class="widget-body">
+              <div class="controls-panel">
+                <div class="control-group">
+                  <label for="lognMu" data-i18n="ctrl_mu">Location Parameter $\mu$:</label>
+                  <input type="range" id="lognMu" min="-1" max="2" step="0.1" value="0">
+                  <span class="value-display" id="lognMuVal">0.0</span>
+                </div>
+
+                <div class="control-group">
+                  <label for="lognSigma" data-i18n="ctrl_sigma">Scale Parameter $\sigma$:</label>
+                  <input type="range" id="lognSigma" min="0.2" max="1.5" step="0.05" value="0.5">
+                  <span class="value-display" id="lognSigmaVal">0.50</span>
+                </div>
+
+                <div class="stats-card">
+                  <div class="stat-row">
+                    <span data-i18n="lbl_logn_mean">Lognormal Mean $E[Y] = e^{\mu + \sigma^2/2}$:</span>
+                    <strong id="lognMeanVal">1.13</strong>
+                  </div>
+                  <div class="stat-row">
+                    <span data-i18n="lbl_logn_median">Lognormal Median $= e^\mu$:</span>
+                    <strong id="lognMedianVal">1.00</strong>
+                  </div>
+                  <div class="stat-row">
+                    <span data-i18n="lbl_logn_mode">Lognormal Mode $= e^{\mu - \sigma^2}$:</span>
+                    <strong id="lognModeVal">0.78</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dual-chart-panel">
+                <div class="sub-chart">
+                  <h4 data-i18n="title_norm_curve">Normal Distribution $X \sim \mathcal{N}(\mu, \sigma^2)$</h4>
+                  <div class="canvas-wrapper">
+                    <canvas id="normalChart"></canvas>
+                  </div>
+                </div>
+                <div class="sub-chart">
+                  <h4 data-i18n="title_logn_curve">Lognormal Distribution $Y = e^X$</h4>
+                  <div class="canvas-wrapper">
+                    <canvas id="lognormalChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
     </section>
 
@@ -483,22 +517,23 @@
       <div class="section-header">
         <div class="badge" data-i18n="m3_badge">Module 3</div>
         <h2 data-i18n="m3_title">Hypothesis Testing: Z-test, T-test, Chi-Square & F-test</h2>
-        <p data-i18n="m3_subtitle">Visualizing Null Hypotheses $H_0$, Significance Levels $\alpha$, Critical Values, and P-values.</p>
+        <p data-i18n="m3_subtitle">Visualizing Null Hypotheses $H_0$, Significance Levels $\alpha$, Critical Values, and
+          P-values.</p>
       </div>
 
       <!-- Test Selection Tabs -->
       <div class="test-tabs-bar">
         <button class="test-tab-btn active" data-test="ztest">
-          <span>Z-Test (Single Mean)</span>
+          <span data-i18n="test_tab_z">Z-Test (Single Mean)</span>
         </button>
         <button class="test-tab-btn" data-test="ttest">
-          <span>t-Test (Small Sample)</span>
+          <span data-i18n="test_tab_t">t-Test (Small Sample)</span>
         </button>
         <button class="test-tab-btn" data-test="chitest">
-          <span>Chi-Square ($\chi^2$) Test</span>
+          <span data-i18n="test_tab_chi">Chi-Square ($\chi^2$) Test</span>
         </button>
         <button class="test-tab-btn" data-test="ftest">
-          <span>F-Test (ANOVA / Variances)</span>
+          <span data-i18n="test_tab_f">F-Test (ANOVA / Variances)</span>
         </button>
       </div>
 
@@ -507,7 +542,8 @@
         <div class="widget-header">
           <div>
             <h3 id="currentTestTitle">Z-Test Parameter Workbench & Density Plot</h3>
-            <p id="currentTestSubtitle">Adjust sample stats and significance level to visualize rejection region & P-value.</p>
+            <p id="currentTestSubtitle">Adjust sample stats and significance level to visualize rejection region &
+              P-value.</p>
           </div>
           <div class="decision-badge" id="hypothesisDecisionBadge">Fail to Reject H₀</div>
         </div>
@@ -574,24 +610,35 @@
           <div class="chart-panel canvas-panel">
             <canvas id="hypothesisCanvas" width="700" height="380"></canvas>
             <div class="canvas-legend">
-              <span class="legend-item"><span class="color-box area-accept"></span> <span data-i18n="legend_accept">Accept Region ($1-\alpha$)</span></span>
-              <span class="legend-item"><span class="color-box area-reject"></span> <span data-i18n="legend_reject">Rejection Region ($\alpha$)</span></span>
-              <span class="legend-item"><span class="color-box area-pvalue"></span> <span data-i18n="legend_pvalue">P-value Area</span></span>
+              <span class="legend-item"><span class="color-box area-accept"></span> <span
+                  data-i18n="legend_accept">Accept Region ($1-\alpha$)</span></span>
+              <span class="legend-item"><span class="color-box area-reject"></span> <span
+                  data-i18n="legend_reject">Rejection Region ($\alpha$)</span></span>
+              <span class="legend-item"><span class="color-box area-pvalue"></span> <span
+                  data-i18n="legend_pvalue">P-value Area</span></span>
             </div>
           </div>
         </div>
-        <section class="decision-path" aria-label="Hypothesis test decision path">
+        <section class="decision-path" aria-label="Hypothesis test decision path"
+          data-i18n-aria-label="aria_decision_path">
           <div class="decision-step">
-            <span class="step-number">1</span><div><small>Hypotheses</small><strong id="htHypothesisStep">H₀: no effect</strong></div>
+            <span class="step-number">1</span>
+            <div><small data-i18n="path_hypotheses">Hypotheses</small><strong id="htHypothesisStep">H₀: no
+                effect</strong></div>
           </div>
           <div class="decision-step">
-            <span class="step-number">2</span><div><small>Test rule</small><strong id="htRuleStep">Two-tailed, α = 0.05</strong></div>
+            <span class="step-number">2</span>
+            <div><small data-i18n="path_rule">Test rule</small><strong id="htRuleStep">Two-tailed, α = 0.05</strong>
+            </div>
           </div>
           <div class="decision-step">
-            <span class="step-number">3</span><div><small>Evidence</small><strong id="htEvidenceStep">z = 1.96 · p = 0.0500</strong></div>
+            <span class="step-number">3</span>
+            <div><small data-i18n="path_evidence">Evidence</small><strong id="htEvidenceStep">z = 1.96 · p =
+                0.0500</strong></div>
           </div>
           <div class="decision-step final" id="htDecisionStep">
-            <span class="step-number">4</span><div><small>Decision</small><strong>Fail to reject H₀</strong></div>
+            <span class="step-number">4</span>
+            <div><small data-i18n="path_decision">Decision</small><strong>Fail to reject H₀</strong></div>
           </div>
         </section>
       </div>
@@ -612,8 +659,9 @@
             <tbody>
               <tr data-test-row="ztest">
                 <td>
-                  <strong>Z-Test</strong>
-                  <span class="ipa-wrapper"><span class="ipa-tag">/ziː test/</span><button class="audio-btn" onclick="speakTerm('Z-Test')"><i data-lucide="volume-2"></i></button></span>
+                  <strong data-i18n="test_name_z">Z-Test</strong>
+                  <span class="ipa-wrapper"><span class="ipa-tag">/ziː test/</span><button class="audio-btn"
+                      onclick="speakTerm('Z-Test')"><i data-lucide="volume-2"></i></button></span>
                 </td>
                 <td data-i18n="td_z_purpose">Compare sample mean to population mean when variance is known.</td>
                 <td data-i18n="td_z_assump">Known $\sigma$, Normal distribution or large sample size ($n \ge 30$).</td>
@@ -621,28 +669,34 @@
               </tr>
               <tr data-test-row="ttest">
                 <td>
-                  <strong>t-Test</strong>
-                  <span class="ipa-wrapper"><span class="ipa-tag">/tiː test/</span><button class="audio-btn" onclick="speakTerm('Student t-Test')"><i data-lucide="volume-2"></i></button></span>
+                  <strong data-i18n="test_name_t">t-Test</strong>
+                  <span class="ipa-wrapper"><span class="ipa-tag">/tiː test/</span><button class="audio-btn"
+                      onclick="speakTerm('Student t-Test')"><i data-lucide="volume-2"></i></button></span>
                 </td>
                 <td data-i18n="td_t_purpose">Compare mean(s) when population variance is unknown.</td>
-                <td data-i18n="td_t_assump">Unknown $\sigma$, normally distributed population, small sample ($n < 30$).</td>
+                <td data-i18n="td_t_assump">Unknown $\sigma$, normally distributed population, small sample ($n <
+                    30$).</td>
                 <td>$$t = \frac{\bar{X} - \mu_0}{s / \sqrt{n}}, \quad df = n-1$$</td>
               </tr>
               <tr data-test-row="chitest">
                 <td>
-                  <strong>Chi-Square ($\chi^2$)</strong>
-                  <span class="ipa-wrapper"><span class="ipa-tag">/ˈkaɪ skwer/</span><button class="audio-btn" onclick="speakTerm('Chi-Square')"><i data-lucide="volume-2"></i></button></span>
+                  <strong data-i18n="test_name_chi">Chi-Square ($\chi^2$)</strong>
+                  <span class="ipa-wrapper"><span class="ipa-tag">/ˈkaɪ skwer/</span><button class="audio-btn"
+                      onclick="speakTerm('Chi-Square')"><i data-lucide="volume-2"></i></button></span>
                 </td>
-                <td data-i18n="td_chi_purpose">Goodness of fit test or test of independence between categorical variables.</td>
+                <td data-i18n="td_chi_purpose">Goodness of fit test or test of independence between categorical
+                  variables.</td>
                 <td data-i18n="td_chi_assump">Categorical data, expected frequency per cell $\ge 5$. Right-skewed.</td>
                 <td>$$\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}, \quad df = k-1$$</td>
               </tr>
               <tr data-test-row="ftest">
                 <td>
-                  <strong>F-Test (ANOVA)</strong>
-                  <span class="ipa-wrapper"><span class="ipa-tag">/əˈnoʊvə/</span><button class="audio-btn" onclick="speakTerm('ANOVA')"><i data-lucide="volume-2"></i></button></span>
+                  <strong data-i18n="test_name_f">F-Test (ANOVA)</strong>
+                  <span class="ipa-wrapper"><span class="ipa-tag">/əˈnoʊvə/</span><button class="audio-btn"
+                      onclick="speakTerm('ANOVA')"><i data-lucide="volume-2"></i></button></span>
                 </td>
-                <td data-i18n="td_f_purpose">Compare two population variances or test overall equality of 3+ means (ANOVA).</td>
+                <td data-i18n="td_f_purpose">Compare two population variances or test overall equality of 3+ means
+                  (ANOVA).</td>
                 <td data-i18n="td_f_assump">Independent normally distributed samples. Ratio of sample variances.</td>
                 <td>$$F = \frac{s_1^2}{s_2^2}, \quad df_1 = n_1-1, \; df_2 = n_2-1$$</td>
               </tr>
@@ -658,7 +712,8 @@
       <div class="section-header">
         <div class="badge" data-i18n="m4_badge">Module 4</div>
         <h2 data-i18n="m4_title">Interactive Knowledge Check & Quiz</h2>
-        <p data-i18n="m4_subtitle">Test your understanding of CLT, LLN, Distributions, Descriptive Stats, and Hypothesis Tests.</p>
+        <p data-i18n="m4_subtitle">Test your understanding of CLT, LLN, Distributions, Descriptive Stats, and Hypothesis
+          Tests.</p>
       </div>
 
       <div class="quiz-container">
@@ -708,8 +763,10 @@
             <i data-lucide="trophy"></i>
           </div>
           <h2 data-i18n="quiz_complete_title">Quiz Completed!</h2>
-          <p class="result-score-text"><span data-i18n="lbl_your_score">Your Final Score:</span> <strong id="finalScoreVal">0 / 6</strong></p>
-          <p id="resultMessageText" class="result-msg">Great job! You have demonstrated solid command of core statistical concepts.</p>
+          <p class="result-score-text"><span data-i18n="lbl_your_score">Your Final Score:</span> <strong
+              id="finalScoreVal">0 / 6</strong></p>
+          <p id="resultMessageText" class="result-msg">Great job! You have demonstrated solid command of core
+            statistical concepts.</p>
           <button id="restartQuizBtn" class="btn btn-primary btn-lg mt-3">
             <i data-lucide="rotate-ccw"></i>
             <span data-i18n="btn_retake_quiz">Retake Quiz</span>
@@ -729,64 +786,72 @@
 
       <div class="cheatsheet-grid">
         <div class="cheat-card">
-          <h3>1. Central Tendency & Dispersion</h3>
+          <h3 data-i18n="cheat_central">1. Central Tendency & Dispersion</h3>
           <div class="cheat-item">
-            <span class="cheat-label">Sample Mean</span>
+            <span class="cheat-label" data-i18n="cheat_mean">Sample Mean</span>
             <div class="math-expr">$$\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i$$</div>
           </div>
           <div class="cheat-item">
-            <span class="cheat-label">Sample Variance</span>
+            <span class="cheat-label" data-i18n="cheat_variance">Sample Variance</span>
             <div class="math-expr">$$s^2 = \frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})^2$$</div>
           </div>
           <div class="cheat-item">
-            <span class="cheat-label">Standard Error (SE)</span>
+            <span class="cheat-label" data-i18n="cheat_se">Standard Error (SE)</span>
             <div class="math-expr">$$SE = \frac{\sigma}{\sqrt{n}}$$</div>
           </div>
         </div>
 
         <div class="cheat-card">
-          <h3>2. Common Probability Distributions</h3>
+          <h3 data-i18n="cheat_distributions">2. Common Probability Distributions</h3>
           <div class="cheat-item">
-            <span class="cheat-label">Normal Distribution PDF</span>
-            <div class="math-expr">$$f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$$</div>
+            <span class="cheat-label" data-i18n="cheat_normal_pdf">Normal Distribution PDF</span>
+            <div class="math-expr">$$f(x) = \frac{1}{\sigma\sqrt{2\pi}}
+              e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$$</div>
           </div>
           <div class="cheat-item">
-            <span class="cheat-label">Lognormal Distribution PDF</span>
-            <div class="math-expr">$$f(y) = \frac{1}{y\sigma\sqrt{2\pi}} e^{-\frac{(\ln y - \mu)^2}{2\sigma^2}}, \quad y > 0$$</div>
+            <span class="cheat-label" data-i18n="cheat_lognormal_pdf">Lognormal Distribution PDF</span>
+            <div class="math-expr">$$f(y) = \frac{1}{y\sigma\sqrt{2\pi}} e^{-\frac{(\ln y - \mu)^2}{2\sigma^2}}, \quad y
+              > 0$$</div>
           </div>
         </div>
 
         <div class="cheat-card">
-          <h3>3. Hypothesis Test Statistics</h3>
+          <h3 data-i18n="cheat_tests">3. Hypothesis Test Statistics</h3>
           <div class="cheat-item">
-            <span class="cheat-label">One-Sample Z Statistic</span>
+            <span class="cheat-label" data-i18n="cheat_z">One-Sample Z Statistic</span>
             <div class="math-expr">$$Z = \frac{\bar{X} - \mu_0}{\sigma / \sqrt{n}}$$</div>
           </div>
           <div class="cheat-item">
-            <span class="cheat-label">One-Sample t Statistic</span>
+            <span class="cheat-label" data-i18n="cheat_t">One-Sample t Statistic</span>
             <div class="math-expr">$$t = \frac{\bar{X} - \mu_0}{s / \sqrt{n}}, \quad df = n-1$$</div>
           </div>
           <div class="cheat-item">
-            <span class="cheat-label">Chi-Square ($\chi^2$) Goodness-of-Fit</span>
+            <span class="cheat-label" data-i18n="cheat_chi">Chi-Square ($\chi^2$) Goodness-of-Fit</span>
             <div class="math-expr">$$\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}, \quad df = k-1$$</div>
           </div>
           <div class="cheat-item">
-            <span class="cheat-label">Two-Sample F Test</span>
+            <span class="cheat-label" data-i18n="cheat_f">Two-Sample F Test</span>
             <div class="math-expr">$$F = \frac{s_1^2}{s_2^2}, \quad df_1 = n_1-1, \, df_2 = n_2-1$$</div>
           </div>
         </div>
 
         <div class="cheat-card highlight-card">
-          <h3>⚡ Key Rules & Concepts</h3>
+          <h3 data-i18n="cheat_rules">⚡ Key Rules & Concepts</h3>
           <ul class="trap-list">
-            <li><strong>P-value Definition:</strong> P-value is the probability of obtaining test results at least as extreme as observed, assuming $H_0$ is TRUE. It is NOT the probability that $H_0$ is true!</li>
-            <li><strong>Type I vs Type II Error:</strong> 
-              <br>• Type I ($\alpha$): Reject $H_0$ when $H_0$ is actually true (False Positive).
-              <br>• Type II ($\beta$): Fail to reject $H_0$ when $H_0$ is false (False Negative).
+            <li><strong data-i18n="cheat_pvalue">P-value Definition:</strong> <span
+                data-i18n="cheat_pvalue_desc">P-value is the probability of obtaining test results at least as extreme
+                as observed, assuming $H_0$ is TRUE. It is NOT the probability that $H_0$ is true!</span></li>
+            <li><strong data-i18n="cheat_errors">Type I vs Type II Error:</strong>
+              <br>• <span data-i18n="cheat_type1">Type I ($\alpha$): Reject $H_0$ when $H_0$ is actually true (False
+                Positive).</span>
+              <br>• <span data-i18n="cheat_type2">Type II ($\beta$): Fail to reject $H_0$ when $H_0$ is false (False
+                Negative).</span>
             </li>
-            <li><strong>Skewness Order:</strong>
-              <br>• Right-Skewed (正偏态): $\text{Mean} > \text{Median} > \text{Mode}$
-              <br>• Left-Skewed (负偏态): $\text{Mean} < \text{Median} < \text{Mode}$
+            <li><strong data-i18n="cheat_skew_order">Skewness Order:</strong>
+              <br>• <span data-i18n="cheat_skew_right">Right-Skewed (正偏态): $\text{Mean} > \text{Median} >
+                \text{Mode}$</span>
+              <br>• <span data-i18n="cheat_skew_left">Left-Skewed (负偏态): $\text{Mean} < \text{Median} <
+                  \text{Mode}$</span>
             </li>
           </ul>
         </div>
@@ -802,10 +867,24 @@
     </div>
   </footer>
 
-  <!-- Floating Watermark Badge -->
-  <div class="floating-watermark-badge" title="Created by xiaomeng.lv">
-    <span class="badge-pulse"></span>
-    <span class="badge-text">xiaomeng.lv</span>
+  <!-- Floating Watermark & Feedback -->
+  <div class="feedback-widget" id="feedbackWidget">
+    <button class="floating-watermark-badge" id="feedbackToggle" type="button" aria-controls="watermarkFeedbackPanel" aria-expanded="false" title="Open questions and feedback panel" aria-label="Open questions and feedback panel" data-i18n-title="title_feedback_toggle" data-i18n-aria-label="aria_feedback_toggle">
+      <span class="badge-pulse"></span>
+      <span class="badge-text">xiaomeng.lv</span>
+    </button>
+    <section class="feedback-panel" id="watermarkFeedbackPanel" aria-labelledby="feedbackWidgetTitle" hidden>
+      <button class="feedback-close" id="feedbackClose" type="button" title="Close questions and feedback panel" aria-label="Close questions and feedback panel" data-i18n-title="title_feedback_close" data-i18n-aria-label="aria_feedback_close"><i data-lucide="x"></i></button>
+      <h2 id="feedbackWidgetTitle" data-i18n="feedback_title">Questions &amp; Feedback</h2>
+      <a class="feedback-contact-link" href="mailto:lyuxiaomeng701@gmail.com">
+        <i data-lucide="mail"></i>
+        <span class="feedback-contact-content"><span data-i18n="feedback_email_label">Email</span><strong>lyuxiaomeng701@gmail.com</strong></span>
+      </a>
+      <a class="feedback-contact-link" href="https://github.com/Shermen701" target="_blank" rel="noopener noreferrer">
+        <svg class="feedback-github-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 018 4.77c.68.003 1.36.092 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        <span class="feedback-contact-content"><span data-i18n="feedback_github_label">GitHub</span><strong>github.com/Shermen701</strong></span>
+      </a>
+    </section>
   </div>
 
   <!-- Shared foundation and feature modules -->
@@ -816,4 +895,5 @@
   <!-- App JavaScript -->
   <script src="app.js"></script>
 </body>
+
 </html>

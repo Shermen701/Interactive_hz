@@ -45,18 +45,27 @@ function speakTerm(text) {
 // ==========================================================================
 const i18n = {
   zh: {
-    app_subtitle: "线性代数交互学习与面试中心",
+    page_title: "线性代数交互学习中心 | LinAlgLab Interactive",
+    app_subtitle: "线性代数交互学习中心",
     nav_vectors: "向量与空间",
     nav_matrices: "矩阵与线性变换",
+    nav_systems: "方程组与消元",
     nav_eigen: "特征值与特征向量",
     nav_ortho: "正交性与 SVD",
-    nav_quiz: "测试与面试速查",
+    nav_quiz: "测试与公式速查",
 
-    hero_title: "通过直观几何与交互仿真，彻底掌握线性代数",
-    hero_desc: "深入探索向量空间、张成空间 (Span)、2D 矩阵线性变换、行列式的几何面积缩放、特征值/特征向量探针、Gram-Schmidt 正交化与奇异值分解 (SVD)。内置中英双语、IPA 面试音标与发音辅助！",
+    hero_title: "在图形、关系与变化中，理解线性代数",
+    hero_desc: "深入探索向量空间、张成空间 (Span)、2D 矩阵线性变换、行列式的几何面积缩放、特征值/特征向量探针、Gram-Schmidt 正交化与奇异值分解 (SVD)。内置中英双语与 IPA 音标标记。",
     stat_modules: "核心知识模块",
     stat_simulators: "2D 动态画布",
-    stat_quiz: "面试题库数量",
+    stat_quiz: "练习题目数量",
+    feedback_title: "问题与建议",
+    feedback_email_label: "邮箱",
+    feedback_github_label: "GitHub",
+    title_feedback_toggle: "打开问题与建议面板",
+    aria_feedback_toggle: "打开问题与建议面板",
+    title_feedback_close: "关闭问题与建议面板",
+    aria_feedback_close: "关闭问题与建议面板",
 
     m1_badge: "模块 1",
     m1_title: "向量、线性组合、张成空间 (Span) 与线性无关",
@@ -105,9 +114,75 @@ const i18n = {
 
     sim_transform_title: "2D 矩阵线性变换与行列式探索器",
     sim_transform_desc: "调节矩阵参数或选择预设变换，直观观察网格扭曲以及单位正方形拉伸为平行四边形的过程。",
+    lbl_transform_matrix: "矩阵 $A = \\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix}$:",
     lbl_preset_transforms: "预设常见线性变换:",
+    preset_transform_identity: "恒等变换",
+    preset_transform_rotation: "旋转 (45°)",
+    preset_transform_shear: "水平剪切",
+    preset_transform_scale: "缩放 (2 倍, 0.5 倍)",
+    preset_transform_singular: "奇异变换 (秩 1)",
+    preset_transform_reflection: "关于 Y 轴反射",
+    lbl_transform_determinant: "$\\det(A) = ad - bc =$:",
+    lbl_transform_trace: "$\\text{迹}(A) = a + d =$:",
+    lbl_transform_rank: "$\\text{秩}(A) =$:",
+    sim_composition_title: "矩阵复合实验室：把乘法看作连续变换",
+    sim_composition_desc: "分别设置两个独立的 2×2 矩阵，比较按不同顺序作用时的几何过程。",
+    lbl_comp_matrix_a: "第一个矩阵 A:",
+    lbl_comp_matrix_b: "第二个矩阵 B:",
+    lbl_comp_order: "作用顺序:",
+    btn_comp_ba: "A → B（BA）",
+    btn_comp_ab: "B → A（AB）",
+    lbl_comp_presets: "预设矩阵对:",
+    preset_comp_rotate_shear: "旋转 → 剪切",
+    preset_comp_shear_scale: "剪切 → 缩放",
+    preset_comp_noncommuting: "不可交换示例",
+    preset_comp_commuting: "可交换缩放",
+    lbl_comp_product: "当前乘积:",
+    lbl_comp_derivation: "行 × 列计算推导",
+    comp_derivation_hint: "结果矩阵的每个元素，都是左矩阵的一行与右矩阵的一列的点积。",
+    aria_composition_order: "矩阵复合作用顺序",
+    aria_composition_canvas: "展示矩阵复合三个阶段的画布",
+    sim_inverse_title: "2D 逆变换与可逆性实验室",
+    sim_inverse_desc: "先应用一个矩阵，再检验是否存在唯一的逆矩阵将平面和单位正方形恢复。",
+    lbl_inverse_matrix: "矩阵 A:",
+    lbl_inverse_presets: "预设变换:",
+    preset_inverse_identity: "单位变换",
+    preset_inverse_rotation: "90° 旋转",
+    preset_inverse_shear: "剪切",
+    preset_inverse_reflection: "反射",
+    preset_inverse_singular: "奇异压缩",
+    lbl_inverse_determinant: "行列式:",
+    lbl_inverse_derivation: "逆矩阵公式与验证",
+    inverse_formula: "A⁻¹ = 1 / det(A) · [[d, −b], [−c, a]]",
+    lbl_inverse_adjugate: "伴随矩阵部分",
+    lbl_inverse_result: "逆矩阵",
+    aria_inverse_canvas: "展示原始、变换与逆变换恢复的三阶段画布",
 
-    m3_badge: "模块 3",
+    m_systems_badge: "模块 3",
+    m_systems_title: "线性方程组、秩与高斯消元",
+    m_systems_subtitle: "用二维直线、增广矩阵与行变换理解唯一解、无解与无穷多解。",
+    t_systems_geometry: "方程组的几何意义",
+    t_systems_geometry_desc: "每个二元一次方程对应平面上的一条直线；交点就是同时满足两式的解。",
+    t_systems_rref: "高斯-若尔当消元",
+    t_systems_rref_desc: "通过交换、倍乘和倍加行操作，将增广矩阵化为最简行阶梯形（RREF）。",
+    t_systems_rank: "秩与解的分类",
+    t_systems_rank_desc: "若 rank(A) 与 rank([A|b]) 不同则无解；相同且等于未知数个数时有唯一解，否则有无穷多解。",
+    sim_systems_title: "2×2 线性方程组与 RREF 实验室",
+    sim_systems_desc: "修改系数，逐步观察两条直线、增广矩阵和消元操作如何共同决定解的类型。",
+    lbl_system_coefficients: "系数矩阵 A 与常数向量 b:",
+    lbl_system_equations: "对应方程:",
+    lbl_system_augmented: "当前增广矩阵:",
+    lbl_system_operation: "当前行操作:",
+    lbl_rank_a: "rank(A):",
+    lbl_rank_augmented: "rank([A|b]):",
+    btn_system_next: "下一步",
+    btn_system_auto: "自动完成",
+    btn_system_reset: "重置步骤",
+    btn_system_unique: "唯一解",
+    btn_system_inconsistent: "无解",
+    btn_system_infinite: "无穷多解",
+
+    m3_badge: "模块 4",
     m3_title: "特征值、特征向量与特征分解",
     m3_subtitle: "寻找在空间变换中方向保持不变的特殊向量 (Av = λv)，探索特征值谱分解。",
     t_eigen_title: "特征值与特征向量",
@@ -118,6 +193,7 @@ const i18n = {
     t_diag_name: "矩阵对角化 (Diagonalization):",
     t_diag_desc: "将矩阵 A 分解为特征向量基 P 与对角矩阵 D: A = PDP⁻¹。",
     t_spectral_name: "谱定理 (Spectral Theorem):",
+    t_spectral_desc: "每个实对称矩阵 (A = Aᵀ) 都可以正交对角化为 A = QDQᵀ，并且全部特征值都是实数。",
     t_mult_pca_title: "重数与 PCA 关联",
     t_mult_name: "代数重数 vs 几何重数:",
     t_mult_desc: "代数重数为特征方程多项式根的重数；几何重数为特征子空间 Null(A-λI) 的维度。",
@@ -130,9 +206,9 @@ const i18n = {
     btn_snap_eigen: "自动对齐特征向量",
     btn_auto_sweep: "360° 自动扫描",
 
-    m4_badge: "模块 4",
-    m4_title: "正交性、投影、Gram-Schmidt 正交化与 SVD",
-    m4_subtitle: "掌握向量点积、正交投影、最小二乘法几何直观与奇异值分解 (SVD)。",
+    m4_badge: "模块 5",
+    m4_title: "正交性、投影、QR、PCA 与 SVD",
+    m4_subtitle: "掌握正交投影、QR 分解、最小二乘法、PCA 降维与奇异值分解 (SVD) 的几何直观。",
     t_proj_title: "点积与正交投影",
     t_dot_name: "点积与正交性 (Dot Product & Orthogonality):",
     t_dot_desc: "向量 u 和 v 正交 (垂直) 当且仅当 u · v = 0。",
@@ -151,36 +227,140 @@ const i18n = {
 
     sim_proj_title: "1. 向量正交投影与正交分解演示器",
     sim_proj_desc: "直接在画布上拖动向量终点，观察正交投影 proj_u(v) 与垂直补分量 v^⊥ 的几何直角分解。",
-    sim_svd_title: "2. 奇异值分解 (SVD) 几何步骤分解探索器",
+    sim_qr_title: "2. Gram-Schmidt 与 QR 分解实验室",
+    sim_qr_desc: "拖动两个原始向量，分步观察归一化、投影相减与 QR 组装过程。",
+    lbl_qr_vec_u: "第一列向量 u:",
+    lbl_qr_vec_v: "第二列向量 v:",
+    lbl_qr_norm_u: "‖u‖ =",
+    lbl_qr_projection_coeff: "r₁₂ = q₁ · v =",
+    lbl_qr_residual_norm: "‖u₂‖ =",
+    lbl_qr_qtq: "QᵀQ:",
+    lbl_qr_r: "上三角矩阵 R:",
+    lbl_qr_reconstruction: "QR 重构结果:",
+    btn_qr_next: "下一步",
+    btn_qr_auto: "自动完成",
+    btn_qr_reset: "重置步骤",
+    btn_qr_default: "一般向量",
+    btn_qr_orthogonal: "已正交",
+    btn_qr_dependent: "线性相关",
+    qr_drag_hint: "💡 拖动任一原始向量以重新开始 QR 步骤",
+    sim_regression_title: "3. 最小二乘线性回归实验室",
+    sim_regression_desc: "拖动五个数据点，观察拟合直线、残差与法方程如何随数据变化。",
+    lbl_regression_model: "拟合模型:",
+    lbl_regression_sse: "残差平方和 SSE:",
+    lbl_regression_r2: "决定系数 R²:",
+    lbl_regression_normal: "法方程 AᵀAθ = Aᵀy:",
+    regression_drag_hint: "💡 拖动任一点以重新拟合直线",
+    btn_regression_reset: "恢复默认数据",
+    btn_regression_positive: "正相关",
+    btn_regression_negative: "负相关",
+    btn_regression_outlier: "离群点",
+    sim_pca_title: "4. PCA 主成分降维实验室",
+    sim_pca_desc: "拖动六个二维散点，观察中心化数据的协方差主轴，以及投影到第一主成分后的 1D 表示。",
+    lbl_pca_mean: "均值 μ:",
+    lbl_pca_covariance: "协方差矩阵 C:",
+    lbl_pca_eigenvalues: "特征值:",
+    lbl_pca_explained: "解释方差 (PC₁ / PC₂):",
+    lbl_pca_direction: "第一主成分方向:",
+    btn_pca_default: "默认斜向数据",
+    btn_pca_horizontal: "水平主方向",
+    btn_pca_vertical: "垂直主方向",
+    btn_pca_outlier: "离群点",
+    btn_pca_zero: "近零方差",
+    pca_drag_hint: "💡 拖动任一散点以重新计算 PCA",
+    aria_pca_canvas: "PCA 二维散点与第一主成分投影画布",
+    title_pca_default: "载入默认斜向数据",
+    title_pca_horizontal: "载入以水平为主方向的数据",
+    title_pca_vertical: "载入以垂直为主方向的数据",
+    title_pca_outlier: "载入包含离群点的数据",
+    title_pca_zero: "载入近零方差数据",
+    sim_svd_title: "5. 奇异值分解 (SVD) 几何步骤分解探索器",
     sim_svd_desc: "观察矩阵 A = U Σ Vᵀ 变换单位圆的完整几何三步走：Vᵀ 旋转 → Σ 轴向拉伸 → U 旋转。",
     lbl_svd_step: "分解步骤分解视图:",
+    lbl_sigma_1: "奇异值 σ₁ =",
+    lbl_sigma_2: "奇异值 σ₂ =",
 
-    m5_badge: "模块 5",
-    m5_title: "线性代数交互测试与面试速查",
-    m5_subtitle: "检验你对特征向量、SVD、行列式与正定矩阵的掌握情况，速查高频面试考点。",
-    sub_quiz: "15 题面试测验",
-    sub_cheatsheet: "面试速查手册",
+    theme_light: "浅色模式",
+    theme_dark: "深色模式",
+    title_theme: "切换浅色/深色模式",
+    title_ipa: "切换 IPA 音标与发音辅助",
+    ipa_on: "IPA 音标: 开",
+    ipa_off: "IPA 音标: 关",
+
+    m5_badge: "模块 6",
+    m5_title: "线性代数交互测试与公式速查",
+    m5_subtitle: "检验你对特征向量、SVD、行列式与正定矩阵的掌握情况，并快速查阅核心公式与易错点。",
+    sub_quiz: "15 题交互测验",
+    sub_cheatsheet: "公式速查手册",
+    quiz_explanation: "题目解析",
+    cheat_matrix_ops_title: "矩阵运算与性质",
+    cheat_determinant_properties: "行列式性质:",
+    cheat_trace_properties: "迹的性质:",
+    cheat_rank_nullity_title: "秩-零化度定理:",
+    cheat_rank_nullity_formula: "$$\\text{rank}(A) + \\text{nullity}(A) = n \\quad (\\text{对于 } m \\times n \\text{ 矩阵 } A)$$",
+    cheat_subspaces_title: "四个基本子空间",
+    cheat_subspaces_theorem: "斯特朗的基本子空间定理:",
+    cheat_subspaces_column: "1. 列空间",
+    cheat_subspaces_column_desc: "维度 = $r$，是 $\\mathbb{R}^m$ 的子空间。",
+    cheat_subspaces_null: "2. 零空间",
+    cheat_subspaces_null_desc: "维度 = $n-r$，是 $\\mathbb{R}^n$ 的子空间。$\\text{Null}(A) \\perp \\text{Row}(A)$。",
+    cheat_subspaces_row: "3. 行空间",
+    cheat_subspaces_row_desc: "维度 = $r$，是 $\\mathbb{R}^n$ 的子空间。",
+    cheat_subspaces_left_null: "4. 左零空间",
+    cheat_subspaces_left_null_desc: "维度 = $m-r$，是 $\\mathbb{R}^m$ 的子空间。$\\text{Null}(A^T) \\perp \\text{Col}(A)$。",
+    cheat_pd_title: "正定矩阵",
+    cheat_pd_name: "正定",
+    cheat_pd_desc: "对于实对称矩阵 $A$，$A$ 是正定矩阵（$A \\succ 0$）当且仅当满足下列任一等价条件：",
+    cheat_pd_condition_1: "1. 对任意非零向量 $\\mathbf{x} \\neq \\mathbf{0}$，均有 $\\mathbf{x}^T A \\mathbf{x} > 0$。",
+    cheat_pd_condition_2: "2. 所有特征值 $\\lambda_i > 0$ 都严格为正。",
+    cheat_pd_condition_3: "3. 所有顺序主子式都严格为正（$\\det(A_k) > 0$）。",
+    cheat_pd_condition_4: "4. 存在 Cholesky 分解：$A = L L^T$。",
+    cheat_svd_title: "奇异值分解 (SVD)",
+    cheat_svd_name: "奇异值分解",
+    cheat_svd_intro: "对于任意 $m \\times n$ 矩阵 $A$：",
+    cheat_svd_u: "$U$：由左奇异向量构成的 $m \\times m$ 正交矩阵（$A A^T$ 的特征向量）。",
+    cheat_svd_sigma: "$\\Sigma$：包含奇异值 $\\sigma_i = \\sqrt{\\lambda_i(A^T A)}$ 的 $m \\times n$ 对角矩阵。",
+    cheat_svd_v: "$V$：由右奇异向量构成的 $n \\times n$ 正交矩阵（$A^T A$ 的特征向量）。",
+    cheat_least_squares_title: "最小二乘法与 PCA 应用",
+    cheat_normal_equations: "正规方程:",
+    cheat_projection_matrix: "到 $\\text{Col}(A)$ 上的投影矩阵：$P = A(A^T A)^{-1}A^T$。",
+    cheat_pca_name: "PCA（主成分分析）:",
+    cheat_pca_desc: "样本协方差矩阵 $C = \\frac{1}{n} X^T X$。对中心化数据矩阵 $X = U \\Sigma V^T$ 做 SVD，右奇异向量 $V$ 即为主方向。",
+    cheat_pitfalls_title: "线性代数常见易错点",
+    cheat_pitfall_1_title: "易错点 1：矩阵乘法不可交换！",
+    cheat_pitfall_1_desc: "一般而言 $AB \\neq BA$。$(AB)^T = B^T A^T$，且 $(AB)^{-1} = B^{-1}A^{-1}$。",
+    cheat_pitfall_2_title: "易错点 2：特征值与奇异值有什么不同？",
+    cheat_pitfall_2_desc: "特征值只适用于方阵，可能为复数或负数；奇异值适用于任意矩形矩阵，且始终是非负实数 $\\sigma_i \\ge 0$。",
     btn_prev: "上一题",
     btn_next: "下一题",
     quiz_complete_title: "测试完成！",
     lbl_your_score: "你的最终得分:",
     btn_retake_quiz: "重新开始测试",
-    footer_text: "LinAlgLab Interactive — 旨在提供高性能 2D 几何直观的线性代数学习与面试体验。"
+    footer_text: "LinAlgLab Interactive — 旨在提供高性能 2D 几何直观的线性代数学习体验。"
   },
 
   en: {
-    app_subtitle: "Linear Algebra Learning & Interview Hub",
+    page_title: "Linear Algebra Interactive Learning Hub | LinAlgLab Interactive",
+    app_subtitle: "Linear Algebra Interactive Learning Hub",
     nav_vectors: "Vectors & Span",
     nav_matrices: "Matrix Transforms",
+    nav_systems: "Systems & Elimination",
     nav_eigen: "Eigenvalues & Eigenvectors",
     nav_ortho: "Orthogonality & SVD",
     nav_quiz: "Quiz & Cheatsheet",
 
-    hero_title: "Master Linear Algebra Geometrically & Interactively",
-    hero_desc: "Explore vector spaces, linear combinations, 2D matrix transformations, determinants, eigenvectors, Gram-Schmidt orthogonalization, and Singular Value Decomposition (SVD) with real-time interactive canvases, bilingual explanations, and IPA interview audio aids.",
+    hero_title: "Understand Linear Algebra Through Geometry, Relationships, and Change",
+    hero_desc: "Explore vector spaces, linear combinations, 2D matrix transformations, determinants, eigenvectors, Gram-Schmidt orthogonalization, and Singular Value Decomposition (SVD) with real-time interactive canvases, bilingual explanations, and IPA.",
     stat_modules: "Core Modules",
     stat_simulators: "2D Live Canvases",
-    stat_quiz: "Interview Questions",
+    stat_quiz: "Practice Questions",
+    feedback_title: "Questions & Feedback",
+    feedback_email_label: "Email",
+    feedback_github_label: "GitHub",
+    title_feedback_toggle: "Open questions and feedback panel",
+    aria_feedback_toggle: "Open questions and feedback panel",
+    title_feedback_close: "Close questions and feedback panel",
+    aria_feedback_close: "Close questions and feedback panel",
 
     m1_badge: "Module 1",
     m1_title: "Vectors, Linear Combinations, Span & Independence",
@@ -229,9 +409,75 @@ const i18n = {
 
     sim_transform_title: "2D Matrix Transformation & Determinant Explorer",
     sim_transform_desc: "Adjust matrix parameters or click presets to view coordinate grid warping and unit square transformation.",
+    lbl_transform_matrix: "Matrix $A = \\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix}$:",
     lbl_preset_transforms: "Preset Linear Transformations:",
+    preset_transform_identity: "Identity",
+    preset_transform_rotation: "Rotation (45°)",
+    preset_transform_shear: "Horizontal Shear",
+    preset_transform_scale: "Scaling (2x, 0.5x)",
+    preset_transform_singular: "Singular (Rank 1)",
+    preset_transform_reflection: "Reflection (Y-axis)",
+    lbl_transform_determinant: "$\\det(A) = ad - bc =$:",
+    lbl_transform_trace: "$\\text{Trace}(A) = a + d =$:",
+    lbl_transform_rank: "$\\text{Rank}(A) =$:",
+    sim_composition_title: "Matrix Composition Lab: See Multiplication as Two Transformations",
+    sim_composition_desc: "Set two independent 2×2 matrices, then compare the geometric stages of applying them in either order.",
+    lbl_comp_matrix_a: "First matrix A:",
+    lbl_comp_matrix_b: "Second matrix B:",
+    lbl_comp_order: "Application order:",
+    btn_comp_ba: "A → B (BA)",
+    btn_comp_ab: "B → A (AB)",
+    lbl_comp_presets: "Preset pairs:",
+    preset_comp_rotate_shear: "Rotation → Shear",
+    preset_comp_shear_scale: "Shear → Scale",
+    preset_comp_noncommuting: "Non-commuting pair",
+    preset_comp_commuting: "Commuting scales",
+    lbl_comp_product: "Current product:",
+    lbl_comp_derivation: "Row × Column Derivation",
+    comp_derivation_hint: "Each result entry is one row of the left matrix dotted with one column of the right matrix.",
+    aria_composition_order: "Matrix composition application order",
+    aria_composition_canvas: "Three-stage matrix composition canvas",
+    sim_inverse_title: "2D Inverse Transformation & Invertibility Lab",
+    sim_inverse_desc: "Apply a matrix, then test whether a unique inverse can restore the plane and the unit square.",
+    lbl_inverse_matrix: "Matrix A:",
+    lbl_inverse_presets: "Preset transformations:",
+    preset_inverse_identity: "Identity",
+    preset_inverse_rotation: "90° rotation",
+    preset_inverse_shear: "Shear",
+    preset_inverse_reflection: "Reflection",
+    preset_inverse_singular: "Singular collapse",
+    lbl_inverse_determinant: "Determinant:",
+    lbl_inverse_derivation: "Inverse Formula & Verification",
+    inverse_formula: "A⁻¹ = 1 / det(A) · [[d, −b], [−c, a]]",
+    lbl_inverse_adjugate: "Adjugate part",
+    lbl_inverse_result: "Inverse matrix",
+    aria_inverse_canvas: "Three-stage inverse transformation canvas",
 
-    m3_badge: "Module 3",
+    m_systems_badge: "Module 3",
+    m_systems_title: "Linear Systems, Rank & Gaussian Elimination",
+    m_systems_subtitle: "Use 2D lines, augmented matrices, and row operations to distinguish unique, no, and infinitely many solutions.",
+    t_systems_geometry: "Geometry of Linear Systems",
+    t_systems_geometry_desc: "Each two-variable linear equation is a line; their intersection satisfies both equations.",
+    t_systems_rref: "Gauss-Jordan Elimination",
+    t_systems_rref_desc: "Use row swaps, scaling, and replacement to reduce an augmented matrix to RREF.",
+    t_systems_rank: "Rank & Solution Classification",
+    t_systems_rank_desc: "Different ranks for A and [A|b] mean no solution; equal ranks give a unique solution only when they match the number of unknowns.",
+    sim_systems_title: "2×2 Linear Systems & RREF Laboratory",
+    sim_systems_desc: "Change coefficients and follow how lines, the augmented matrix, and row operations determine the solution type.",
+    lbl_system_coefficients: "Coefficient Matrix A and Constant Vector b:",
+    lbl_system_equations: "Equations:",
+    lbl_system_augmented: "Current Augmented Matrix:",
+    lbl_system_operation: "Current Row Operation:",
+    lbl_rank_a: "rank(A):",
+    lbl_rank_augmented: "rank([A|b]):",
+    btn_system_next: "Next Step",
+    btn_system_auto: "Auto Complete",
+    btn_system_reset: "Reset Steps",
+    btn_system_unique: "Unique Solution",
+    btn_system_inconsistent: "No Solution",
+    btn_system_infinite: "Infinite Solutions",
+
+    m3_badge: "Module 4",
     m3_title: "Eigenvalues, Eigenvectors & Diagonalization",
     m3_subtitle: "Discover vectors that do not change direction during transformation (Av = λv) and explore spectral decomposition.",
     t_eigen_title: "Eigenvalues & Eigenvectors",
@@ -242,6 +488,7 @@ const i18n = {
     t_diag_name: "Diagonalization:",
     t_diag_desc: "Factoring matrix A into eigenvector basis P and diagonal matrix D: A = PDP⁻¹.",
     t_spectral_name: "Spectral Theorem:",
+    t_spectral_desc: "Every real symmetric matrix (A = Aᵀ) can be orthogonally diagonalized as A = QDQᵀ, with only real eigenvalues.",
     t_mult_pca_title: "Multiplicity & PCA Connection",
     t_mult_name: "Algebraic vs Geometric Multiplicity:",
     t_mult_desc: "Algebraic is root multiplicity in characteristic eq; Geometric is dim of eigenspace Null(A-λI).",
@@ -254,9 +501,9 @@ const i18n = {
     btn_snap_eigen: "Snap Eigenvector",
     btn_auto_sweep: "360° Auto Sweep",
 
-    m4_badge: "Module 4",
-    m4_title: "Orthogonality, Projection, Gram-Schmidt & SVD",
-    m4_subtitle: "Master dot products, orthogonal projections, least squares approximations, and Singular Value Decomposition.",
+    m4_badge: "Module 5",
+    m4_title: "Orthogonality, Projection, QR, PCA & SVD",
+    m4_subtitle: "Master the geometry of orthogonal projection, QR, least squares, PCA dimensionality reduction, and Singular Value Decomposition.",
     t_proj_title: "Dot Product & Projection",
     t_dot_name: "Dot Product & Orthogonality:",
     t_dot_desc: "Vectors u, v are orthogonal (perpendicular) iff u · v = 0.",
@@ -275,21 +522,116 @@ const i18n = {
 
     sim_proj_title: "1. Vector Projection & Orthogonal Decomposition",
     sim_proj_desc: "Drag vector endpoints on canvas to observe orthogonal projection proj_u(v) and orthogonal complement v^⊥.",
-    sim_svd_title: "2. Singular Value Decomposition (SVD) Visualizer",
+    sim_qr_title: "2. Gram-Schmidt & QR Decomposition Laboratory",
+    sim_qr_desc: "Drag two source vectors and follow normalization, projection subtraction, and QR assembly step by step.",
+    lbl_qr_vec_u: "First column vector u:",
+    lbl_qr_vec_v: "Second column vector v:",
+    lbl_qr_norm_u: "‖u‖ =",
+    lbl_qr_projection_coeff: "r₁₂ = q₁ · v =",
+    lbl_qr_residual_norm: "‖u₂‖ =",
+    lbl_qr_qtq: "QᵀQ:",
+    lbl_qr_r: "Upper-triangular R:",
+    lbl_qr_reconstruction: "Reconstructed QR:",
+    btn_qr_next: "Next Step",
+    btn_qr_auto: "Auto Complete",
+    btn_qr_reset: "Reset Steps",
+    btn_qr_default: "General Vectors",
+    btn_qr_orthogonal: "Already Orthogonal",
+    btn_qr_dependent: "Linearly Dependent",
+    qr_drag_hint: "💡 Drag either source vector to restart the QR steps",
+    sim_regression_title: "3. Least-Squares Linear Regression Laboratory",
+    sim_regression_desc: "Drag five data points to see how the fitted line, residuals, and normal equation change.",
+    lbl_regression_model: "Fitted Model:",
+    lbl_regression_sse: "Residual Sum of Squares (SSE):",
+    lbl_regression_r2: "Coefficient of Determination (R²):",
+    lbl_regression_normal: "Normal Equation AᵀAθ = Aᵀy:",
+    regression_drag_hint: "💡 Drag any point to refit the line",
+    btn_regression_reset: "Reset Data",
+    btn_regression_positive: "Positive Trend",
+    btn_regression_negative: "Negative Trend",
+    btn_regression_outlier: "Outlier",
+    sim_pca_title: "4. PCA Dimensionality-Reduction Laboratory",
+    sim_pca_desc: "Drag six 2D points to inspect centered covariance axes and their 1D projection onto the first principal component.",
+    lbl_pca_mean: "Mean μ:",
+    lbl_pca_covariance: "Covariance Matrix C:",
+    lbl_pca_eigenvalues: "Eigenvalues:",
+    lbl_pca_explained: "Explained Variance (PC₁ / PC₂):",
+    lbl_pca_direction: "First Principal Direction:",
+    btn_pca_default: "Diagonal Data",
+    btn_pca_horizontal: "Horizontal Direction",
+    btn_pca_vertical: "Vertical Direction",
+    btn_pca_outlier: "Outlier",
+    btn_pca_zero: "Near-Zero Variance",
+    pca_drag_hint: "💡 Drag any point to recompute PCA",
+    aria_pca_canvas: "PCA two-dimensional scatter plot and first-component projection canvas",
+    title_pca_default: "Load the default diagonal data",
+    title_pca_horizontal: "Load data with a horizontal principal direction",
+    title_pca_vertical: "Load data with a vertical principal direction",
+    title_pca_outlier: "Load data with an outlier",
+    title_pca_zero: "Load near-zero-variance data",
+    sim_svd_title: "5. Singular Value Decomposition (SVD) Visualizer",
     sim_svd_desc: "Observe how A = U Σ Vᵀ transforms unit circle step-by-step: Vᵀ Rotation → Σ Scaling → U Rotation.",
     lbl_svd_step: "Decomposition Step View:",
+    lbl_sigma_1: "Singular Value σ₁ =",
+    lbl_sigma_2: "Singular Value σ₂ =",
 
-    m5_badge: "Module 5",
-    m5_title: "Linear Algebra Quiz & Interview Cheatsheet",
-    m5_subtitle: "Test your linear algebra knowledge with 15 interview-style questions or review key formulas, SVD intuitions, and traps.",
+    theme_light: "Light mode",
+    theme_dark: "Dark mode",
+    title_theme: "Toggle light/dark theme",
+    title_ipa: "Toggle IPA phonetics and pronunciation",
+    ipa_on: "IPA: ON",
+    ipa_off: "IPA: OFF",
+
+    m5_badge: "Module 6",
+    m5_title: "Linear Algebra Quiz & Formula Cheatsheet",
+    m5_subtitle: "Test your linear algebra knowledge with 15 practice questions or review key formulas, SVD intuitions, and common pitfalls.",
     sub_quiz: "15-Question Quiz",
-    sub_cheatsheet: "Interview Cheatsheet",
+    sub_cheatsheet: "Formula Cheatsheet",
+    quiz_explanation: "Explanation",
+    cheat_matrix_ops_title: "Matrix Operations & Properties",
+    cheat_determinant_properties: "Determinant Properties:",
+    cheat_trace_properties: "Trace Properties:",
+    cheat_rank_nullity_title: "Rank-Nullity Theorem:",
+    cheat_rank_nullity_formula: "$$\\text{Rank}(A) + \\text{Nullity}(A) = n \\quad (\\text{for } m \\times n \\text{ matrix } A)$$",
+    cheat_subspaces_title: "Four Fundamental Subspaces",
+    cheat_subspaces_theorem: "Strang's Fundamental Subspaces Theorem:",
+    cheat_subspaces_column: "1. Column Space",
+    cheat_subspaces_column_desc: "Dim = $r$, subspace of $\\mathbb{R}^m$.",
+    cheat_subspaces_null: "2. Nullspace",
+    cheat_subspaces_null_desc: "Dim = $n-r$, subspace of $\\mathbb{R}^n$. $\\text{Null}(A) \\perp \\text{Row}(A)$.",
+    cheat_subspaces_row: "3. Row Space",
+    cheat_subspaces_row_desc: "Dim = $r$, subspace of $\\mathbb{R}^n$.",
+    cheat_subspaces_left_null: "4. Left Nullspace",
+    cheat_subspaces_left_null_desc: "Dim = $m-r$, subspace of $\\mathbb{R}^m$. $\\text{Null}(A^T) \\perp \\text{Col}(A)$.",
+    cheat_pd_title: "Positive Definite Matrix",
+    cheat_pd_name: "Positive Definite",
+    cheat_pd_desc: "A real symmetric matrix $A$ is positive definite ($A \\succ 0$) iff any of the following equivalent conditions holds:",
+    cheat_pd_condition_1: "1. $\\mathbf{x}^T A \\mathbf{x} > 0$ for every non-zero vector $\\mathbf{x} \\neq \\mathbf{0}$.",
+    cheat_pd_condition_2: "2. All eigenvalues $\\lambda_i > 0$ are strictly positive.",
+    cheat_pd_condition_3: "3. All leading principal minors are strictly positive ($\\det(A_k) > 0$).",
+    cheat_pd_condition_4: "4. A Cholesky factorization exists: $A = L L^T$.",
+    cheat_svd_title: "Singular Value Decomposition (SVD)",
+    cheat_svd_name: "Singular Value Decomposition",
+    cheat_svd_intro: "For any $m \\times n$ matrix $A$:",
+    cheat_svd_u: "$U$: $m \\times m$ orthogonal matrix of left singular vectors (eigenvectors of $A A^T$).",
+    cheat_svd_sigma: "$\\Sigma$: $m \\times n$ diagonal matrix of singular values $\\sigma_i = \\sqrt{\\lambda_i(A^T A)}$.",
+    cheat_svd_v: "$V$: $n \\times n$ orthogonal matrix of right singular vectors (eigenvectors of $A^T A$).",
+    cheat_least_squares_title: "Least Squares & PCA Applications",
+    cheat_normal_equations: "Normal Equations:",
+    cheat_projection_matrix: "Projection matrix onto $\\text{Col}(A)$: $P = A(A^T A)^{-1}A^T$.",
+    cheat_pca_name: "PCA (Principal Component Analysis):",
+    cheat_pca_desc: "Sample covariance $C = \\frac{1}{n} X^T X$. Applying SVD to the centered data matrix $X = U \\Sigma V^T$ gives right singular vectors $V$ as the principal directions.",
+    cheat_pitfalls_title: "Common Linear Algebra Pitfalls",
+    cheat_pitfall_1_title: "Pitfall 1: Matrix Multiplication is Non-Commutative!",
+    cheat_pitfall_1_desc: "$AB \\neq BA$ in general. $(AB)^T = B^T A^T$ and $(AB)^{-1} = B^{-1}A^{-1}$.",
+    cheat_pitfall_2_title: "Pitfall 2: Eigenvalue vs. Singular Value—what is the difference?",
+    cheat_pitfall_2_desc: "Eigenvalues apply only to square matrices and can be complex or negative. Singular values apply to any rectangular matrix and are always non-negative real numbers $\\sigma_i \\ge 0$.",
     btn_prev: "Previous",
     btn_next: "Next Question",
     quiz_complete_title: "Quiz Complete!",
     lbl_your_score: "Your Final Score:",
     btn_retake_quiz: "Retake Quiz",
-    footer_text: "LinAlgLab Interactive — High-performance 2D Canvas Linear Algebra Learning & Interview Hub."
+    footer_text: "LinAlgLab Interactive — High-performance 2D Canvas Linear Algebra Learning Hub."
   }
 };
 
@@ -409,9 +751,9 @@ const quizQuestions = [
     }
   },
 
-  // Module 3: Eigenvalues & Eigenvectors
+  // Module 4: Eigenvalues & Eigenvectors
   {
-    category: { zh: "模块 3：特征值与迹/行列式", en: "Module 3: Eigenvalues" },
+    category: { zh: "模块 4：特征值与迹/行列式", en: "Module 4: Eigenvalues" },
     question: {
       zh: "已知矩阵 A 的特征值为 λ₁ = 4 和 λ₂ = -2，则矩阵 A 的行列式 det(A) 和迹 tr(A) 分别是多少？",
       en: "Given matrix A has eigenvalues λ₁ = 4 and λ₂ = -2, what are det(A) and tr(A)?"
@@ -429,7 +771,7 @@ const quizQuestions = [
     }
   },
   {
-    category: { zh: "模块 3：逆矩阵特征值", en: "Module 3: Inverse Eigenvalue" },
+    category: { zh: "模块 4：逆矩阵特征值", en: "Module 4: Inverse Eigenvalue" },
     question: {
       zh: "向量 v 是矩阵 A 对应特征值 λ 的特征向量 (Av = λv)。若 A 可逆，则 v 是 A⁻¹ 的对应哪个特征值的特征向量？",
       en: "If v is an eigenvector of invertible matrix A with eigenvalue λ (Av = λv), what is the eigenvalue of v for A⁻¹?"
@@ -447,7 +789,7 @@ const quizQuestions = [
     }
   },
   {
-    category: { zh: "模块 3：实对称矩阵与谱定理", en: "Module 3: Spectral Theorem" },
+    category: { zh: "模块 4：实对称矩阵与谱定理", en: "Module 4: Spectral Theorem" },
     question: {
       zh: "对于一个实对称矩阵 A (A = Aᵀ)，下列说法错误的是？",
       en: "For a real symmetric matrix A (A = Aᵀ), which of the following statements is FALSE?"
@@ -465,9 +807,9 @@ const quizQuestions = [
     }
   },
 
-  // Module 4: Orthogonality, Projection & SVD
+  // Module 5: Orthogonality, Projection & SVD
   {
-    category: { zh: "模块 4：正交投影公式", en: "Module 4: Projection" },
+    category: { zh: "模块 5：正交投影公式", en: "Module 5: Projection" },
     question: {
       zh: "向量 v 在非零向量 u 张成直线上的正交投影 proj_u(v) 的精确计算公式是？",
       en: "What is the formula for the orthogonal projection proj_u(v) of vector v onto vector u?"
@@ -485,7 +827,7 @@ const quizQuestions = [
     }
   },
   {
-    category: { zh: "模块 4：SVD 奇异值与特征值", en: "Module 4: SVD Intuition" },
+    category: { zh: "模块 5：SVD 奇异值与特征值", en: "Module 5: SVD Intuition" },
     question: {
       zh: "对任意 m×n 矩阵 A，SVD 分解 A = U Σ Vᵀ 中，奇异值 σ_i 与特征值有何联系？",
       en: "In SVD decomposition A = U Σ Vᵀ for an m x n matrix A, how are singular values σ_i related to eigenvalues?"
@@ -503,7 +845,7 @@ const quizQuestions = [
     }
   },
   {
-    category: { zh: "模块 4：最小二乘正规方程", en: "Module 4: Least Squares" },
+    category: { zh: "模块 5：最小二乘正规方程", en: "Module 5: Least Squares" },
     question: {
       zh: "在数据拟合中，当线性方程组 Ax = b 无解（b 不在 A 的列空间内）时，最小二乘估计解 x̂ 满足什么正规方程 (Normal Equation)？",
       en: "When system Ax = b has no exact solution, the least-squares solution x̂ satisfies which Normal Equation?"
@@ -521,9 +863,9 @@ const quizQuestions = [
     }
   },
 
-  // Module 5: Advanced Traps & Applications
+  // Module 6: Advanced Traps & Applications
   {
-    category: { zh: "模块 5：正定矩阵判定", en: "Module 5: Positive Definite" },
+    category: { zh: "模块 6：正定矩阵判定", en: "Module 6: Positive Definite" },
     question: {
       zh: "对于实对称矩阵 A，下列哪一条不能作为判断 A 是正定矩阵 (Positive Definite) 的等价条件？",
       en: "Which of the following is NOT an equivalent condition for a real symmetric matrix A to be Positive Definite?"
@@ -541,7 +883,7 @@ const quizQuestions = [
     }
   },
   {
-    category: { zh: "模块 5：PCA 与 SVD 关系", en: "Module 5: PCA & SVD" },
+    category: { zh: "模块 6：PCA 与 SVD 关系", en: "Module 6: PCA & SVD" },
     question: {
       zh: "在机器学习降维算法 PCA 中，对中心化数据矩阵 X (n×d) 进行 SVD 分解 X = U Σ Vᵀ，第一主成分方向对应的是？",
       en: "In PCA algorithm, after performing SVD X = U Σ Vᵀ on centered data matrix X, the first principal component direction is:"
@@ -559,7 +901,7 @@ const quizQuestions = [
     }
   },
   {
-    category: { zh: "模块 5：秩-零化度定理", en: "Module 5: Rank-Nullity" },
+    category: { zh: "模块 6：秩-零化度定理", en: "Module 6: Rank-Nullity" },
     question: {
       zh: "已知一个 4×7 的矩阵 A 的秩 Rank(A) = 3，则该矩阵零空间 Null(A) 的维度 (Nullity) 是多少？",
       en: "Given a 4x7 matrix A with Rank(A) = 3, what is the dimension of its Nullspace Null(A)?"
@@ -582,27 +924,50 @@ const quizQuestions = [
 // 5. Initializers & DOM Event Wireup
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Always render math first so formulas look great
-  renderMath();
-
   try { initThemeToggle(); } catch (e) { console.error("Theme toggle error:", e); }
   try { initNavigation(); } catch (e) { console.error("Nav error:", e); }
   try { initBilingual(); } catch (e) { console.error("Bilingual error:", e); }
   try { initPhoneticsToggle(); } catch (e) { console.error("Phonetics error:", e); }
+  try { initFeedbackWidget(); } catch (e) { console.error("Feedback widget error:", e); }
   
-  // Initialize Canvas simulators & HiDPI scaling
-  try { initSpanModule(); } catch (e) { console.error("Span module error:", e); }
-  try { initTransformModule(); } catch (e) { console.error("Transform module error:", e); }
-  try { initEigenModule(); } catch (e) { console.error("Eigen module error:", e); }
-  try { initOrthogonalityModule(); } catch (e) { console.error("Ortho module error:", e); }
-  try { initSVDModule(); } catch (e) { console.error("SVD module error:", e); }
+  // Bind declarative controls before starting independent lab modules.
+  try { LinAlgLab.interactions.bind(); } catch (e) { console.error("Interaction binding error:", e); }
+  try { LinAlgLab.modules.initAll({ state: appState }); } catch (e) { console.error("Lab module error:", e); }
 
   // Initialize Quiz module
   try { initQuizModule(); } catch (e) { console.error("Quiz module error:", e); }
 
-  // Re-run renderMath safely to ensure everything is rendered
-  renderMath();
+  // Apply the explicit default language before KaTeX renders the translated text.
+  applyLanguage(appState.lang);
 });
+
+function initFeedbackWidget() {
+  const widget = document.getElementById('feedbackWidget');
+  const toggle = document.getElementById('feedbackToggle');
+  const panel = document.getElementById('watermarkFeedbackPanel');
+  const close = document.getElementById('feedbackClose');
+  if (!widget || !toggle || !panel || !close) return;
+
+  const setOpen = (open, restoreFocus = false) => {
+    panel.hidden = !open;
+    widget.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    if (open) close.focus();
+    else if (restoreFocus) toggle.focus();
+  };
+
+  toggle.addEventListener('click', () => setOpen(panel.hidden));
+  close.addEventListener('click', () => setOpen(false, true));
+  document.addEventListener('click', event => {
+    if (!panel.hidden && !widget.contains(event.target)) setOpen(false);
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !panel.hidden) {
+      event.preventDefault();
+      setOpen(false, true);
+    }
+  });
+}
 
 function renderMath() {
   try {
@@ -620,22 +985,6 @@ function renderMath() {
   }
 }
 
-// HiDPI Canvas scaler helper
-function setupHiDPICanvas(canvas) {
-  const dpr = window.devicePixelRatio || 1;
-  const rect = canvas.getBoundingClientRect();
-  const cssWidth = rect.width || canvas.width;
-  const cssHeight = rect.height || canvas.height;
-
-  canvas.width = cssWidth * dpr;
-  canvas.height = cssHeight * dpr;
-
-  const ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
-
-  return { ctx, width: cssWidth, height: cssHeight };
-}
-
 function initThemeToggle() {
   const themeBtn = document.getElementById('themeToggleBtn');
   const themeIcon = document.getElementById('themeIcon');
@@ -645,29 +994,26 @@ function initThemeToggle() {
 
   themeBtn.addEventListener('click', () => {
     appState.theme = appState.theme === 'dark' ? 'light' : 'dark';
-    if (appState.theme === 'light') {
-      document.body.classList.remove('dark-mode');
-      document.body.classList.add('light-mode');
-      themeLabel.textContent = 'Dark';
-      themeIcon.setAttribute('data-lucide', 'moon');
-    } else {
-      document.body.classList.remove('light-mode');
-      document.body.classList.add('dark-mode');
-      themeLabel.textContent = 'Light';
-      themeIcon.setAttribute('data-lucide', 'sun');
-    }
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-
+    refreshThemeControl();
     redrawAllCanvases();
   });
 }
 
+function refreshThemeControl() {
+  const isLight = appState.theme === 'light';
+  const button = document.getElementById('themeToggleBtn');
+  const icon = document.getElementById('themeIcon');
+  const label = document.getElementById('themeLabel');
+  document.body.classList.toggle('light-mode', isLight);
+  document.body.classList.toggle('dark-mode', !isLight);
+  if (label) label.textContent = i18n[appState.lang][isLight ? 'theme_dark' : 'theme_light'];
+  if (icon) icon.setAttribute('data-lucide', isLight ? 'moon' : 'sun');
+  if (button) button.title = i18n[appState.lang].title_theme;
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
 function redrawAllCanvases() {
-  drawSpanCanvas();
-  drawTransformCanvas();
-  drawEigenCanvas();
-  drawProjCanvas();
-  drawSVDCanvas();
+  LinAlgLab.modules.redrawAll();
 }
 
 function initNavigation() {
@@ -721,12 +1067,20 @@ function switchTab(tabId) {
   if (activeBtn) activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 
   setTimeout(() => {
-    if (tabId === 'vectors') drawSpanCanvas();
-    if (tabId === 'matrices') drawTransformCanvas();
-    if (tabId === 'eigen') drawEigenCanvas();
+    if (tabId === 'vectors') LinAlgLab.modules.redraw('span');
+    if (tabId === 'matrices') {
+      LinAlgLab.modules.redraw('transform');
+      LinAlgLab.modules.redraw('composition');
+      LinAlgLab.modules.redraw('inverse');
+    }
+    if (tabId === 'systems') LinAlgLab.modules.redraw('systems');
+    if (tabId === 'eigen') LinAlgLab.modules.redraw('eigen');
     if (tabId === 'orthogonality') {
-      drawProjCanvas();
-      drawSVDCanvas();
+      LinAlgLab.modules.redraw('projection');
+      LinAlgLab.modules.redraw('qr');
+      LinAlgLab.modules.redraw('regression');
+      LinAlgLab.modules.redraw('pca');
+      LinAlgLab.modules.redraw('svd');
     }
   }, 50);
 }
@@ -748,12 +1102,14 @@ function initBilingual() {
   if (!langBtn) return;
   langBtn.addEventListener('click', () => {
     appState.lang = appState.lang === 'zh' ? 'en' : 'zh';
-    updateLanguageTexts();
+    applyLanguage(appState.lang);
   });
 }
 
-function updateLanguageTexts() {
-  const lang = appState.lang;
+function applyLanguage(lang = appState.lang) {
+  appState.lang = lang;
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+  document.title = i18n[lang].page_title;
   const langLabel = document.getElementById('langLabel');
   if (langLabel) langLabel.textContent = lang === 'zh' ? '中 / EN' : 'EN / 中';
 
@@ -764,14 +1120,25 @@ function updateLanguageTexts() {
       el.textContent = i18n[lang][key];
     }
   });
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    const key = el.getAttribute('data-i18n-title');
+    if (i18n[lang][key]) el.title = i18n[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-aria-label]').forEach(el => {
+    const key = el.getAttribute('data-i18n-aria-label');
+    if (i18n[lang][key]) el.setAttribute('aria-label', i18n[lang][key]);
+  });
 
-  updateSpanStatus();
-  updateTransformStatus();
-  updateEigenStatus(document.getElementById('collinearError') ? parseFloat(document.getElementById('collinearError').textContent) : 0);
-  updateProjStatus();
-  updateSVDStatus();
+  refreshThemeControl();
+  refreshPhoneticsControl();
+  LinAlgLab.modules.refreshAll();
 
   renderQuizQuestion();
+  renderMath();
+}
+
+function updateLanguageTexts() {
+  applyLanguage(appState.lang);
 }
 
 function initPhoneticsToggle() {
@@ -781,882 +1148,21 @@ function initPhoneticsToggle() {
 
   toggleBtn.addEventListener('click', () => {
     appState.showIPA = !appState.showIPA;
-    if (appState.showIPA) {
-      document.body.classList.add('show-ipa');
-      toggleBtn.classList.add('active');
-      label.textContent = appState.lang === 'zh' ? 'IPA 音标: ON' : 'IPA: ON';
-    } else {
-      document.body.classList.remove('show-ipa');
-      toggleBtn.classList.remove('active');
-      label.textContent = appState.lang === 'zh' ? 'IPA 音标: OFF' : 'IPA: OFF';
-    }
+    refreshPhoneticsControl();
   });
 }
 
+function refreshPhoneticsControl() {
+  const button = document.getElementById('phoneticToggleBtn');
+  const label = document.getElementById('phoneticLabel');
+  document.body.classList.toggle('show-ipa', appState.showIPA);
+  if (button) { button.classList.toggle('active', appState.showIPA); button.title = i18n[appState.lang].title_ipa; }
+  if (label) label.textContent = i18n[appState.lang][appState.showIPA ? 'ipa_on' : 'ipa_off'];
+}
+
+// Interactive canvas experiments are implemented in linear-algebra/modules/.
 // ==========================================================================
-// 6. CANVAS SIMULATOR 1: 2D Vector Span (With Dragging)
-// ==========================================================================
-let spanState = {
-  u: [2.0, 1.0],
-  v: [-1.0, 2.0],
-  c1: 1.0,
-  c2: 1.0,
-  draggingTarget: null
-};
-
-function initSpanModule() {
-  const uxSlider = document.getElementById('uxSlider');
-  const uySlider = document.getElementById('uySlider');
-  const vxSlider = document.getElementById('vxSlider');
-  const vySlider = document.getElementById('vySlider');
-  const c1Slider = document.getElementById('c1Slider');
-  const c2Slider = document.getElementById('c2Slider');
-  const makeCollinearBtn = document.getElementById('makeCollinearBtn');
-
-  if (!uxSlider) return;
-
-  function readSpanInputs() {
-    spanState.u[0] = parseFloat(uxSlider.value);
-    spanState.u[1] = parseFloat(uySlider.value);
-    spanState.v[0] = parseFloat(vxSlider.value);
-    spanState.v[1] = parseFloat(vySlider.value);
-    spanState.c1 = parseFloat(c1Slider.value);
-    spanState.c2 = parseFloat(c2Slider.value);
-
-    updateSpanSliderDisplays();
-    drawSpanCanvas();
-  }
-
-  function updateSpanSliderDisplays() {
-    document.getElementById('uxVal').textContent = spanState.u[0].toFixed(1);
-    document.getElementById('uyVal').textContent = spanState.u[1].toFixed(1);
-    document.getElementById('vxVal').textContent = spanState.v[0].toFixed(1);
-    document.getElementById('vyVal').textContent = spanState.v[1].toFixed(1);
-    document.getElementById('c1Val').textContent = spanState.c1.toFixed(1);
-    document.getElementById('c2Val').textContent = spanState.c2.toFixed(1);
-  }
-
-  [uxSlider, uySlider, vxSlider, vySlider, c1Slider, c2Slider].forEach(slider => {
-    slider.addEventListener('input', readSpanInputs);
-  });
-
-  makeCollinearBtn.addEventListener('click', () => {
-    vxSlider.value = (spanState.u[0] * 1.5).toFixed(1);
-    vySlider.value = (spanState.u[1] * 1.5).toFixed(1);
-    readSpanInputs();
-  });
-
-  const canvas = document.getElementById('spanCanvas');
-  setupCanvasDragging(canvas, (gridPos, isMouseDown) => {
-    const distU = Math.hypot(gridPos.x - spanState.u[0], gridPos.y - spanState.u[1]);
-    const distV = Math.hypot(gridPos.x - spanState.v[0], gridPos.y - spanState.v[1]);
-
-    if (isMouseDown) {
-      if (distU < 0.6) spanState.draggingTarget = 'u';
-      else if (distV < 0.6) spanState.draggingTarget = 'v';
-    } else {
-      if (spanState.draggingTarget === 'u') {
-        spanState.u[0] = Math.min(4, Math.max(-4, parseFloat(gridPos.x.toFixed(1))));
-        spanState.u[1] = Math.min(4, Math.max(-4, parseFloat(gridPos.y.toFixed(1))));
-        uxSlider.value = spanState.u[0];
-        uySlider.value = spanState.u[1];
-      } else if (spanState.draggingTarget === 'v') {
-        spanState.v[0] = Math.min(4, Math.max(-4, parseFloat(gridPos.x.toFixed(1))));
-        spanState.v[1] = Math.min(4, Math.max(-4, parseFloat(gridPos.y.toFixed(1))));
-        vxSlider.value = spanState.v[0];
-        vySlider.value = spanState.v[1];
-      }
-      updateSpanSliderDisplays();
-      drawSpanCanvas();
-    }
-  }, () => { spanState.draggingTarget = null; });
-
-  drawSpanCanvas();
-}
-
-function drawSpanCanvas() {
-  const canvas = document.getElementById('spanCanvas');
-  if (!canvas) return;
-  const { ctx, width, height } = setupHiDPICanvas(canvas);
-  const origin = { x: width / 2, y: height / 2 };
-  const scale = 40;
-
-  ctx.clearRect(0, 0, width, height);
-  drawGrid(ctx, width, height, origin, scale);
-
-  const u = spanState.u;
-  const v = spanState.v;
-  const c1 = spanState.c1;
-  const c2 = spanState.c2;
-
-  const res = [c1 * u[0] + c2 * v[0], c1 * u[1] + c2 * v[1]];
-  const det = u[0] * v[1] - u[1] * v[0];
-
-  if (Math.abs(det) > 0.01) {
-    ctx.beginPath();
-    ctx.moveTo(origin.x, origin.y);
-    ctx.lineTo(origin.x + c1 * u[0] * scale, origin.y - c1 * u[1] * scale);
-    ctx.lineTo(origin.x + res[0] * scale, origin.y - res[1] * scale);
-    ctx.lineTo(origin.x + c2 * v[0] * scale, origin.y - c2 * v[1] * scale);
-    ctx.closePath();
-    ctx.fillStyle = 'rgba(6, 182, 212, 0.15)';
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(6, 182, 212, 0.4)';
-    ctx.setLineDash([4, 4]);
-    ctx.stroke();
-    ctx.setLineDash([]);
-  } else {
-    ctx.beginPath();
-    ctx.moveTo(origin.x - 10 * u[0] * scale, origin.y + 10 * u[1] * scale);
-    ctx.lineTo(origin.x + 10 * u[0] * scale, origin.y - 10 * u[1] * scale);
-    ctx.strokeStyle = 'rgba(236, 72, 153, 0.4)';
-    ctx.lineWidth = 3;
-    ctx.stroke();
-  }
-
-  drawVector(ctx, origin, [c1 * u[0], c1 * u[1]], scale, '#06b6d4', 2, 'c₁u');
-  drawVector(ctx, origin, [c2 * v[0], c2 * v[1]], scale, '#8b5cf6', 2, 'c₂v');
-  drawVector(ctx, origin, u, scale, '#06b6d4', 3.5, 'u');
-  drawVector(ctx, origin, v, scale, '#8b5cf6', 3.5, 'v');
-  drawVector(ctx, origin, res, scale, '#10b981', 4, 'c₁u + c₂v');
-
-  document.getElementById('resultVectorVal').textContent = `[${res[0].toFixed(2)}, ${res[1].toFixed(2)}]`;
-  document.getElementById('spanDetVal').textContent = det.toFixed(2);
-
-  updateSpanStatus();
-}
-
-function updateSpanStatus() {
-  const det = spanState.u[0] * spanState.v[1] - spanState.u[1] * spanState.v[0];
-  const badge = document.getElementById('spanStatusBadge');
-  const text = document.getElementById('spanRuleText');
-  if (!badge || !text) return;
-  const isZh = appState.lang === 'zh';
-
-  if (Math.abs(det) > 0.05) {
-    badge.textContent = isZh ? "Span = 2D 平面 (线性无关)" : "Span = 2D Plane (Linearly Independent)";
-    badge.style.background = 'rgba(16, 185, 129, 0.15)';
-    badge.style.color = '#10b981';
-    badge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
-    text.textContent = isZh ?
-      `det([u v]) = ${det.toFixed(2)} ≠ 0。向量线性无关，Span 覆盖整个 2D 平面 (ℝ²)。` :
-      `det([u v]) = ${det.toFixed(2)} ≠ 0. Vectors are Linearly Independent, Span covers full 2D plane (ℝ²).`;
-  } else {
-    badge.textContent = isZh ? "Span = 1D 直线 (线性相关/退化!)" : "Span = 1D Line (Linearly Dependent)";
-    badge.style.background = 'rgba(244, 63, 94, 0.15)';
-    badge.style.color = '#f43f5e';
-    badge.style.borderColor = 'rgba(244, 63, 94, 0.4)';
-    text.textContent = isZh ?
-      `det([u v]) = 0.00。向量线性相关 (u 与 v 共线)，Span 塌缩为一条 1D 直线。` :
-      `det([u v]) = 0.00. Vectors are Linearly Dependent (collinear), Span collapses into a 1D line.`;
-  }
-}
-
-// ==========================================================================
-// 7. CANVAS SIMULATOR 2: Matrix Transformation & Determinant
-// ==========================================================================
-let matrixState = { a: 1.5, b: 0.5, c: 0.0, d: 1.2 };
-
-function initTransformModule() {
-  const matA = document.getElementById('matA');
-  const matB = document.getElementById('matB');
-  const matC = document.getElementById('matC');
-  const matD = document.getElementById('matD');
-
-  if (!matA) return;
-
-  function readMatrixInputs() {
-    matrixState.a = parseFloat(matA.value) || 0;
-    matrixState.b = parseFloat(matB.value) || 0;
-    matrixState.c = parseFloat(matC.value) || 0;
-    matrixState.d = parseFloat(matD.value) || 0;
-    drawTransformCanvas();
-  }
-
-  [matA, matB, matC, matD].forEach(inp => inp.addEventListener('input', readMatrixInputs));
-  drawTransformCanvas();
-}
-
-function applyMatrixPreset(preset) {
-  const matA = document.getElementById('matA');
-  const matB = document.getElementById('matB');
-  const matC = document.getElementById('matC');
-  const matD = document.getElementById('matD');
-
-  if (!matA) return;
-
-  switch (preset) {
-    case 'identity':
-      matA.value = 1.0; matB.value = 0.0; matC.value = 0.0; matD.value = 1.0;
-      break;
-    case 'rotation':
-      const cos45 = Math.cos(Math.PI / 4).toFixed(2);
-      const sin45 = Math.sin(Math.PI / 4).toFixed(2);
-      matA.value = cos45; matB.value = -sin45; matC.value = sin45; matD.value = cos45;
-      break;
-    case 'shear':
-      matA.value = 1.0; matB.value = 1.2; matC.value = 0.0; matD.value = 1.0;
-      break;
-    case 'scale':
-      matA.value = 2.0; matB.value = 0.0; matC.value = 0.0; matD.value = 0.5;
-      break;
-    case 'singular':
-      matA.value = 1.0; matB.value = 2.0; matC.value = 0.5; matD.value = 1.0;
-      break;
-    case 'reflection':
-      matA.value = -1.0; matB.value = 0.0; matC.value = 0.0; matD.value = 1.0;
-      break;
-  }
-
-  matrixState.a = parseFloat(matA.value);
-  matrixState.b = parseFloat(matB.value);
-  matrixState.c = parseFloat(matC.value);
-  matrixState.d = parseFloat(matD.value);
-
-  drawTransformCanvas();
-}
-
-function drawTransformCanvas() {
-  const canvas = document.getElementById('transformCanvas');
-  if (!canvas) return;
-  const { ctx, width, height } = setupHiDPICanvas(canvas);
-  const origin = { x: width / 2, y: height / 2 };
-  const scale = 45;
-
-  ctx.clearRect(0, 0, width, height);
-
-  const { a, b, c, d } = matrixState;
-  drawGrid(ctx, width, height, origin, scale, 'rgba(255, 255, 255, 0.04)');
-
-  ctx.strokeStyle = 'rgba(6, 182, 212, 0.25)';
-  ctx.lineWidth = 1;
-
-  for (let i = -6; i <= 6; i++) {
-    const p1 = transformPoint(i, -6, a, b, c, d);
-    const p2 = transformPoint(i, 6, a, b, c, d);
-    ctx.beginPath();
-    ctx.moveTo(origin.x + p1.x * scale, origin.y - p1.y * scale);
-    ctx.lineTo(origin.x + p2.x * scale, origin.y - p2.y * scale);
-    ctx.stroke();
-
-    const p3 = transformPoint(-6, i, a, b, c, d);
-    const p4 = transformPoint(6, i, a, b, c, d);
-    ctx.beginPath();
-    ctx.moveTo(origin.x + p3.x * scale, origin.y - p3.y * scale);
-    ctx.lineTo(origin.x + p4.x * scale, origin.y - p4.y * scale);
-    ctx.stroke();
-  }
-
-  const sq0 = transformPoint(0, 0, a, b, c, d);
-  const sq1 = transformPoint(1, 0, a, b, c, d);
-  const sq2 = transformPoint(1, 1, a, b, c, d);
-  const sq3 = transformPoint(0, 1, a, b, c, d);
-
-  ctx.beginPath();
-  ctx.moveTo(origin.x + sq0.x * scale, origin.y - sq0.y * scale);
-  ctx.lineTo(origin.x + sq1.x * scale, origin.y - sq1.y * scale);
-  ctx.lineTo(origin.x + sq2.x * scale, origin.y - sq2.y * scale);
-  ctx.lineTo(origin.x + sq3.x * scale, origin.y - sq3.y * scale);
-  ctx.closePath();
-  ctx.fillStyle = 'rgba(59, 130, 246, 0.25)';
-  ctx.fill();
-  ctx.strokeStyle = '#3b82f6';
-  ctx.lineWidth = 2;
-  ctx.stroke();
-
-  drawVector(ctx, origin, [a, c], scale, '#06b6d4', 3.5, "T(î)");
-  drawVector(ctx, origin, [b, d], scale, '#10b981', 3.5, "T(ĵ)");
-
-  const det = a * d - b * c;
-  const trace = a + d;
-  const rank = Math.abs(det) > 0.001 ? 2 : (a === 0 && b === 0 && c === 0 && d === 0 ? 0 : 1);
-
-  document.getElementById('detCalcVal').textContent = det.toFixed(2);
-  document.getElementById('traceCalcVal').textContent = trace.toFixed(2);
-  document.getElementById('rankCalcVal').textContent = rank;
-
-  updateTransformStatus();
-}
-
-function transformPoint(x, y, a, b, c, d) {
-  return { x: a * x + b * y, y: c * x + d * y };
-}
-
-function updateTransformStatus() {
-  const { a, b, c, d } = matrixState;
-  const det = a * d - b * c;
-  const badge = document.getElementById('transformBadge');
-  const text = document.getElementById('transformCalloutText');
-  if (!badge || !text) return;
-  const isZh = appState.lang === 'zh';
-
-  if (Math.abs(det) > 0.001) {
-    badge.textContent = isZh ? `可逆矩阵 (det = ${det.toFixed(2)} ≠ 0)` : `Invertible (det = ${det.toFixed(2)} ≠ 0)`;
-    badge.style.background = 'rgba(16, 185, 129, 0.15)';
-    badge.style.color = '#10b981';
-    badge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
-
-    if (det > 0) {
-      text.textContent = isZh ?
-        `变换保持定向 (det > 0)。原单位正方形面积被拉伸为原来的 ${det.toFixed(2)} 倍。` :
-        `Orientation preserving (det > 0). Unit square area scaled by ${det.toFixed(2)}x.`;
-    } else {
-      text.textContent = isZh ?
-        `变换颠倒空间定向 (det < 0，镜像翻转)。绝对面积缩放倍数为 ${Math.abs(det).toFixed(2)} 倍。` :
-        `Orientation reversing (det < 0). Absolute area scaling factor is ${Math.abs(det).toFixed(2)}x.`;
-    }
-  } else {
-    badge.textContent = isZh ? "奇异矩阵 (det = 0，不可逆!)" : "Singular Matrix (det = 0, Non-Invertible)";
-    badge.style.background = 'rgba(244, 63, 94, 0.15)';
-    badge.style.color = '#f43f5e';
-    badge.style.borderColor = 'rgba(244, 63, 94, 0.4)';
-    text.textContent = isZh ?
-      `det(A) = 0。线性变换将 2D 平面压缩降维到了 1D 直线或 0D 原点（Rank < 2）。` :
-      `det(A) = 0. Linear transformation flattens 2D space onto a 1D line or point.`;
-  }
-}
-
-// ==========================================================================
-// 8. CANVAS SIMULATOR 3: Eigenvalue Probe (With 360° Auto Sweep)
-// ==========================================================================
-let eigenState = { a: 2.0, b: 1.0, c: 3.0, angleDeg: 32 };
-
-function initEigenModule() {
-  const eigA = document.getElementById('eigA');
-  const eigB = document.getElementById('eigB');
-  const eigB2 = document.getElementById('eigB2');
-  const eigC = document.getElementById('eigC');
-  const probeAngleSlider = document.getElementById('probeAngleSlider');
-  const autoFindEigenBtn = document.getElementById('autoFindEigenBtn');
-  const autoSweepEigenBtn = document.getElementById('autoSweepEigenBtn');
-
-  if (!eigA) return;
-
-  function readEigenInputs() {
-    eigenState.a = parseFloat(eigA.value) || 0;
-    eigenState.b = parseFloat(eigB.value) || 0;
-    eigenState.c = parseFloat(eigC.value) || 0;
-
-    if (eigB2) eigB2.value = eigB.value; // Keep symmetric linked element updated
-
-    eigenState.angleDeg = parseFloat(probeAngleSlider.value);
-    document.getElementById('probeAngleVal').textContent = `${eigenState.angleDeg.toFixed(0)}°`;
-
-    drawEigenCanvas();
-  }
-
-  [eigA, eigB, eigC, probeAngleSlider].forEach(el => {
-    if (el) el.addEventListener('input', readEigenInputs);
-  });
-  if (autoFindEigenBtn) autoFindEigenBtn.addEventListener('click', snapToNearestEigenvector);
-  if (autoSweepEigenBtn) autoSweepEigenBtn.addEventListener('click', toggleAutoSweepEigen);
-
-  drawEigenCanvas();
-}
-
-function toggleAutoSweepEigen() {
-  appState.isSweepingEigen = !appState.isSweepingEigen;
-  const icon = document.getElementById('sweepIcon');
-  const label = document.getElementById('sweepBtnLabel');
-  const isZh = appState.lang === 'zh';
-
-  if (appState.isSweepingEigen) {
-    if (icon) icon.setAttribute('data-lucide', 'pause');
-    if (label) label.textContent = isZh ? '暂停扫描' : 'Pause Sweep';
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-
-    function sweepStep() {
-      if (!appState.isSweepingEigen) return;
-      eigenState.angleDeg = (eigenState.angleDeg + 0.8) % 360;
-      const slider = document.getElementById('probeAngleSlider');
-      if (slider) slider.value = eigenState.angleDeg;
-      const valText = document.getElementById('probeAngleVal');
-      if (valText) valText.textContent = `${eigenState.angleDeg.toFixed(0)}°`;
-
-      drawEigenCanvas();
-      appState.sweepAnimationFrame = requestAnimationFrame(sweepStep);
-    }
-    sweepStep();
-  } else {
-    if (icon) icon.setAttribute('data-lucide', 'play');
-    if (label) label.textContent = isZh ? '360° 自动扫描' : '360° Auto Sweep';
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-    if (appState.sweepAnimationFrame) cancelAnimationFrame(appState.sweepAnimationFrame);
-  }
-}
-
-function drawEigenCanvas() {
-  const canvas = document.getElementById('eigenCanvas');
-  if (!canvas) return;
-  const { ctx, width, height } = setupHiDPICanvas(canvas);
-  const origin = { x: width / 2, y: height / 2 };
-  const scale = 40;
-
-  ctx.clearRect(0, 0, width, height);
-  drawGrid(ctx, width, height, origin, scale);
-
-  const { a, b, c, angleDeg } = eigenState;
-
-  const tr = a + c;
-  const det = a * c - b * b;
-  const disc = Math.sqrt(Math.max(0, tr * tr - 4 * det));
-  const l1 = (tr + disc) / 2;
-  const l2 = (tr - disc) / 2;
-
-  let theta1 = Math.abs(b) > 0.0001 ? Math.atan2(l1 - a, b) : (a >= c ? 0 : Math.PI / 2);
-  let theta2 = theta1 + Math.PI / 2;
-
-  ctx.strokeStyle = 'rgba(236, 72, 153, 0.4)';
-  ctx.lineWidth = 1.5;
-  ctx.setLineDash([6, 6]);
-
-  ctx.beginPath();
-  ctx.moveTo(origin.x - 10 * Math.cos(theta1) * scale, origin.y + 10 * Math.sin(theta1) * scale);
-  ctx.lineTo(origin.x + 10 * Math.cos(theta1) * scale, origin.y - 10 * Math.sin(theta1) * scale);
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.moveTo(origin.x - 10 * Math.cos(theta2) * scale, origin.y + 10 * Math.sin(theta2) * scale);
-  ctx.lineTo(origin.x + 10 * Math.cos(theta2) * scale, origin.y - 10 * Math.sin(theta2) * scale);
-  ctx.stroke();
-
-  ctx.setLineDash([]);
-
-  const rad = (angleDeg * Math.PI) / 180;
-  const x = [Math.cos(rad), Math.sin(rad)];
-  const Ax = [a * x[0] + b * x[1], b * x[0] + c * x[1]];
-
-  const magX = Math.hypot(x[0], x[1]);
-  const magAx = Math.hypot(Ax[0], Ax[1]);
-  const dot = x[0] * Ax[0] + x[1] * Ax[1];
-  const cosErr = Math.min(1, Math.max(-1, dot / (magX * magAx)));
-  let angleErrDeg = (Math.acos(cosErr) * 180) / Math.PI;
-
-  drawVector(ctx, origin, [x[0] * 2, x[1] * 2], scale, '#ec4899', 3.5, 'Probe x');
-  drawVector(ctx, origin, Ax, scale, '#8b5cf6', 3.5, 'Ax');
-
-  document.getElementById('eigenVal1').textContent = l1.toFixed(2);
-  document.getElementById('eigenVal2').textContent = l2.toFixed(2);
-  document.getElementById('collinearError').textContent = `${angleErrDeg.toFixed(1)}°`;
-
-  updateEigenStatus(angleErrDeg);
-}
-
-function snapToNearestEigenvector() {
-  const { a, b, c } = eigenState;
-  const tr = a + c;
-  const det = a * c - b * b;
-  const disc = Math.sqrt(Math.max(0, tr * tr - 4 * det));
-  const l1 = (tr + disc) / 2;
-
-  let theta1 = Math.abs(b) > 0.0001 ? Math.atan2(l1 - a, b) : (a >= c ? 0 : Math.PI / 2);
-  let deg = (theta1 * 180) / Math.PI;
-  if (deg < 0) deg += 360;
-
-  const slider = document.getElementById('probeAngleSlider');
-  if (slider) slider.value = deg.toFixed(0);
-  eigenState.angleDeg = deg;
-  const valText = document.getElementById('probeAngleVal');
-  if (valText) valText.textContent = `${deg.toFixed(0)}°`;
-
-  drawEigenCanvas();
-}
-
-function updateEigenStatus(errDeg) {
-  const badge = document.getElementById('eigenStatusBadge');
-  const text = document.getElementById('eigenRuleText');
-  if (!badge || !text) return;
-  const isZh = appState.lang === 'zh';
-
-  if (errDeg < 3.0 || Math.abs(errDeg - 180) < 3.0) {
-    badge.textContent = isZh ? "🎉 已捕获特征向量！(Collinear)" : "🎉 Eigenvector Discovered!";
-    badge.style.background = 'rgba(16, 185, 129, 0.15)';
-    badge.style.color = '#10b981';
-    badge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
-    text.textContent = isZh ?
-      `完美对齐！测试向量 x 与 Ax 在同一直线上重合。Ax 为 x 的标量缩放倍数（即特征值 λ）。` :
-      `Perfect alignment! Probe x and Ax are collinear. Ax is scalar multiple of x.`;
-  } else {
-    badge.textContent = isZh ? "扫描探针角度中..." : "Scanning Probe Angle...";
-    badge.style.background = 'rgba(236, 72, 153, 0.15)';
-    badge.style.color = '#ec4899';
-    badge.style.borderColor = 'rgba(236, 72, 153, 0.4)';
-    text.textContent = isZh ?
-      `探针向量 x 与 Ax 存在 ${errDeg.toFixed(1)}° 偏角。继续拖动或自动扫描！` :
-      `Probe x and Ax differ in direction by ${errDeg.toFixed(1)}°. Rotate to find eigenvectors.`;
-  }
-}
-
-// ==========================================================================
-// 9. CANVAS SIMULATOR 4: Vector Projection (With Dragging)
-// ==========================================================================
-let projState = {
-  u: [3.0, 0.0],
-  v: [2.0, 3.0],
-  draggingTarget: null
-};
-
-function initOrthogonalityModule() {
-  const puxSlider = document.getElementById('puxSlider');
-  const puySlider = document.getElementById('puySlider');
-  const pvxSlider = document.getElementById('pvxSlider');
-  const pvySlider = document.getElementById('pvySlider');
-
-  if (!puxSlider) return;
-
-  function readProjInputs() {
-    projState.u[0] = parseFloat(puxSlider.value);
-    projState.u[1] = parseFloat(puySlider.value);
-    projState.v[0] = parseFloat(pvxSlider.value);
-    projState.v[1] = parseFloat(pvySlider.value);
-
-    updateProjSliderDisplays();
-    drawProjCanvas();
-  }
-
-  function updateProjSliderDisplays() {
-    document.getElementById('puxVal').textContent = projState.u[0].toFixed(1);
-    document.getElementById('puyVal').textContent = projState.u[1].toFixed(1);
-    document.getElementById('pvxVal').textContent = projState.v[0].toFixed(1);
-    document.getElementById('pvyVal').textContent = projState.v[1].toFixed(1);
-  }
-
-  [puxSlider, puySlider, pvxSlider, pvySlider].forEach(s => s.addEventListener('input', readProjInputs));
-
-  const canvas = document.getElementById('projCanvas');
-  setupCanvasDragging(canvas, (gridPos, isMouseDown) => {
-    const distU = Math.hypot(gridPos.x - projState.u[0], gridPos.y - projState.u[1]);
-    const distV = Math.hypot(gridPos.x - projState.v[0], gridPos.y - projState.v[1]);
-
-    if (isMouseDown) {
-      if (distU < 0.6) projState.draggingTarget = 'u';
-      else if (distV < 0.6) projState.draggingTarget = 'v';
-    } else {
-      if (projState.draggingTarget === 'u') {
-        projState.u[0] = Math.min(4, Math.max(-4, parseFloat(gridPos.x.toFixed(1))));
-        projState.u[1] = Math.min(4, Math.max(-4, parseFloat(gridPos.y.toFixed(1))));
-        puxSlider.value = projState.u[0];
-        puySlider.value = projState.u[1];
-      } else if (projState.draggingTarget === 'v') {
-        projState.v[0] = Math.min(4, Math.max(-4, parseFloat(gridPos.x.toFixed(1))));
-        projState.v[1] = Math.min(4, Math.max(-4, parseFloat(gridPos.y.toFixed(1))));
-        pvxSlider.value = projState.v[0];
-        pvySlider.value = projState.v[1];
-      }
-      updateProjSliderDisplays();
-      drawProjCanvas();
-    }
-  }, () => { projState.draggingTarget = null; });
-
-  drawProjCanvas();
-}
-
-function drawProjCanvas() {
-  const canvas = document.getElementById('projCanvas');
-  if (!canvas) return;
-  const { ctx, width, height } = setupHiDPICanvas(canvas);
-  const origin = { x: width / 2, y: height / 2 };
-  const scale = 40;
-
-  ctx.clearRect(0, 0, width, height);
-  drawGrid(ctx, width, height, origin, scale);
-
-  const u = projState.u;
-  const v = projState.v;
-  const magU2 = u[0] * u[0] + u[1] * u[1];
-  const dot = u[0] * v[0] + u[1] * v[1];
-
-  const projFactor = magU2 > 0.0001 ? dot / magU2 : 0;
-  const proj = [projFactor * u[0], projFactor * u[1]];
-  const vPerp = [v[0] - proj[0], v[1] - proj[1]];
-
-  ctx.strokeStyle = 'rgba(6, 182, 212, 0.3)';
-  ctx.lineWidth = 1.5;
-  ctx.setLineDash([4, 4]);
-  ctx.beginPath();
-  ctx.moveTo(origin.x - 10 * u[0] * scale, origin.y + 10 * u[1] * scale);
-  ctx.lineTo(origin.x + 10 * u[0] * scale, origin.y - 10 * u[1] * scale);
-  ctx.stroke();
-  ctx.setLineDash([]);
-
-  ctx.strokeStyle = 'rgba(244, 63, 94, 0.7)';
-  ctx.lineWidth = 2;
-  ctx.setLineDash([4, 4]);
-  ctx.beginPath();
-  ctx.moveTo(origin.x + v[0] * scale, origin.y - v[1] * scale);
-  ctx.lineTo(origin.x + proj[0] * scale, origin.y - proj[1] * scale);
-  ctx.stroke();
-  ctx.setLineDash([]);
-
-  drawVector(ctx, origin, u, scale, '#3b82f6', 3.5, 'u');
-  drawVector(ctx, origin, v, scale, '#f59e0b', 3.5, 'v');
-  drawVector(ctx, origin, proj, scale, '#10b981', 4, 'proj_u(v)');
-  drawVector(ctx, origin, vPerp, scale, '#f43f5e', 3, 'v^⊥');
-
-  document.getElementById('projVecVal').textContent = `[${proj[0].toFixed(2)}, ${proj[1].toFixed(2)}]`;
-  document.getElementById('orthoCompVal').textContent = `[${vPerp[0].toFixed(2)}, ${vPerp[1].toFixed(2)}]`;
-  document.getElementById('dotProductVal').textContent = dot.toFixed(2);
-
-  updateProjStatus();
-}
-
-function updateProjStatus() {
-  const badge = document.getElementById('projBadge');
-  const text = document.getElementById('projCalloutText');
-  if (!badge || !text) return;
-  const isZh = appState.lang === 'zh';
-
-  badge.textContent = isZh ? "正交分解: v = proj_u(v) + v^⊥" : "Decomposition: v = proj_u(v) + v^⊥";
-  text.textContent = isZh ?
-    `正交性校验：投影分量 proj 与垂直分量 v^⊥ 点积为 0.00 (构成精确直角三角形)。` :
-    `Orthogonality Check: proj_u(v) · v^⊥ = 0.00 (Perfect Right Angle!).`;
-}
-
-// ==========================================================================
-// 10. CANVAS SIMULATOR 5: SVD Decomposition 2D Visualizer
-// ==========================================================================
-let svdState = { a: 1.8, b: 0.6, c: 0.4, d: 1.2 };
-
-function initSVDModule() {
-  const svdA = document.getElementById('svdA');
-  const svdB = document.getElementById('svdB');
-  const svdC = document.getElementById('svdC');
-  const svdD = document.getElementById('svdD');
-
-  if (!svdA) return;
-
-  function readSVDInputs() {
-    svdState.a = parseFloat(svdA.value) || 0;
-    svdState.b = parseFloat(svdB.value) || 0;
-    svdState.c = parseFloat(svdC.value) || 0;
-    svdState.d = parseFloat(svdD.value) || 0;
-    drawSVDCanvas();
-  }
-
-  [svdA, svdB, svdC, svdD].forEach(inp => inp.addEventListener('input', readSVDInputs));
-  drawSVDCanvas();
-}
-
-function setSVDStep(step) {
-  appState.svdStep = step;
-  ['full', 'v', 'sigma', 'u'].forEach(s => {
-    const btn = document.getElementById(`svdStep${s.charAt(0).toUpperCase() + s.slice(1)}`);
-    if (btn) btn.classList.remove('active');
-  });
-  const activeBtn = document.getElementById(`svdStep${step.charAt(0).toUpperCase() + step.slice(1)}`);
-  if (activeBtn) activeBtn.classList.add('active');
-
-  drawSVDCanvas();
-}
-
-function drawSVDCanvas() {
-  const canvas = document.getElementById('svdCanvas');
-  if (!canvas) return;
-  const { ctx, width, height } = setupHiDPICanvas(canvas);
-  const origin = { x: width / 2, y: height / 2 };
-  const scale = 50;
-
-  ctx.clearRect(0, 0, width, height);
-  drawGrid(ctx, width, height, origin, scale);
-
-  const { a, b, c, d } = svdState;
-
-  const ata11 = a * a + c * c;
-  const ata12 = a * b + c * d;
-  const ata22 = b * b + d * d;
-
-  const tr = ata11 + ata22;
-  const det = ata11 * ata22 - ata12 * ata12;
-  const disc = Math.sqrt(Math.max(0, tr * tr - 4 * det));
-
-  const l1 = (tr + disc) / 2;
-  const l2 = (tr - disc) / 2;
-
-  const sigma1 = Math.sqrt(Math.max(0, l1));
-  const sigma2 = Math.sqrt(Math.max(0, l2));
-
-  let thetaV = Math.abs(ata12) > 0.0001 ? Math.atan2(l1 - ata11, ata12) : (ata11 >= ata22 ? 0 : Math.PI / 2);
-  const v1 = [Math.cos(thetaV), Math.sin(thetaV)];
-  const v2 = [-Math.sin(thetaV), Math.cos(thetaV)];
-
-  let u1 = [0, 0], u2 = [0, 0];
-  if (sigma1 > 0.0001) {
-    const Av1 = [a * v1[0] + b * v1[1], c * v1[0] + d * v1[1]];
-    u1 = [Av1[0] / sigma1, Av1[1] / sigma1];
-  }
-  if (sigma2 > 0.0001) {
-    const Av2 = [a * v2[0] + b * v2[1], c * v2[0] + d * v2[1]];
-    u2 = [Av2[0] / sigma2, Av2[1] / sigma2];
-  }
-
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
-  ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  ctx.arc(origin.x, origin.y, scale, 0, 2 * Math.PI);
-  ctx.stroke();
-
-  const step = appState.svdStep;
-
-  if (step === 'v') {
-    drawVector(ctx, origin, v1, scale, '#06b6d4', 3, 'v₁');
-    drawVector(ctx, origin, v2, scale, '#ec4899', 3, 'v₂');
-  } else if (step === 'sigma') {
-    ctx.beginPath();
-    ctx.ellipse(origin.x, origin.y, sigma1 * scale, sigma2 * scale, 0, 0, 2 * Math.PI);
-    ctx.fillStyle = 'rgba(6, 182, 212, 0.15)';
-    ctx.fill();
-    ctx.strokeStyle = '#06b6d4';
-    ctx.stroke();
-
-    drawVector(ctx, origin, [sigma1, 0], scale, '#06b6d4', 3, 'σ₁e₁');
-    drawVector(ctx, origin, [0, sigma2], scale, '#ec4899', 3, 'σ₂e₂');
-  } else {
-    const thetaU = Math.atan2(u1[1], u1[0]);
-    ctx.beginPath();
-    ctx.ellipse(origin.x, origin.y, sigma1 * scale, sigma2 * scale, -thetaU, 0, 2 * Math.PI);
-    ctx.fillStyle = 'rgba(139, 92, 246, 0.2)';
-    ctx.fill();
-    ctx.strokeStyle = '#8b5cf6';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    drawVector(ctx, origin, [sigma1 * u1[0], sigma1 * u1[1]], scale, '#06b6d4', 3.5, 'σ₁u₁');
-    drawVector(ctx, origin, [sigma2 * u2[0], sigma2 * u2[1]], scale, '#ec4899', 3.5, 'σ₂u₂');
-  }
-
-  document.getElementById('svdSigma1').textContent = sigma1.toFixed(2);
-  document.getElementById('svdSigma2').textContent = sigma2.toFixed(2);
-  const condNum = sigma2 > 0.001 ? (sigma1 / sigma2).toFixed(2) : '∞';
-  document.getElementById('svdCondNum').textContent = condNum;
-
-  updateSVDStatus();
-}
-
-function updateSVDStatus() {
-  const badge = document.getElementById('svdStatusBadge');
-  const text = document.getElementById('svdCalloutText');
-  if (!badge || !text) return;
-  const isZh = appState.lang === 'zh';
-
-  badge.textContent = "SVD: A = U Σ Vᵀ";
-  text.textContent = isZh ?
-    `奇异值分解几何直观：正交基 V 中的向量在 A 映射后，变为输出空间的正交向量 U 乘以长度缩放因子 Σ。` :
-    `Geometric SVD: Orthogonal vectors in V map to orthogonal vectors in U scaled by singular values Σ.`;
-}
-
-// ==========================================================================
-// 11. Canvas Drawing & Drag Helpers
-// ==========================================================================
-function drawGrid(ctx, width, height, origin, scale, color = 'rgba(255, 255, 255, 0.08)') {
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 1;
-
-  for (let x = origin.x % scale; x < width; x += scale) {
-    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke();
-  }
-  for (let y = origin.y % scale; y < height; y += scale) {
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke();
-  }
-
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
-  ctx.lineWidth = 1.5;
-  ctx.beginPath(); ctx.moveTo(0, origin.y); ctx.lineTo(width, origin.y); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(origin.x, 0); ctx.lineTo(origin.x, height); ctx.stroke();
-
-  ctx.font = '10px Inter, sans-serif';
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-  for (let i = -5; i <= 5; i++) {
-    if (i !== 0) {
-      ctx.fillText(i, origin.x + i * scale - 4, origin.y + 14);
-      ctx.fillText(-i, origin.x - 14, origin.y + i * scale + 4);
-    }
-  }
-}
-
-function drawVector(ctx, origin, vec, scale, color, lineWidth, label) {
-  const targetX = origin.x + vec[0] * scale;
-  const targetY = origin.y - vec[1] * scale;
-
-  ctx.shadowColor = color;
-  ctx.shadowBlur = 6;
-  ctx.strokeStyle = color;
-  ctx.fillStyle = color;
-  ctx.lineWidth = lineWidth;
-
-  ctx.beginPath();
-  ctx.moveTo(origin.x, origin.y);
-  ctx.lineTo(targetX, targetY);
-  ctx.stroke();
-
-  const headLen = 12;
-  const angle = Math.atan2(origin.y - targetY, targetX - origin.x);
-
-  ctx.beginPath();
-  ctx.moveTo(targetX, targetY);
-  ctx.lineTo(
-    targetX - headLen * Math.cos(angle - Math.PI / 6),
-    targetY + headLen * Math.sin(angle - Math.PI / 6)
-  );
-  ctx.lineTo(
-    targetX - headLen * Math.cos(angle + Math.PI / 6),
-    targetY + headLen * Math.sin(angle + Math.PI / 6)
-  );
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.shadowBlur = 0;
-
-  if (label) {
-    ctx.font = '600 13px Inter, sans-serif';
-    ctx.fillStyle = color;
-    ctx.fillText(label, targetX + 8, targetY - 8);
-  }
-}
-
-function setupCanvasDragging(canvas, onDragMove, onDragEnd) {
-  if (!canvas) return;
-  let isMouseDown = false;
-
-  function getGridPos(e) {
-    const rect = canvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
-    const originX = rect.width / 2;
-    const originY = rect.height / 2;
-    const scale = 40;
-    return { x: (x - originX) / scale, y: (originY - y) / scale };
-  }
-
-  function start(e) {
-    isMouseDown = true;
-    onDragMove(getGridPos(e), true);
-  }
-
-  function move(e) {
-    if (!isMouseDown) return;
-    onDragMove(getGridPos(e), false);
-  }
-
-  function end() {
-    if (isMouseDown) {
-      isMouseDown = false;
-      onDragEnd();
-    }
-  }
-
-  canvas.addEventListener('mousedown', start);
-  canvas.addEventListener('mousemove', move);
-  window.addEventListener('mouseup', end);
-
-  canvas.addEventListener('touchstart', start, { passive: true });
-  canvas.addEventListener('touchmove', move, { passive: true });
-  window.addEventListener('touchend', end);
-}
-
-// ==========================================================================
-// 12. Interactive Quiz Module Engine
+// 6. Interactive Quiz Module Engine
 // ==========================================================================
 function initQuizModule() {
   renderQuizQuestion();

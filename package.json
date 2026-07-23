@@ -1,0 +1,14 @@
+{
+  "name": "interactive-learning-hub",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Dependency-free interactive learning pages.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node scripts/run-linear-algebra-tests.js",
+    "check": "node scripts/check-linear-algebra.js",
+    "verify": "npm run check && npm test"
+  }
+}
