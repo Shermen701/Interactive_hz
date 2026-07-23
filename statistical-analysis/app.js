@@ -16,6 +16,7 @@ const appState = {
     userAnswers: []
   }
 };
+let hasCompletedInitialLanguageRender = false;
 
 // ==========================================================================
 // 1. Web Speech API Audio Pronunciation Engine
@@ -25,7 +26,7 @@ function speakTerm(text) {
     window.speechSynthesis.cancel(); // cancel any active speech
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-US';
-    utterance.rate = 0.9; // slightly slower for interview clarity
+    utterance.rate = 0.9; // slightly slower for pronunciation clarity
     utterance.pitch = 1.0;
     
     // Find American or British English Voice if available
@@ -44,6 +45,7 @@ function speakTerm(text) {
 // ==========================================================================
 const i18n = {
   zh: {
+    page_title: "概率与统计交互学习中心 | StatLab Interactive",
     app_subtitle: "概率与统计交互学习中心",
     nav_descriptive: "描述性统计",
     nav_theorems: "极限定理与分布",
@@ -54,11 +56,18 @@ const i18n = {
     theme_light: "浅色",
     theme_dark: "深色",
 
-    hero_title: "通过交互式可视化，轻松掌握概率与统计",
-    hero_desc: "深入学习中心极限定理 (CLT)、大数定律 (LLN)、偏度、正态与对数正态分布，以及 Hypothesis Testing (z, t, Chi-Square, F 检验)。自带双语切换、音标标记与英文面试发音辅助！",
+    hero_title: "在数据、变化与推断中，理解统计学",
+    hero_desc: "深入学习中心极限定理 (CLT)、大数定律 (LLN)、偏度、正态与对数正态分布，以及 Hypothesis Testing (z, t, Chi-Square, F 检验)。自带双语切换、音标标记。",
     stat_modules: "核心知识模块",
     stat_simulators: "动态仿真工具",
-    stat_ipa: "面试高频音标词",
+    stat_ipa: "IPA 音标词",
+    feedback_title: "问题与建议",
+    feedback_email_label: "邮箱",
+    feedback_github_label: "GitHub",
+    title_feedback_toggle: "打开问题与建议面板",
+    aria_feedback_toggle: "打开问题与建议面板",
+    title_feedback_close: "关闭问题与建议面板",
+    aria_feedback_close: "关闭问题与建议面板",
 
     m1_badge: "模块 1",
     m1_title: "均值、中位数、众数、标准差与偏度 (Skewness)",
@@ -75,10 +84,13 @@ const i18n = {
     t_sd_desc: "衡量数值偏离均值的平均程度。",
     t_skew_name: "偏度 (Skewness γ₁):",
     t_skew_desc: "描述概率分布不对称程度的指标（正偏/右偏为正，负偏/左偏为负）。",
+    t_kurt_name: "峰度 (Kurtosis):",
+    t_kurt_desc: "衡量分布相对正态分布的尾部厚度和峰顶尖锐程度。",
 
     sim_skew_title: "偏度与集中趋势交互仿真器",
     sim_skew_desc: "拖动偏度滑块，直观观察 Mean (蓝)、Median (绿)、Mode (紫) 的相对位置移动！",
     ctrl_skewness: "分布偏度 (Skewness γ₁):",
+    skew_left: "左侧 (-1.5)", skew_right: "右侧 (+1.5)",
     ctrl_outlier: "注入极端异常值:",
     label_mean: "均值 Mean:",
     label_median: "Median:",
@@ -106,6 +118,9 @@ const i18n = {
 
     clt_header: "中心极限定理 (Central Limit Theorem, CLT)",
     clt_exp: "无论总体分布呈现何种形状（均匀、指数、双峰或偏态），只要总体方差有限，当样本量 $n \\ge 30$ 时，样本均值的抽样分布都会呈渐进正态性 (Asymptotic Normality)！",
+    clt_exp_lead: "无论总体分布呈现何种形状（均匀、指数、双峰或偏态），样本均值 $\\bar{X}$ 的抽样分布都会呈现",
+    clt_exp_term: "渐进正态性 (Asymptotic Normality)",
+    clt_exp_tail: "，当样本量 $n \\ge 30$ 时会趋近于正态分布。",
     clt_sim_title: "CLT 抽样实验室",
     clt_sim_desc: "选择非正态的总体分布，调整样本量 $n$，看样本均值分布如何一步步变成高斯钟形曲线！",
     ctrl_parent_dist: "总体分布形状:",
@@ -172,10 +187,23 @@ const i18n = {
     m5_badge: "模块 6",
     m5_title: "概率与统计核心公式手册",
     m5_subtitle: "快速查阅必备公式、性质推导与关键统计概念。",
-    footer_text: "StatLab Interactive — 旨在提供直观、高效的概率与统计交互式学习体验。"
+    footer_text: "StatLab Interactive — 旨在提供直观、高效的概率与统计交互式学习体验。",
+    ipa_on: "IPA 音标: 开", ipa_off: "IPA 音标: 关",
+    unit_outlier: "异常值", unit_trials: "次试验",
+    cheat_central: "1. 集中趋势与离散程度", cheat_mean: "样本均值", cheat_variance: "样本方差", cheat_se: "标准误 (SE)",
+    cheat_distributions: "2. 常见概率分布", cheat_normal_pdf: "正态分布 PDF", cheat_lognormal_pdf: "对数正态分布 PDF",
+    cheat_tests: "3. 假设检验统计量", cheat_z: "单样本 Z 统计量", cheat_t: "单样本 t 统计量", cheat_chi: "卡方 (χ²) 拟合优度检验", cheat_f: "双样本 F 检验",
+    test_tab_z: "Z 检验（单样本均值）", test_tab_t: "t 检验（小样本）", test_tab_chi: "卡方（χ²）检验", test_tab_f: "F 检验（ANOVA／方差）",
+    test_name_z: "Z 检验", test_name_t: "t 检验", test_name_chi: "卡方（χ²）检验", test_name_f: "F 检验（ANOVA）",
+    path_hypotheses: "假设", path_rule: "检验规则", path_evidence: "证据", path_decision: "决策",
+    cheat_rules: "⚡ 核心规则与概念", cheat_pvalue: "P 值定义:", cheat_pvalue_desc: "在原假设 $H_0$ 为真时，得到至少同样极端的检验结果的概率。它不是 $H_0$ 为真的概率！",
+    cheat_errors: "第一类与第二类错误:", cheat_type1: "第一类（$\\alpha$）：当 $H_0$ 实际为真时拒绝它（假阳性）。", cheat_type2: "第二类（$\\beta$）：当 $H_0$ 为假时未能拒绝它（假阴性）。",
+    cheat_skew_order: "偏度顺序:", cheat_skew_right: "右偏态：$\\text{Mean} > \\text{Median} > \\text{Mode}$", cheat_skew_left: "左偏态：$\\text{Mean} < \\text{Median} < \\text{Mode}$",
+    title_ipa: "切换英文 IPA 音标与语音", aria_nav_prev: "显示前面的模块", aria_nav_next: "显示后面的模块", aria_nav_viewport: "学习模块", aria_decision_path: "假设检验决策路径"
   },
 
   en: {
+    page_title: "Probability & Statistics Interactive Learning Hub | StatLab Interactive",
     app_subtitle: "Probability & Statistics Learning Hub",
     nav_descriptive: "Descriptive Stats",
     nav_theorems: "CLT & Distributions",
@@ -186,11 +214,18 @@ const i18n = {
     theme_light: "Light",
     theme_dark: "Dark",
 
-    hero_title: "Master Probability & Statistics Interactively",
-    hero_desc: "Explore Central Limit Theorem (CLT), Law of Large Numbers (LLN), Skewness, Normal vs Lognormal, and Hypothesis Testing (z, t, Chi-Square, F) with real-time visual simulations, bilingual explanations, and IPA interview audio aids.",
+    hero_title: "Understand Statistics Through Data, Change, and Inference",
+    hero_desc: "Explore Central Limit Theorem (CLT), Law of Large Numbers (LLN), Skewness, Normal vs Lognormal, and Hypothesis Testing (z, t, Chi-Square, F) with real-time visual simulations, bilingual explanations, and IPA.",
     stat_modules: "Core Modules",
     stat_simulators: "Live Simulators",
     stat_ipa: "Phonetic Terms",
+    feedback_title: "Questions & Feedback",
+    feedback_email_label: "Email",
+    feedback_github_label: "GitHub",
+    title_feedback_toggle: "Open questions and feedback panel",
+    aria_feedback_toggle: "Open questions and feedback panel",
+    title_feedback_close: "Close questions and feedback panel",
+    aria_feedback_close: "Close questions and feedback panel",
 
     m1_badge: "Module 1",
     m1_title: "Mean, Median, Mode, Standard Deviation & Skewness",
@@ -207,10 +242,13 @@ const i18n = {
     t_sd_desc: "Measures average spread of observations from the mean.",
     t_skew_name: "Skewness (γ₁):",
     t_skew_desc: "Measures asymmetry of probability distribution (positive for right-skew, negative for left-skew).",
+    t_kurt_name: "Kurtosis:",
+    t_kurt_desc: "Measures tail-heaviness and peak sharpness relative to a normal distribution.",
 
     sim_skew_title: "Interactive Skewness & Central Tendency Simulator",
     sim_skew_desc: "Drag the skewness slider to see how Mean (Blue), Median (Green), and Mode (Purple) shift relative to each other!",
     ctrl_skewness: "Distribution Skewness (γ₁):",
+    skew_left: "Left (-1.5)", skew_right: "Right (+1.5)",
     ctrl_outlier: "Inject Outlier Effect:",
     label_mean: "Mean:",
     label_median: "Median:",
@@ -238,6 +276,9 @@ const i18n = {
 
     clt_header: "Central Limit Theorem (CLT)",
     clt_exp: "Regardless of the underlying population distribution shape (Uniform, Exponential, Bimodal), the sampling distribution of sample means $\\bar{X}$ approaches a Normal distribution with Asymptotic Normality as $n \\ge 30$.",
+    clt_exp_lead: "Regardless of the underlying population distribution shape (Uniform, Exponential, Bimodal), the distribution of sample means $\\bar{X}$ approaches a Normal distribution with",
+    clt_exp_term: "Asymptotic Normality",
+    clt_exp_tail: "as sample size $n \\ge 30$.",
     clt_sim_title: "CLT Interactive Sampling Laboratory",
     clt_sim_desc: "Select a non-normal parent population, adjust sample size $n$, and watch the sampling distribution become Gaussian!",
     ctrl_parent_dist: "Parent Population Distribution:",
@@ -304,7 +345,19 @@ const i18n = {
     m5_badge: "Module 6",
     m5_title: "Probability & Statistics Formula Sheet",
     m5_subtitle: "Essential mathematical formulas, properties, and key statistical concepts.",
-    footer_text: "StatLab Interactive — Built for intuitive learning of Probability & Statistics."
+    footer_text: "StatLab Interactive — Built for intuitive learning of Probability & Statistics.",
+    ipa_on: "IPA: ON", ipa_off: "IPA: OFF",
+    unit_outlier: "Outlier", unit_trials: "Trials",
+    cheat_central: "1. Central Tendency & Dispersion", cheat_mean: "Sample Mean", cheat_variance: "Sample Variance", cheat_se: "Standard Error (SE)",
+    cheat_distributions: "2. Common Probability Distributions", cheat_normal_pdf: "Normal Distribution PDF", cheat_lognormal_pdf: "Lognormal Distribution PDF",
+    cheat_tests: "3. Hypothesis Test Statistics", cheat_z: "One-Sample Z Statistic", cheat_t: "One-Sample t Statistic", cheat_chi: "Chi-Square (χ²) Goodness-of-Fit", cheat_f: "Two-Sample F Test",
+    test_tab_z: "Z-Test (Single Mean)", test_tab_t: "t-Test (Small Sample)", test_tab_chi: "Chi-Square ($\\chi^2$) Test", test_tab_f: "F-Test (ANOVA / Variances)",
+    test_name_z: "Z-Test", test_name_t: "t-Test", test_name_chi: "Chi-Square ($\\chi^2$)", test_name_f: "F-Test (ANOVA)",
+    path_hypotheses: "Hypotheses", path_rule: "Test rule", path_evidence: "Evidence", path_decision: "Decision",
+    cheat_rules: "⚡ Key Rules & Concepts", cheat_pvalue: "P-value Definition:", cheat_pvalue_desc: "The probability of obtaining test results at least as extreme as observed, assuming $H_0$ is true. It is not the probability that $H_0$ is true!",
+    cheat_errors: "Type I vs Type II Error:", cheat_type1: "Type I ($\\alpha$): Reject $H_0$ when $H_0$ is actually true (false positive).", cheat_type2: "Type II ($\\beta$): Fail to reject $H_0$ when $H_0$ is false (false negative).",
+    cheat_skew_order: "Skewness Order:", cheat_skew_right: "Right-skewed: $\\text{Mean} > \\text{Median} > \\text{Mode}$", cheat_skew_left: "Left-skewed: $\\text{Mean} < \\text{Median} < \\text{Mode}$",
+    title_ipa: "Toggle English phonetic IPA and audio", aria_nav_prev: "Show previous modules", aria_nav_next: "Show next modules", aria_nav_viewport: "Learning modules", aria_decision_path: "Hypothesis test decision path"
   }
 };
 
@@ -431,6 +484,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initBilingual();
   initPhoneticsToggle();
+  initFeedbackWidget();
   initSkewnessModule();
   initLlnModule();
   initCltModule();
@@ -440,12 +494,40 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.StatLab && StatLab.modules) {
     StatLab.modules.initAll({ getState: () => appState, getTheme: getVisualizationTheme });
   }
-  renderMath();
+  applyLanguage(appState.lang);
   
   if (window.lucide) {
     lucide.createIcons();
   }
 });
+
+function initFeedbackWidget() {
+  const widget = document.getElementById('feedbackWidget');
+  const toggle = document.getElementById('feedbackToggle');
+  const panel = document.getElementById('watermarkFeedbackPanel');
+  const close = document.getElementById('feedbackClose');
+  if (!widget || !toggle || !panel || !close) return;
+
+  const setOpen = (open, restoreFocus = false) => {
+    panel.hidden = !open;
+    widget.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    if (open) close.focus();
+    else if (restoreFocus) toggle.focus();
+  };
+
+  toggle.addEventListener('click', () => setOpen(panel.hidden));
+  close.addEventListener('click', () => setOpen(false, true));
+  document.addEventListener('click', event => {
+    if (!panel.hidden && !widget.contains(event.target)) setOpen(false);
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !panel.hidden) {
+      event.preventDefault();
+      setOpen(false, true);
+    }
+  });
+}
 
 // ===========================================================================
 // 4a. Theme and visualization palette
@@ -541,19 +623,19 @@ function initPhoneticsToggle() {
     if (appState.showIPA) {
       document.body.classList.add('show-ipa');
       phoneticBtn.classList.add('active');
-      phoneticLabel.textContent = 'IPA 音标: ON';
+      phoneticLabel.textContent = i18n[appState.lang].ipa_on;
     } else {
       document.body.classList.remove('show-ipa');
       phoneticBtn.classList.remove('active');
-      phoneticLabel.textContent = 'IPA 音标: OFF';
+      phoneticLabel.textContent = i18n[appState.lang].ipa_off;
     }
   });
 }
 
 // Render KaTeX Math
-function renderMath() {
+function renderMath(root = document.body) {
   if (window.renderMathInElement) {
-    renderMathInElement(document.body, {
+    renderMathInElement(root, {
       delimiters: [
         { left: "$$", right: "$$", display: true },
         { left: "$", right: "$", display: false }
@@ -642,20 +724,40 @@ function initBilingual() {
   langBtn.addEventListener('click', () => {
     appState.lang = appState.lang === 'zh' ? 'en' : 'zh';
     langLabel.textContent = appState.lang === 'zh' ? '中 / EN' : 'EN / 中';
-    updateLanguageTexts();
+    applyLanguage(appState.lang);
   });
 }
 
-function updateLanguageTexts() {
+function applyLanguage(lang = appState.lang) {
+  appState.lang = lang;
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
   const currentDict = i18n[appState.lang];
+  document.title = currentDict.page_title;
+  const langLabel = document.getElementById('langLabel');
+  if (langLabel) langLabel.textContent = appState.lang === 'zh' ? '中 / EN' : 'EN / 中';
+  const updatedTextNodes = [];
   document.querySelectorAll('[data-i18n]').forEach(elem => {
     const key = elem.getAttribute('data-i18n');
     if (currentDict[key]) {
       elem.textContent = currentDict[key];
+      updatedTextNodes.push(elem);
     }
+  });
+  document.querySelectorAll('[data-i18n-title]').forEach(elem => {
+    const key = elem.getAttribute('data-i18n-title');
+    if (currentDict[key]) elem.title = currentDict[key];
+  });
+  document.querySelectorAll('[data-i18n-aria-label]').forEach(elem => {
+    const key = elem.getAttribute('data-i18n-aria-label');
+    if (currentDict[key]) elem.setAttribute('aria-label', currentDict[key]);
   });
 
   updateThemeControl();
+
+  const phoneticLabel = document.getElementById('phoneticLabel');
+  if (phoneticLabel) phoneticLabel.textContent = currentDict[appState.showIPA ? 'ipa_on' : 'ipa_off'];
+  const phoneticBtn = document.getElementById('phoneticToggleBtn');
+  if (phoneticBtn) phoneticBtn.title = currentDict.title_ipa;
 
   if (window.StatLab && StatLab.modules) {
     StatLab.modules.refreshAll({ getState: () => appState, getTheme: getVisualizationTheme });
@@ -665,8 +767,21 @@ function updateLanguageTexts() {
   updateSkewnessPlot();
   updateHypothesisTestUI();
   renderQuizQuestion();
-  renderMath();
+  updateQuizResultsMessage();
+  if (!hasCompletedInitialLanguageRender) {
+    renderMath();
+    hasCompletedInitialLanguageRender = true;
+  } else {
+    const dynamicMathNodes = [
+      document.getElementById('quizQuestionTitle'),
+      document.getElementById('feedbackExplanation'),
+      document.getElementById('resultMessageText')
+    ].filter(Boolean);
+    [...updatedTextNodes, ...dynamicMathNodes].forEach(renderMath);
+  }
 }
+
+function updateLanguageTexts() { applyLanguage(appState.lang); }
 
 
 // Throttle helper for smooth 60fps slider updates
@@ -704,7 +819,7 @@ function updateSkewnessPlot() {
   const outlierVal = parseFloat(document.getElementById('outlierSlider').value);
 
   document.getElementById('skewnessVal').textContent = skewVal > 0 ? `+${skewVal.toFixed(1)}` : skewVal.toFixed(1);
-  document.getElementById('outlierVal').textContent = `+${outlierVal} Outlier`;
+  document.getElementById('outlierVal').textContent = `+${outlierVal} ${i18n[appState.lang].unit_outlier}`;
 
   // Generate distribution data points
   const pointsCount = 100;
@@ -831,7 +946,7 @@ let llnChartInstance = null;
 function initLlnModule() {
   document.getElementById('runLlnBtn').addEventListener('click', runLlnSimulation);
   document.getElementById('llnTrialsInput').addEventListener('input', (e) => {
-    document.getElementById('llnTrialsVal').textContent = `${e.target.value} Trials`;
+    document.getElementById('llnTrialsVal').textContent = `${e.target.value} ${i18n[appState.lang].unit_trials}`;
     runLlnSimulation();
   });
   document.getElementById('llnExperimentType').addEventListener('change', runLlnSimulation);
@@ -1561,4 +1676,14 @@ function showQuizResults() {
   const finalScore = appState.quiz.score;
   const totalScore = quizQuestions.length * 10;
   document.getElementById('finalScoreVal').textContent = `${finalScore} / ${totalScore}`;
+  updateQuizResultsMessage();
+}
+
+function updateQuizResultsMessage() {
+  const resultMessage = document.getElementById('resultMessageText');
+  if (!resultMessage) return;
+  const isStrongScore = appState.quiz.score >= quizQuestions.length * 10 * 0.7;
+  resultMessage.textContent = appState.lang === 'zh'
+    ? (isStrongScore ? '做得很棒！你已经扎实掌握了核心统计概念。' : '继续练习；复盘概念后再试一次，你会进步得很快。')
+    : (isStrongScore ? 'Great job! You have demonstrated a solid command of core statistical concepts.' : 'Keep practising—review the concepts and try again to strengthen your understanding.');
 }
