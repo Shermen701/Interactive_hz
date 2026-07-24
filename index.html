@@ -93,6 +93,54 @@
       line-height: 1.6;
     }
 
+    .browser-notice {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      max-width: 640px;
+      margin: 1.5rem auto 0;
+      padding: 0.875rem 1rem;
+      text-align: left;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(129, 140, 248, 0.35);
+      border-radius: 0.875rem;
+      box-shadow: 0 10px 24px -18px rgba(99, 102, 241, 0.8);
+    }
+
+    .browser-notice-icon {
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 0.625rem;
+      color: #c4b5fd;
+      background: rgba(129, 140, 248, 0.16);
+    }
+
+    .browser-notice-content {
+      min-width: 0;
+    }
+
+    .browser-notice-title {
+      display: block;
+      margin-bottom: 0.15rem;
+      color: #e0e7ff;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .browser-notice-copy {
+      color: var(--text-muted);
+      font-size: 0.8125rem;
+      line-height: 1.55;
+    }
+
+    .browser-notice-copy strong {
+      color: #c7d2fe;
+      font-weight: 600;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -228,6 +276,19 @@
     footer a:hover {
       text-decoration: underline;
     }
+
+    @media (max-width: 480px) {
+      .browser-notice {
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 0.75rem;
+      }
+
+      .browser-notice-icon {
+        width: 2rem;
+        height: 2rem;
+      }
+    }
   </style>
 </head>
 
@@ -238,8 +299,17 @@
         <i data-lucide="sparkles" size="16"></i>
         <span>Interactive Learning Hub</span>
       </div>
-      <h1>Master Application & Interview Hub</h1>
+      <h1>Linalg & Stat Lab</h1>
       <p class="subtitle">线性代数与概率统计的交互式可视化学习工具</p>
+      <aside class="browser-notice" role="note" aria-label="推荐浏览环境">
+        <span class="browser-notice-icon" aria-hidden="true">
+          <i data-lucide="monitor-check" size="19"></i>
+        </span>
+        <div class="browser-notice-content">
+          <span class="browser-notice-title">推荐浏览环境</span>
+          <p class="browser-notice-copy">为了获得更完整的数据图表与交互体验，建议使用桌面端 <strong>Chrome / Edge</strong> 浏览器浏览。</p>
+        </div>
+      </aside>
     </header>
 
     <div class="grid">
@@ -252,12 +322,11 @@
           <i data-lucide="arrow-right" class="arrow-icon" size="22"></i>
         </div>
         <h2 class="card-title">线性代数交互中心</h2>
-        <p class="card-desc">包含矩阵变换、特征值/特征向量可视化、IPA发音指南及高频面试题考点精解。</p>
+        <p class="card-desc">包含矩阵变换、特征值/特征向量可视化、正交性与SVD及核心公式等。</p>
         <div class="tags">
           <span class="tag">Linear Algebra</span>
           <span class="tag">Matrix</span>
           <span class="tag">Eigenvalues</span>
-          <span class="tag">Interview</span>
         </div>
       </a>
 
@@ -270,12 +339,11 @@
           <i data-lucide="arrow-right" class="arrow-icon" size="22"></i>
         </div>
         <h2 class="card-title">概率与统计交互中心</h2>
-        <p class="card-desc">包含概率分布动态模拟、贝叶斯推断、假设检验可视化及核心公式深度剖析。</p>
+        <p class="card-desc">包含概率分布动态模拟、贝叶斯推断、假设检验可视化及核心公式等。</p>
         <div class="tags">
           <span class="tag">Probability</span>
           <span class="tag">Statistics</span>
           <span class="tag">Chart.js</span>
-          <span class="tag">Interview</span>
         </div>
       </a>
     </div>
