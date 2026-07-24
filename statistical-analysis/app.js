@@ -578,6 +578,36 @@ function themedChartOptions(options = {}) {
   };
 }
 
+function upsertChart(instance, canvasId, config) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return null;
+
+  // A type change (for example, line → bar) requires a new Chart instance.
+  if (!instance || instance.config.type !== config.type) {
+    if (instance) instance.destroy();
+    return new Chart(canvas.getContext('2d'), config);
+  }
+
+  // Preserve the existing instance so Chart.js can interpolate old data to new data.
+  instance.data = config.data;
+  instance.options = config.options;
+  instance.update();
+  return instance;
+}
+
+function resizeChartsIn(container) {
+  if (!container || typeof Chart === 'undefined' || !Chart.instances) return;
+  // The panel has just changed from display:none to block; wait for layout first.
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    Object.values(Chart.instances).forEach(chart => {
+      if (chart.canvas && container.contains(chart.canvas)) {
+        chart.resize();
+        chart.update('none');
+      }
+    });
+  }));
+}
+
 function updateThemeControl() {
   const isDark = appState.theme === 'dark';
   const label = document.getElementById('themeLabel');
@@ -663,6 +693,7 @@ function initNavigation() {
       
       appState.activeTab = tabId;
       link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      resizeChartsIn(targetPanel);
       renderMath();
     });
   });
@@ -681,6 +712,7 @@ function initNavigation() {
       if (targetSub) targetSub.classList.add('active');
       
       appState.activeSubtab = subtabId;
+      resizeChartsIn(targetSub);
       renderMath();
     });
   });
@@ -897,10 +929,7 @@ function updateSkewnessPlot() {
       : 'Symmetric Rule: Mean ≈ Median ≈ Mode (all three overlap perfectly).';
   }
 
-  const ctx = document.getElementById('skewnessChart').getContext('2d');
-  if (skewnessChartInstance) skewnessChartInstance.destroy();
-
-  skewnessChartInstance = new Chart(ctx, {
+  skewnessChartInstance = upsertChart(skewnessChartInstance, 'skewnessChart', {
     type: 'line',
     data: {
       labels: labels,
@@ -987,10 +1016,7 @@ function runLlnSimulation() {
   document.getElementById('llnFinalSampleMean').textContent = finalMean.toFixed(3);
   document.getElementById('llnAbsError').textContent = Math.abs(finalMean - targetMean).toFixed(4);
 
-  const ctx = document.getElementById('llnChart').getContext('2d');
-  if (llnChartInstance) llnChartInstance.destroy();
-
-  llnChartInstance = new Chart(ctx, {
+  llnChartInstance = upsertChart(llnChartInstance, 'llnChart', {
     type: 'line',
     data: {
       labels: trials,
@@ -1101,10 +1127,7 @@ function plotHistogram(canvasId, data, numBins, color, label, instanceRef, setIn
     bins[binIdx]++;
   });
 
-  const ctx = document.getElementById(canvasId).getContext('2d');
-  if (instanceRef) instanceRef.destroy();
-
-  const newChart = new Chart(ctx, {
+  const newChart = upsertChart(instanceRef, canvasId, {
     type: 'bar',
     data: {
       labels: binLabels,
@@ -1175,9 +1198,7 @@ function updateLognormalPlots() {
     lognY.push(pdf);
   }
 
-  const ctxNorm = document.getElementById('normalChart').getContext('2d');
-  if (normalChartInstance) normalChartInstance.destroy();
-  normalChartInstance = new Chart(ctxNorm, {
+  normalChartInstance = upsertChart(normalChartInstance, 'normalChart', {
     type: 'line',
     data: {
       labels: normX,
@@ -1186,9 +1207,7 @@ function updateLognormalPlots() {
     options: themedChartOptions({ responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: {}, y: {} } })
   });
 
-  const ctxLogn = document.getElementById('lognormalChart').getContext('2d');
-  if (lognormalChartInstance) lognormalChartInstance.destroy();
-  lognormalChartInstance = new Chart(ctxLogn, {
+  lognormalChartInstance = upsertChart(lognormalChartInstance, 'lognormalChart', {
     type: 'line',
     data: {
       labels: lognX,

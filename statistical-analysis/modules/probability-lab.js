@@ -72,12 +72,19 @@
     drawDistribution(config, minimum, maximum);
   }
   function drawDistribution(config, minimum, maximum) {
-    if (chartState.distribution) chartState.distribution.destroy();
     if (typeof root.Chart === 'undefined') { el('distributionChart').replaceWith(Object.assign(document.createElement('p'), { className: 'dependency-note', textContent: language() === 'zh' ? '图表组件未加载；你仍可阅读公式与数值结果。' : 'The chart library is unavailable; formulas and numeric results remain available.' })); return; }
     const stats = root.StatLab.statistics; const points = config.kind === 'discrete' ? Array.from({ length: maximum - minimum + 1 }, (_, i) => minimum + i) : Array.from({ length: 81 }, (_, i) => minimum + (maximum - minimum) * i / 80);
     const values = points.map(point => (config.kind === 'discrete' ? config.pmf(point, state.params, stats) : config.pdf(point, state.params, stats)));
     const theme = chartState.context.getTheme();
-    chartState.distribution = new root.Chart(el('distributionChart').getContext('2d'), { type: config.kind === 'discrete' ? 'bar' : 'line', data: { labels: points.map(point => format(point)), datasets: [{ label: copy(config.name), data: values, borderColor: config.color, backgroundColor: `${config.color}33`, borderWidth: 2, borderRadius: config.kind === 'discrete' ? 4 : 0, fill: config.kind === 'continuous', pointRadius: 0, tension: 0.25 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: theme.tooltipBackground, titleColor: theme.text, bodyColor: theme.text } }, scales: { x: { ticks: { color: theme.muted, maxTicksLimit: 9 }, grid: { display: false } }, y: { beginAtZero: true, ticks: { color: theme.muted }, grid: { color: theme.grid } } } } });
+    const chartConfig = { type: config.kind === 'discrete' ? 'bar' : 'line', data: { labels: points.map(point => format(point)), datasets: [{ label: copy(config.name), data: values, borderColor: config.color, backgroundColor: `${config.color}33`, borderWidth: 2, borderRadius: config.kind === 'discrete' ? 4 : 0, fill: config.kind === 'continuous', pointRadius: 0, tension: 0.25 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: theme.tooltipBackground, titleColor: theme.text, bodyColor: theme.text } }, scales: { x: { ticks: { color: theme.muted, maxTicksLimit: 9 }, grid: { display: false } }, y: { beginAtZero: true, ticks: { color: theme.muted }, grid: { color: theme.grid } } } } };
+    if (!chartState.distribution || chartState.distribution.config.type !== chartConfig.type) {
+      if (chartState.distribution) chartState.distribution.destroy();
+      chartState.distribution = new root.Chart(el('distributionChart').getContext('2d'), chartConfig);
+      return;
+    }
+    chartState.distribution.data = chartConfig.data;
+    chartState.distribution.options = chartConfig.options;
+    chartState.distribution.update();
   }
 
   root.StatLab.modules.register({
